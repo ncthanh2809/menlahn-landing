@@ -3,34 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Men Lành — Sữa Chua Kefir Thủ Công | Chậm mà lành</title>
-  <meta name="description" content="Sữa chua kefir thủ công, lên men tự nhiên 24 giờ. Chậm mà lành — chăm ruột đều đặn, nhẹ nhàng, không cực đoan.">
+  <title>Men Lành — Sữa Chua Kefir Thủ Công | Bụng êm, da sáng</title>
+  <meta name="description" content="Sữa chua kefir thủ công lên men tự nhiên 24 giờ từ hạt men truyền thống. Hơn 30 chủng men sống, không chất bảo quản, êm ru đường ruột.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
   <style>
     /* ========================================
-       1. CUSTOM PROPERTIES
+       1. COLOR PALETTE & DESIGN SYSTEM
     ======================================== */
     :root {
-      --cream: #F6EFE3;
-      --sage: #8FA58A;
-      --sage-dark: #7A9175;
-      --sage-light: rgba(143, 165, 138, 0.12);
-      --honey: #D9A441;
-      --honey-light: rgba(217, 164, 65, 0.12);
-      --brown: #5B4636;
-      --brown-light: #7A6454;
+      /* Base & Neutrals */
+      --cream: #F8F4EC;
+      --cream-tint: #EDF2EC;
       --white: #FFFFFF;
+      --brown: #463528;
+      --brown-light: #6E5A4B;
+      --brown-muted: #917C6C;
 
-      --font-serif: 'Playfair Display', 'Georgia', serif;
-      --font-sans: 'Be Vietnam Pro', 'Segoe UI', system-ui, sans-serif;
+      /* Primary Brand: Sage & Forest (Chiều sâu thị giác) */
+      --sage: #5A7D56;
+      --sage-dark: #43613F;
+      --sage-light: rgba(90, 125, 86, 0.12);
+      --forest: #223623;
+      --forest-card: #2C422D;
+      --forest-light: #2A3F2B;
 
+      /* Conversion Accent: Honey Gold (Điểm nhấn bán hàng & CTA) */
+      --honey: #D49226;
+      --honey-hover: #B87B1A;
+      --honey-light: rgba(212, 146, 38, 0.15);
+      --honey-glow: rgba(212, 146, 38, 0.35);
+
+      /* Typography */
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+      /* Layout & Elevation */
       --container: 1140px;
       --radius: 20px;
       --radius-sm: 12px;
-      --shadow: 0 4px 32px rgba(91, 70, 54, 0.06);
-      --shadow-hover: 0 8px 40px rgba(91, 70, 54, 0.12);
+      --shadow: 0 4px 24px rgba(70, 53, 40, 0.07);
+      --shadow-hover: 0 10px 36px rgba(70, 53, 40, 0.14);
+      --shadow-dark: 0 12px 40px rgba(0, 0, 0, 0.25);
       --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -60,36 +75,37 @@
       font-family: var(--font-serif);
       font-weight: 600;
       line-height: 1.25;
+      color: var(--brown);
     }
-    h1 { font-size: clamp(2.5rem, 5vw, 3.8rem); }
-    h2 { font-size: clamp(1.8rem, 3.5vw, 2.8rem); }
-    h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
+    h1 { font-size: clamp(2.4rem, 4.8vw, 3.8rem); }
+    h2 { font-size: clamp(1.85rem, 3.4vw, 2.7rem); }
+    h3 { font-size: clamp(1.2rem, 2vw, 1.45rem); }
     p { font-size: 1.05rem; }
 
     .section-tag {
       display: inline-block;
       font-family: var(--font-sans);
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--sage);
-      margin-bottom: 1rem;
+      margin-bottom: 0.85rem;
       position: relative;
-      padding-left: 2rem;
+      padding-left: 1.8rem;
     }
     .section-tag::before {
       content: '';
       position: absolute;
       left: 0;
       top: 50%;
-      width: 1.2rem;
+      width: 1.1rem;
       height: 2px;
       background: var(--sage);
     }
 
     /* ========================================
-       4. LAYOUT
+       4. LAYOUT HELPERS
     ======================================== */
     .container {
       max-width: var(--container);
@@ -97,46 +113,53 @@
       padding: 0 1.5rem;
     }
     .section {
-      padding: 6rem 0;
+      padding: 5.5rem 0;
+      position: relative;
     }
     .section-header {
       text-align: center;
-      max-width: 640px;
+      max-width: 680px;
       margin: 0 auto 3.5rem;
     }
     .section-header p {
       margin-top: 1rem;
       color: var(--brown-light);
+      font-size: 1.08rem;
     }
     .bg-white { background: var(--white); }
     .bg-cream { background: var(--cream); }
+    .bg-tint { background: var(--cream-tint); }
+    .bg-forest { background: var(--forest); color: #F8F4EC; }
 
     /* ========================================
-       5. BUTTONS
+       5. BUTTONS (CONVERSION FIRST)
     ======================================== */
     .btn {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 0.9rem 2rem;
+      justify-content: center;
+      gap: 0.55rem;
+      padding: 0.95rem 2.2rem;
       border-radius: 50px;
       font-size: 0.95rem;
-      font-weight: 500;
+      font-weight: 600;
       transition: all var(--transition);
       letter-spacing: 0.02em;
+      cursor: pointer;
     }
     .btn-primary {
-      background: var(--sage);
+      background: var(--honey);
       color: var(--white);
+      box-shadow: 0 4px 18px var(--honey-glow);
     }
     .btn-primary:hover {
-      background: var(--sage-dark);
+      background: var(--honey-hover);
       transform: translateY(-2px);
-      box-shadow: 0 6px 24px rgba(143, 165, 138, 0.35);
+      box-shadow: 0 7px 24px rgba(212, 146, 38, 0.45);
     }
     .btn-outline {
       background: transparent;
-      color: var(--sage);
+      color: var(--sage-dark);
       border: 2px solid var(--sage);
     }
     .btn-outline:hover {
@@ -144,18 +167,9 @@
       color: var(--white);
       transform: translateY(-2px);
     }
-    .btn-honey {
-      background: var(--honey);
-      color: var(--white);
-    }
-    .btn-honey:hover {
-      background: #c4932e;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 24px rgba(217, 164, 65, 0.35);
-    }
 
     /* ========================================
-       6. NAVIGATION
+       6. NAVBAR
     ======================================== */
     .navbar {
       position: fixed;
@@ -163,14 +177,14 @@
       left: 0;
       right: 0;
       z-index: 1000;
-      padding: 1rem 0;
+      padding: 1.1rem 0;
       transition: all var(--transition);
     }
     .navbar.scrolled {
-      background: rgba(246, 239, 227, 0.95);
-      backdrop-filter: blur(12px);
-      box-shadow: 0 2px 20px rgba(91, 70, 54, 0.06);
-      padding: 0.6rem 0;
+      background: rgba(248, 244, 236, 0.96);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 3px 20px rgba(70, 53, 40, 0.08);
+      padding: 0.75rem 0;
     }
     .nav-container {
       max-width: var(--container);
@@ -183,9 +197,9 @@
     .logo {
       display: flex;
       align-items: baseline;
-      gap: 0.15rem;
+      gap: 0.2rem;
       font-family: var(--font-serif);
-      font-size: 1.6rem;
+      font-size: 1.65rem;
       font-weight: 700;
       color: var(--brown);
     }
@@ -209,10 +223,10 @@
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 2rem;
+      gap: 2.2rem;
     }
     .nav-links a {
-      font-size: 0.9rem;
+      font-size: 0.92rem;
       font-weight: 500;
       color: var(--brown-light);
       transition: color var(--transition);
@@ -225,16 +239,17 @@
       left: 0;
       width: 0;
       height: 2px;
-      background: var(--sage);
+      background: var(--honey);
       transition: width var(--transition);
     }
-    .nav-links a:hover { color: var(--sage); }
+    .nav-links a:hover { color: var(--forest); }
     .nav-links a:hover::after { width: 100%; }
 
-    .nav-cta { display: flex; }
-    .nav-cta .btn { padding: 0.6rem 1.5rem; font-size: 0.85rem; }
+    .nav-cta .btn {
+      padding: 0.65rem 1.6rem;
+      font-size: 0.88rem;
+    }
 
-    /* Hamburger */
     .hamburger {
       display: none;
       flex-direction: column;
@@ -253,63 +268,82 @@
     .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
     /* ========================================
-       7. HERO
+       7. HERO SECTION (BÁN HÀNG & ẤN TƯỢNG)
     ======================================== */
     .hero {
-      padding: 8rem 0 5rem;
-      background: var(--cream);
+      padding: 8.5rem 0 5rem;
+      background: radial-gradient(circle at 80% 20%, rgba(90, 125, 86, 0.12) 0%, transparent 60%),
+                  radial-gradient(circle at 10% 80%, rgba(212, 146, 38, 0.08) 0%, transparent 50%),
+                  var(--cream);
       position: relative;
       overflow: hidden;
-      min-height: 90vh;
+      min-height: 88vh;
       display: flex;
       align-items: center;
     }
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -120px;
-      right: -80px;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(143,165,138,0.08) 0%, transparent 70%);
-      border-radius: 50%;
-    }
     .hero-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 3.5rem;
       align-items: center;
     }
     .hero-content { position: relative; z-index: 2; }
-    .hero-tagline {
-      font-family: var(--font-sans);
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: var(--sage);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 1.2rem;
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: rgba(90, 125, 86, 0.14);
+      padding: 0.4rem 1.1rem;
+      border-radius: 50px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--forest);
+      margin-bottom: 1.4rem;
+      border: 1px solid rgba(90, 125, 86, 0.25);
     }
     .hero h1 {
-      margin-bottom: 1.5rem;
-      color: var(--brown);
+      margin-bottom: 1.4rem;
+      font-size: clamp(2.4rem, 4.4vw, 3.6rem);
+      letter-spacing: -0.02em;
     }
     .hero h1 em {
       font-style: italic;
       color: var(--sage);
+      position: relative;
     }
     .hero-desc {
-      font-size: 1.1rem;
+      font-size: 1.12rem;
       color: var(--brown-light);
-      margin-bottom: 2.5rem;
-      max-width: 500px;
+      margin-bottom: 2rem;
+      max-width: 520px;
       line-height: 1.8;
     }
     .hero-buttons {
       display: flex;
-      gap: 1rem;
+      gap: 1.1rem;
       flex-wrap: wrap;
+      margin-bottom: 2.2rem;
     }
+    .hero-social-proof {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid rgba(70, 53, 40, 0.12);
+    }
+    .stars {
+      color: var(--honey);
+      font-size: 1rem;
+      letter-spacing: 1px;
+    }
+    .proof-text {
+      font-size: 0.88rem;
+      color: var(--brown-light);
+    }
+    .proof-text strong {
+      color: var(--brown);
+    }
+
     .hero-visual {
       position: relative;
       display: flex;
@@ -317,454 +351,437 @@
       align-items: center;
     }
     .hero-image-frame {
-      width: 420px;
-      height: 420px;
-      border-radius: 50% 50% 50% 20%;
-      background: linear-gradient(135deg, rgba(143,165,138,0.15) 0%, rgba(217,164,65,0.1) 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 380px;
+      height: 490px;
+      border-radius: 28px;
+      background: var(--white);
+      border: 4px solid var(--white);
+      box-shadow: var(--shadow-hover);
       position: relative;
       overflow: hidden;
+      transition: all 0.4s ease;
+    }
+    .hero-image-frame:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(70, 53, 40, 0.18);
     }
     .hero-image-frame img {
-      width: 85%;
-      height: 85%;
-      object-fit: cover;
-      border-radius: inherit;
-    }
-    /* Placeholder khi chưa có ảnh */
-    .hero-image-placeholder {
       width: 100%;
       height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+    .hero-badge-floating {
+      position: absolute;
+      bottom: 25px;
+      left: 10px;
+      background: var(--white);
+      padding: 0.75rem 1.2rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
       display: flex;
-      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 1rem;
+      gap: 0.7rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--forest);
+      border: 1px solid rgba(90,125,86,0.15);
+      animation: float 5s ease-in-out infinite;
     }
-    .hero-image-placeholder .jar-icon {
-      font-size: 5rem;
-      opacity: 0.6;
-    }
-    .hero-image-placeholder span {
-      font-size: 0.85rem;
-      color: var(--brown-light);
-      opacity: 0.5;
-    }
-    /* Decorative elements */
-    .hero-deco-1 {
-      position: absolute;
-      width: 60px; height: 60px;
-      background: var(--sage-light);
-      border-radius: 50%;
-      top: 20px; right: -10px;
-      animation: float 6s ease-in-out infinite;
-    }
-    .hero-deco-2 {
-      position: absolute;
-      width: 40px; height: 40px;
-      background: var(--honey-light);
-      border-radius: 50%;
-      bottom: 40px; left: 10px;
-      animation: float 8s ease-in-out infinite 2s;
-    }
-    .hero-deco-3 {
-      position: absolute;
-      width: 18px; height: 18px;
-      background: var(--honey);
-      border-radius: 50%;
-      top: 60%; right: -30px;
-      opacity: 0.4;
-      animation: float 5s ease-in-out infinite 1s;
-    }
-    .hero-deco-4 {
-      position: absolute;
-      width: 12px; height: 12px;
-      background: var(--sage);
-      border-radius: 50%;
-      top: 15%; left: -20px;
-      opacity: 0.3;
-      animation: float 7s ease-in-out infinite 3s;
+    .hero-badge-floating span.icon {
+      font-size: 1.4rem;
     }
 
     @keyframes float {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-15px); }
+      50% { transform: translateY(-10px); }
     }
 
     /* ========================================
-       8. PILLARS (3 trụ cột)
+       8. TRUST BAR (NỀN TỐI SANG TRỌNG - ANCHOR)
     ======================================== */
-    .pillars { background: var(--white); }
-    .pillars-grid {
+    .trust-bar {
+      background: var(--forest);
+      color: var(--cream);
+      padding: 3.5rem 0;
+      position: relative;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .trust-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 2rem;
     }
-    .pillar-card {
-      padding: 2.5rem 2rem;
-      border-radius: var(--radius);
-      background: var(--cream);
+    .trust-item {
       text-align: center;
-      transition: all var(--transition);
       position: relative;
-      overflow: hidden;
+      padding: 0.5rem 1rem;
     }
-    .pillar-card::before {
+    .trust-item:not(:last-child)::after {
       content: '';
       position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 60px;
-      height: 4px;
-      background: var(--sage);
-      border-radius: 0 0 4px 4px;
-      transition: width var(--transition);
+      right: 0;
+      top: 15%;
+      height: 70%;
+      width: 1px;
+      background: rgba(248, 244, 236, 0.15);
     }
-    .pillar-card:hover::before { width: 100%; }
-    .pillar-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-hover);
+    .trust-num {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 3.2vw, 2.6rem);
+      font-weight: 700;
+      color: var(--honey);
+      display: block;
+      line-height: 1.1;
+      margin-bottom: 0.4rem;
     }
-    .pillar-icon {
-      font-size: 2.5rem;
-      margin-bottom: 1.2rem;
+    .trust-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 0.25rem;
       display: block;
     }
-    .pillar-card h3 {
-      margin-bottom: 0.8rem;
-      color: var(--brown);
-    }
-    .pillar-card p {
-      font-size: 0.95rem;
-      color: var(--brown-light);
-      line-height: 1.7;
+    .trust-desc {
+      font-size: 0.8rem;
+      color: rgba(248, 244, 236, 0.65);
+      line-height: 1.5;
     }
 
     /* ========================================
-       9. ABOUT (Câu chuyện)
-    ======================================== */
-    .about { background: var(--cream); }
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.1fr;
-      gap: 4rem;
-      align-items: center;
-    }
-    .about-visual {
-      position: relative;
-    }
-    .about-image {
-      border-radius: var(--radius);
-      overflow: hidden;
-      background: linear-gradient(145deg, rgba(143,165,138,0.12) 0%, rgba(217,164,65,0.08) 100%);
-      aspect-ratio: 4/5;
-      position: relative;
-    }
-    .about-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .about-image-placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-    }
-    .about-image-placeholder .icon { font-size: 4rem; opacity: 0.4; }
-    .about-image-placeholder span { font-size: 0.8rem; color: var(--brown-light); opacity: 0.4; }
-    .about-accent {
-      position: absolute;
-      bottom: -20px;
-      right: -20px;
-      width: 120px;
-      height: 120px;
-      background: var(--honey-light);
-      border-radius: 50%;
-      z-index: -1;
-    }
-    .about-content h2 {
-      margin-bottom: 1.5rem;
-    }
-    .about-text {
-      color: var(--brown-light);
-      margin-bottom: 1.5rem;
-      line-height: 1.8;
-    }
-    .about-features {
-      margin: 2rem 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-    .about-features li {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      font-size: 0.95rem;
-    }
-    .about-features li .check {
-      width: 24px;
-      height: 24px;
-      background: var(--sage-light);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--sage);
-      font-size: 0.75rem;
-      flex-shrink: 0;
-    }
-    .about-quote {
-      margin-top: 2rem;
-      padding: 1.5rem 2rem;
-      background: var(--white);
-      border-radius: var(--radius-sm);
-      border-left: 3px solid var(--honey);
-      font-family: var(--font-serif);
-      font-style: italic;
-      font-size: 1.1rem;
-      color: var(--brown);
-    }
-
-    /* ========================================
-       10. PROBLEM (Vấn đề)
+       9. PROBLEM SECTION (CHẠM ĐÚNG NỖI ĐAU)
     ======================================== */
     .problem { background: var(--white); }
     .problem-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      margin-bottom: 2.5rem;
+      gap: 1.8rem;
+      margin-bottom: 3rem;
     }
     .problem-card {
-      padding: 2rem;
+      padding: 2.2rem 2rem;
       border-radius: var(--radius);
       background: var(--cream);
       display: flex;
-      gap: 1.2rem;
+      gap: 1.4rem;
       align-items: flex-start;
+      border: 1px solid rgba(70, 53, 40, 0.05);
       transition: all var(--transition);
     }
     .problem-card:hover {
-      transform: translateY(-3px);
+      transform: translateY(-4px);
       box-shadow: var(--shadow);
+      border-color: rgba(90, 125, 86, 0.25);
     }
     .problem-icon {
-      width: 48px;
-      height: 48px;
-      background: rgba(217, 164, 65, 0.15);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem;
-      flex-shrink: 0;
-    }
-    .problem-card h4 {
-      font-family: var(--font-sans);
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 0.4rem;
-    }
-    .problem-card p {
-      font-size: 0.9rem;
-      color: var(--brown-light);
-      line-height: 1.6;
-    }
-    .problem-closing {
-      text-align: center;
-      max-width: 600px;
-      margin: 0 auto;
-      font-family: var(--font-serif);
-      font-size: 1.2rem;
-      font-style: italic;
-      color: var(--sage-dark);
-      padding: 1.5rem 0;
-      border-top: 1px solid rgba(143, 165, 138, 0.2);
-    }
-
-    /* ========================================
-       11. BENEFITS (Lợi ích)
-    ======================================== */
-    .benefits { background: var(--cream); }
-    .benefits-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 2rem;
-    }
-    .benefit-card {
-      padding: 2.5rem;
-      background: var(--white);
-      border-radius: var(--radius);
-      transition: all var(--transition);
-      position: relative;
-    }
-    .benefit-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-hover);
-    }
-    .benefit-icon {
-      width: 56px;
-      height: 56px;
-      background: var(--sage-light);
-      border-radius: 16px;
+      width: 52px;
+      height: 52px;
+      background: var(--honey-light);
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 1.5rem;
-      margin-bottom: 1.2rem;
+      flex-shrink: 0;
     }
-    .benefit-card h3 {
-      margin-bottom: 0.8rem;
+    .problem-card h4 {
+      font-family: var(--font-sans);
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--brown);
     }
-    .benefit-card p {
-      font-size: 0.95rem;
+    .problem-card p {
+      font-size: 0.92rem;
       color: var(--brown-light);
-      line-height: 1.7;
+      line-height: 1.65;
+    }
+    .problem-closing {
+      text-align: center;
+      max-width: 650px;
+      margin: 0 auto;
+      font-family: var(--font-serif);
+      font-size: 1.28rem;
+      font-style: italic;
+      color: var(--forest);
+      padding: 2rem 1.5rem;
+      background: var(--cream-tint);
+      border-radius: var(--radius-sm);
+      border-left: 4px solid var(--sage);
     }
 
     /* ========================================
-       12. STATS
+       10. BẢNG SO SÁNH (VŨ KHÍ BÁN HÀNG)
     ======================================== */
-    .stats {
-      background: var(--brown);
-      padding: 4rem 0;
+    .comparison {
+      background: var(--cream-tint);
     }
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2rem;
+    .table-responsive {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-hover);
+      overflow: hidden;
+      border: 1px solid rgba(90, 125, 86, 0.2);
     }
-    .stat-item {
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    .compare-table th, .compare-table td {
+      padding: 1.3rem 1.6rem;
+      border-bottom: 1px solid rgba(70, 53, 40, 0.08);
+      font-size: 0.95rem;
+    }
+    .compare-table th {
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+    .compare-table th.col-feature {
+      width: 32%;
+      color: var(--brown-light);
+      background: #F3F6F2;
+    }
+    .compare-table th.col-menlanh {
+      width: 38%;
+      background: var(--forest);
+      color: var(--white);
       text-align: center;
       position: relative;
     }
-    .stat-item:not(:last-child)::after {
-      content: '';
-      position: absolute;
-      right: 0;
-      top: 20%;
-      height: 60%;
-      width: 1px;
-      background: rgba(246, 239, 227, 0.15);
-    }
-    .stat-number {
-      font-family: var(--font-serif);
-      font-size: clamp(2rem, 3.5vw, 2.8rem);
+    .compare-table th.col-menlanh .tag-best {
+      display: inline-block;
+      background: var(--honey);
+      color: var(--white);
+      font-size: 0.72rem;
       font-weight: 700;
-      color: var(--honey);
-      display: block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 30px;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+      text-transform: uppercase;
     }
-    .stat-label {
-      font-size: 0.85rem;
-      color: rgba(246, 239, 227, 0.7);
-      margin-top: 0.4rem;
-      display: block;
+    .compare-table th.col-other {
+      width: 30%;
+      background: #EBECE8;
+      color: var(--brown-muted);
+      text-align: center;
+      font-weight: 500;
+    }
+    .compare-table td.col-feature {
+      font-weight: 600;
+      color: var(--brown);
+      background: #FAFCFA;
+    }
+    .compare-table td.col-menlanh {
+      background: rgba(90, 125, 86, 0.06);
+      color: var(--forest);
+      font-weight: 600;
+      text-align: center;
+    }
+    .compare-table td.col-other {
+      color: var(--brown-muted);
+      text-align: center;
+    }
+    .check-yes {
+      color: var(--sage-dark);
+      font-size: 1.15rem;
+      margin-right: 0.3rem;
+      font-weight: 800;
+    }
+    .check-no {
+      color: #B95345;
+      font-size: 1.15rem;
+      margin-right: 0.3rem;
     }
 
     /* ========================================
-       13. PRODUCTS
+       11. SẢN PHẨM & COMBO ĐẶT HÀNG (ĐƯA LÊN CAO)
     ======================================== */
     .products { background: var(--white); }
     .products-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.5rem;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2.2rem;
+      max-width: 800px;
+      margin: 0 auto;
     }
     .product-card {
       background: var(--cream);
       border-radius: var(--radius);
       overflow: hidden;
       transition: all var(--transition);
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(70, 53, 40, 0.06);
+      position: relative;
     }
     .product-card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-6px);
       box-shadow: var(--shadow-hover);
+      border-color: rgba(90, 125, 86, 0.3);
+    }
+    .product-card.featured {
+      border: 2px solid var(--honey);
+      background: #FCF9F2;
     }
     .product-image {
-      aspect-ratio: 1;
-      background: linear-gradient(145deg, rgba(143,165,138,0.1), rgba(217,164,65,0.08));
+      height: 330px;
+      background: var(--white);
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
       overflow: hidden;
+      padding: 1.5rem 1rem;
     }
     .product-image img {
-      width: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+      transition: transform var(--transition);
+      filter: drop-shadow(0 8px 18px rgba(70, 53, 40, 0.08));
+    }
+    .product-card:hover .product-image img {
+      transform: scale(1.05);
     }
     .product-image .placeholder-icon {
-      font-size: 3rem;
-      opacity: 0.35;
+      font-size: 3.5rem;
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.08));
     }
     .product-badge {
       position: absolute;
-      top: 12px;
-      left: 12px;
+      top: 14px;
+      left: 14px;
+      z-index: 10;
       background: var(--honey);
       color: var(--white);
-      font-size: 0.7rem;
-      font-weight: 600;
-      padding: 0.3rem 0.8rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.35rem 0.85rem;
       border-radius: 50px;
       letter-spacing: 0.03em;
+      box-shadow: 0 4px 12px rgba(212, 146, 38, 0.3);
+      pointer-events: none;
+    }
+    .product-badge.sage {
+      background: var(--sage-dark);
     }
     .product-info {
       padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
     }
     .product-info h3 {
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       margin-bottom: 0.5rem;
+      color: var(--brown);
     }
     .product-info p {
-      font-size: 0.85rem;
+      font-size: 0.88rem;
       color: var(--brown-light);
       line-height: 1.6;
-      margin-bottom: 1rem;
+      margin-bottom: 1.2rem;
+      flex-grow: 1;
     }
     .product-footer {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(70, 53, 40, 0.08);
     }
     .product-price {
       font-family: var(--font-serif);
-      font-size: 1.2rem;
+      font-size: 1.35rem;
       font-weight: 700;
-      color: var(--sage-dark);
+      color: var(--forest);
     }
-    .product-btn {
-      width: 36px;
-      height: 36px;
-      background: var(--sage);
+    .product-btn-order {
+      background: var(--honey);
       color: var(--white);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
+      padding: 0.55rem 1.1rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
       transition: all var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
     }
-    .product-btn:hover {
-      background: var(--sage-dark);
-      transform: scale(1.1);
+    .product-btn-order:hover {
+      background: var(--honey-hover);
+      transform: scale(1.05);
     }
 
     /* ========================================
-       14. KEFIR 101 (FAQ)
+       12. CÂU CHUYỆN "MEN KHÔNG THỂ GIỤC"
     ======================================== */
-    .kefir101 { background: var(--cream); }
+    .philosophy { background: var(--cream); }
+    .about-box {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 3.5rem;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+    .about-box h2 {
+      margin-bottom: 1.2rem;
+    }
+    .about-box p {
+      color: var(--brown-light);
+      margin-bottom: 1.2rem;
+      line-height: 1.8;
+    }
+    .about-checklist li {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.95rem;
+      margin-bottom: 0.7rem;
+      color: var(--brown);
+      font-weight: 500;
+    }
+    .about-checklist .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--sage-light);
+      color: var(--sage-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .quote-box {
+      background: var(--cream-tint);
+      padding: 2rem;
+      border-radius: var(--radius-sm);
+      border-left: 4px solid var(--honey);
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--forest);
+    }
+
+    /* ========================================
+       13. KEFIR 101 (FAQ - GIỮ NGUYÊN NỘI DUNG)
+    ======================================== */
+    .kefir101 { background: var(--cream-tint); }
     .faq-list {
-      max-width: 760px;
+      max-width: 780px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
@@ -774,14 +791,20 @@
       background: var(--white);
       border-radius: var(--radius-sm);
       overflow: hidden;
-      transition: box-shadow var(--transition);
+      box-shadow: 0 2px 12px rgba(70, 53, 40, 0.04);
+      border: 1px solid rgba(70, 53, 40, 0.06);
+      transition: all var(--transition);
     }
-    .faq-item:hover { box-shadow: var(--shadow); }
+    .faq-item:hover {
+      box-shadow: var(--shadow);
+      border-color: rgba(90, 125, 86, 0.25);
+    }
     .faq-item summary {
-      padding: 1.5rem 2rem;
+      padding: 1.4rem 1.8rem;
       font-family: var(--font-serif);
-      font-size: 1.1rem;
+      font-size: 1.12rem;
       font-weight: 600;
+      color: var(--brown);
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -792,8 +815,8 @@
     .faq-item summary::-webkit-details-marker { display: none; }
     .faq-item summary::after {
       content: '+';
-      font-size: 1.4rem;
-      font-weight: 300;
+      font-size: 1.5rem;
+      font-weight: 400;
       color: var(--sage);
       transition: transform var(--transition);
       flex-shrink: 0;
@@ -801,84 +824,24 @@
     }
     .faq-item[open] summary::after {
       transform: rotate(45deg);
+      color: var(--honey);
     }
     .faq-answer {
-      padding: 0 2rem 1.5rem;
+      padding: 0 1.8rem 1.6rem;
       font-size: 0.95rem;
       color: var(--brown-light);
       line-height: 1.8;
+      border-top: 1px solid rgba(70, 53, 40, 0.05);
+      padding-top: 1rem;
     }
 
     /* ========================================
-       15. TESTIMONIALS
-    ======================================== */
-    .testimonials { background: var(--white); }
-    .testimonials-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
-    }
-    .testimonial-card {
-      padding: 2.5rem 2rem;
-      background: var(--cream);
-      border-radius: var(--radius);
-      position: relative;
-      transition: all var(--transition);
-    }
-    .testimonial-card:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow);
-    }
-    .testimonial-quote {
-      font-size: 2.5rem;
-      font-family: var(--font-serif);
-      color: var(--sage);
-      opacity: 0.3;
-      line-height: 1;
-      margin-bottom: 0.5rem;
-    }
-    .testimonial-text {
-      font-size: 0.95rem;
-      color: var(--brown-light);
-      line-height: 1.8;
-      font-style: italic;
-      margin-bottom: 1.5rem;
-    }
-    .testimonial-author {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      border-top: 1px solid rgba(143,165,138,0.15);
-      padding-top: 1.2rem;
-    }
-    .testimonial-avatar {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: var(--sage-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-serif);
-      font-weight: 700;
-      font-size: 1rem;
-      color: var(--sage);
-    }
-    .testimonial-name {
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-    .testimonial-role {
-      font-size: 0.8rem;
-      color: var(--brown-light);
-    }
-
-    /* ========================================
-       16. CTA SECTION
+       14. CTA SECTION (NỀN TỐI CHỐT ĐƠN)
     ======================================== */
     .cta-section {
-      background: var(--sage);
-      padding: 6rem 0;
+      background: var(--forest);
+      color: var(--cream);
+      padding: 6.5rem 0;
       position: relative;
       overflow: hidden;
     }
@@ -886,95 +849,83 @@
       content: '';
       position: absolute;
       top: -100px;
-      right: -100px;
-      width: 350px;
-      height: 350px;
-      background: rgba(255,255,255,0.06);
-      border-radius: 50%;
-    }
-    .cta-section::after {
-      content: '';
-      position: absolute;
-      bottom: -60px;
-      left: -60px;
-      width: 200px;
-      height: 200px;
-      background: rgba(255,255,255,0.04);
+      right: -80px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(212,146,38,0.12) 0%, transparent 70%);
       border-radius: 50%;
     }
     .cta-content {
       text-align: center;
-      max-width: 600px;
+      max-width: 650px;
       margin: 0 auto;
       position: relative;
       z-index: 2;
     }
     .cta-content h2 {
       color: var(--white);
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.6rem;
     }
     .cta-content .cta-sub {
       font-family: var(--font-serif);
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       font-style: italic;
-      color: var(--cream);
-      margin-bottom: 1.5rem;
+      color: var(--honey);
+      margin-bottom: 1.4rem;
     }
     .cta-content > p {
-      color: rgba(255,255,255,0.85);
-      margin-bottom: 2.5rem;
+      color: rgba(248, 244, 236, 0.85);
+      margin-bottom: 2.2rem;
       font-size: 1.05rem;
+      line-height: 1.7;
     }
     .cta-form {
       display: flex;
       gap: 0.8rem;
-      max-width: 480px;
-      margin: 0 auto 1.5rem;
+      max-width: 500px;
+      margin: 0 auto 1.8rem;
     }
     .cta-form input {
       flex: 1;
-      padding: 0.9rem 1.2rem;
-      border: 2px solid rgba(255,255,255,0.3);
+      padding: 0.95rem 1.3rem;
+      border: 1px solid rgba(248, 244, 236, 0.25);
       border-radius: 50px;
-      background: rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.08);
       color: var(--white);
       font-size: 0.95rem;
       font-family: var(--font-sans);
       outline: none;
-      transition: border-color var(--transition);
-    }
-    .cta-form input::placeholder { color: rgba(255,255,255,0.5); }
-    .cta-form input:focus { border-color: var(--white); }
-    .cta-social {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-top: 1.5rem;
-    }
-    .cta-social a {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: rgba(255,255,255,0.8);
-      font-size: 0.85rem;
-      font-weight: 500;
-      padding: 0.5rem 1rem;
-      border: 1px solid rgba(255,255,255,0.25);
-      border-radius: 50px;
       transition: all var(--transition);
     }
-    .cta-social a:hover {
-      background: rgba(255,255,255,0.15);
-      color: var(--white);
+    .cta-form input::placeholder { color: rgba(248, 244, 236, 0.5); }
+    .cta-form input:focus {
+      border-color: var(--honey);
+      background: rgba(255, 255, 255, 0.15);
+    }
+    .cta-guarantee {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      font-size: 0.85rem;
+      color: rgba(248, 244, 236, 0.7);
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .cta-guarantee span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
     }
 
     /* ========================================
-       17. FOOTER
+       15. FOOTER
     ======================================== */
     .footer {
-      background: var(--brown);
+      background: #182619;
       padding: 4rem 0 2rem;
-      color: rgba(246, 239, 227, 0.7);
+      color: rgba(248, 244, 236, 0.7);
+      border-top: 1px solid rgba(248, 244, 236, 0.08);
     }
     .footer-grid {
       display: grid;
@@ -989,20 +940,21 @@
     .footer-brand p {
       font-size: 0.9rem;
       line-height: 1.7;
-      color: rgba(246, 239, 227, 0.5);
+      color: rgba(248, 244, 236, 0.55);
     }
     .footer h4 {
       font-family: var(--font-sans);
       font-size: 0.85rem;
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--cream);
+      color: var(--honey);
       margin-bottom: 1.2rem;
     }
     .footer-links li { margin-bottom: 0.6rem; }
     .footer-links a {
       font-size: 0.9rem;
+      color: rgba(248, 244, 236, 0.7);
       transition: color var(--transition);
     }
     .footer-links a:hover { color: var(--honey); }
@@ -1015,14 +967,14 @@
     }
     .footer-bottom {
       padding-top: 2rem;
-      border-top: 1px solid rgba(246, 239, 227, 0.1);
+      border-top: 1px solid rgba(248, 244, 236, 0.08);
       text-align: center;
-      font-size: 0.8rem;
-      color: rgba(246, 239, 227, 0.35);
+      font-size: 0.82rem;
+      color: rgba(248, 244, 236, 0.4);
     }
 
     /* ========================================
-       18. FLOATING CTA (Zalo)
+       16. FLOATING CTA (HONEY GOLD)
     ======================================== */
     .floating-cta {
       position: fixed;
@@ -1030,109 +982,57 @@
       right: 2rem;
       z-index: 999;
       display: flex;
-      flex-direction: column;
-      align-items: flex-end;
+      align-items: center;
       gap: 0.8rem;
     }
     .floating-cta-btn {
-      width: 56px;
-      height: 56px;
+      width: 58px;
+      height: 58px;
       border-radius: 50%;
-      background: var(--sage);
+      background: var(--honey);
       color: var(--white);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
-      box-shadow: 0 4px 20px rgba(143, 165, 138, 0.4);
+      font-size: 1.6rem;
+      box-shadow: 0 4px 22px rgba(212, 146, 38, 0.5);
       transition: all var(--transition);
       text-decoration: none;
     }
     .floating-cta-btn:hover {
-      transform: scale(1.1);
-      box-shadow: 0 6px 28px rgba(143, 165, 138, 0.5);
+      transform: scale(1.08);
+      background: var(--honey-hover);
+      box-shadow: 0 6px 28px rgba(212, 146, 38, 0.6);
     }
     .floating-cta-label {
       background: var(--white);
       color: var(--brown);
-      padding: 0.5rem 1rem;
+      padding: 0.55rem 1.1rem;
       border-radius: 50px;
-      font-size: 0.8rem;
-      font-weight: 500;
+      font-size: 0.85rem;
+      font-weight: 600;
       box-shadow: var(--shadow);
       white-space: nowrap;
-      opacity: 0;
-      transform: translateX(10px);
-      transition: all var(--transition);
-    }
-    .floating-cta:hover .floating-cta-label {
-      opacity: 1;
-      transform: translateX(0);
+      border: 1px solid rgba(70, 53, 40, 0.08);
     }
 
     /* ========================================
-       19. SCROLL ANIMATIONS
-    ======================================== */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .fade-in-left {
-      opacity: 0;
-      transform: translateX(-40px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .fade-in-left.visible {
-      opacity: 1;
-      transform: translateX(0);
-    }
-    .fade-in-right {
-      opacity: 0;
-      transform: translateX(40px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .fade-in-right.visible {
-      opacity: 1;
-      transform: translateX(0);
-    }
-    .stagger > * {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-    .stagger.visible > *:nth-child(1) { transition-delay: 0.1s; }
-    .stagger.visible > *:nth-child(2) { transition-delay: 0.2s; }
-    .stagger.visible > *:nth-child(3) { transition-delay: 0.3s; }
-    .stagger.visible > *:nth-child(4) { transition-delay: 0.4s; }
-    .stagger.visible > * {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ========================================
-       20. RESPONSIVE
+       17. RESPONSIVE
     ======================================== */
     @media (max-width: 992px) {
       .hero-grid { grid-template-columns: 1fr; text-align: center; }
       .hero-desc { margin-left: auto; margin-right: auto; }
       .hero-buttons { justify-content: center; }
+      .hero-social-proof { justify-content: center; }
       .hero-visual { order: -1; }
-      .hero-image-frame { width: 320px; height: 320px; }
+      .hero-image-frame { width: 320px; height: 420px; }
 
-      .pillars-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
-      .about-grid { grid-template-columns: 1fr; }
-      .about-visual { order: -1; max-width: 400px; margin: 0 auto; }
+      .trust-grid { grid-template-columns: repeat(2, 1fr); gap: 1.8rem; }
+      .trust-item:nth-child(2)::after { display: none; }
+
       .problem-grid { grid-template-columns: 1fr; }
-      .benefits-grid { grid-template-columns: 1fr; }
       .products-grid { grid-template-columns: repeat(2, 1fr); }
-      .testimonials-grid { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; }
-      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
-      .stat-item:nth-child(2)::after { display: none; }
+      .about-box { grid-template-columns: 1fr; padding: 2.5rem; }
       .footer-grid { grid-template-columns: 1fr 1fr; }
     }
 
@@ -1142,7 +1042,6 @@
       .nav-cta { display: none; }
       .hamburger { display: flex; }
 
-      /* Mobile menu */
       .nav-links.active {
         display: flex;
         flex-direction: column;
@@ -1152,7 +1051,7 @@
         right: 0;
         background: var(--cream);
         padding: 2rem 1.5rem;
-        box-shadow: 0 8px 32px rgba(91,70,54,0.1);
+        box-shadow: 0 8px 32px rgba(70, 53, 40, 0.12);
         gap: 1.2rem;
       }
       .nav-cta.active {
@@ -1167,33 +1066,14 @@
       }
 
       .hero { min-height: auto; padding: 7rem 0 3rem; }
-      .hero-image-frame { width: 260px; height: 260px; }
+      .hero-image-frame { width: 280px; height: 370px; }
+      .trust-grid { grid-template-columns: 1fr; }
+      .trust-item:not(:last-child)::after { display: none; }
 
-      .products-grid { grid-template-columns: 1fr 1fr; }
+      .products-grid { grid-template-columns: 1fr; max-width: 360px; margin: 0 auto; }
       .cta-form { flex-direction: column; }
-      .cta-social { flex-direction: column; align-items: center; }
-      .footer-grid { grid-template-columns: 1fr; }
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .stat-item::after { display: none !important; }
-    }
-
-    @media (max-width: 480px) {
-      .products-grid { grid-template-columns: 1fr; max-width: 320px; margin: 0 auto; }
-      .hero h1 { font-size: 2.2rem; }
-      .pillar-card { padding: 2rem 1.5rem; }
-    }
-
-    /* ========================================
-       21. WAVE DIVIDER
-    ======================================== */
-    .wave-divider {
-      position: relative;
-      margin-top: -2px;
-    }
-    .wave-divider svg {
-      display: block;
-      width: 100%;
-      height: 60px;
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .floating-cta-label { display: none; }
     }
   </style>
 </head>
@@ -1213,14 +1093,14 @@
       </a>
 
       <ul class="nav-links" id="navLinks">
-        <li><a href="#about">Câu chuyện</a></li>
-        <li><a href="#products">Sản phẩm</a></li>
+        <li><a href="#comparison">Vì sao chọn Kefir?</a></li>
+        <li><a href="#products">Thực đơn & Giá</a></li>
+        <li><a href="#philosophy">Chuyện Men Lành</a></li>
         <li><a href="#kefir101">Kefir 101</a></li>
-        <li><a href="#testimonials">Cảm nhận</a></li>
       </ul>
 
       <div class="nav-cta" id="navCta">
-        <a href="#cta" class="btn btn-primary">Nhận tư vấn</a>
+        <a href="#products" class="btn btn-primary">Đặt mẻ tươi</a>
       </div>
 
       <button class="hamburger" id="hamburger" aria-label="Menu">
@@ -1230,316 +1110,222 @@
   </nav>
 
   <!-- ============================================
-       HERO
+       HERO (TẬP TRUNG LỢI ÍCH & CHUYỂN ĐỔI)
   ============================================= -->
   <section class="hero" id="hero">
     <div class="container">
       <div class="hero-grid">
-        <div class="hero-content fade-in">
-          <p class="hero-tagline">Sữa chua kefir thủ công</p>
-          <h1>Chậm<br>mà <em>lành.</em></h1>
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span>🫧</span> Men sống 24h · Thủ công từng mẻ nhỏ
+          </div>
+          <h1>Bụng êm, da sáng.<br><em>Chậm mà lành.</em></h1>
           <p class="hero-desc">
-            Mỗi hũ kefir được lên men tự nhiên từ hạt kefir truyền thống.
-            Không giục, không ép, không thêm gì thừa — chỉ cần thời gian
-            và sự kiên nhẫn.
+            Sữa chua kefir thủ công lên men tự nhiên từ hạt men truyền thống. Chăm sóc hệ vi sinh đường ruột mỗi ngày — nhẹ nhàng, bền bỉ, không cần ăn kiêng hay detox cực đoan.
           </p>
           <div class="hero-buttons">
-            <a href="#cta" class="btn btn-primary">Chat ngay →</a>
-            <a href="#about" class="btn btn-outline">Tìm hiểu thêm ↓</a>
+            <a href="#products" class="btn btn-primary">Đặt mẻ tươi hôm nay →</a>
+            <a href="#comparison" class="btn btn-outline">Xem so sánh với sữa chua thường ↓</a>
+          </div>
+          <div class="hero-social-proof">
+            <div class="stars">★★★★★</div>
+            <div class="proof-text">
+              <strong>4.9/5 điểm hài lòng</strong> · Hơn 2.000+ chai kefir tươi giao mỗi tháng
+            </div>
           </div>
         </div>
 
-        <div class="hero-visual fade-in-right">
+        <div class="hero-visual">
           <div class="hero-image-frame">
-            <!-- Thay bằng ảnh sản phẩm thực tế:
-                 <img src="hero-image.jpg" alt="Sữa chua kefir Men Lành"> -->
-            <div class="hero-image-placeholder">
-              <span class="jar-icon">🫙</span>
-              <span>Ảnh sản phẩm kefir</span>
+            <img src="hero-kefir.png" alt="Sữa chua Kefir Men Lành — Lên men tự nhiên 24 giờ">
+          </div>
+          <div class="hero-badge-floating">
+            <span class="icon">✨</span>
+            <div>
+              <div style="font-size: 0.75rem; color: var(--brown-muted);">Cam kết mẻ mới</div>
+              <div>Giao lạnh trong ngày</div>
             </div>
           </div>
-          <div class="hero-deco-1"></div>
-          <div class="hero-deco-2"></div>
-          <div class="hero-deco-3"></div>
-          <div class="hero-deco-4"></div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ============================================
-       3 TRỤ CỘT
+       TRUST BAR (NỀN TỐI SANG TRỌNG - BẢO CHỨNG)
   ============================================= -->
-  <section class="section pillars" id="pillars">
+  <section class="trust-bar" id="trust">
     <div class="container">
-      <div class="section-header fade-in">
-        <span class="section-tag">Ba điều giản dị</span>
-        <h2>Sống · Chậm · Lành</h2>
-        <p>Mỗi hũ Men Lành mang theo triết lý đơn giản: tôn trọng nhịp tự nhiên của men, của cơ thể, và của bạn.</p>
-      </div>
-
-      <div class="pillars-grid stagger fade-in">
-        <div class="pillar-card">
-          <span class="pillar-icon">🫧</span>
-          <h3>Sống</h3>
-          <p>Men sống, làm thủ công theo lô nhỏ. Mỗi mẻ mang một nhịp riêng — giữ trọn hàng tỷ lợi khuẩn sống tự nhiên.</p>
+      <div class="trust-grid">
+        <div class="trust-item">
+          <span class="trust-num">30+</span>
+          <span class="trust-title">Chủng Lợi Khuẩn Sống</span>
+          <span class="trust-desc">Đa dạng gấp 10 lần sữa chua thông thường</span>
         </div>
-
-        <div class="pillar-card">
-          <span class="pillar-icon">⏳</span>
-          <h3>Chậm</h3>
-          <p>24 giờ lên men kiên nhẫn. Không chất bảo quản, không đường hóa học, không vội vàng — <em>men không thể giục.</em></p>
+        <div class="trust-item">
+          <span class="trust-num">24 Giờ</span>
+          <span class="trust-title">Lên Men Kiên Nhẫn</span>
+          <span class="trust-desc">Men tự bẻ gãy lactose, êm ru đường ruột</span>
         </div>
-
-        <div class="pillar-card">
-          <span class="pillar-icon">🌿</span>
-          <h3>Lành</h3>
-          <p>Lành mạnh cho đường ruột. Hiền lành với cơ thể. Dịu lại trong những ngày bạn cần một khoảng chậm.</p>
+        <div class="trust-item">
+          <span class="trust-num">100%</span>
+          <span class="trust-title">Sữa Tươi & Hạt Men</span>
+          <span class="trust-desc">Nguồn sữa sạch chuẩn nông trại</span>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Wave divider -->
-  <div class="wave-divider">
-    <svg viewBox="0 0 1200 60" preserveAspectRatio="none">
-      <path d="M0,30 C200,60 400,0 600,30 C800,60 1000,0 1200,30 L1200,60 L0,60 Z" fill="#F6EFE3"/>
-    </svg>
-  </div>
-
-  <!-- ============================================
-       CÂU CHUYỆN MEN LÀNH
-  ============================================= -->
-  <section class="section about" id="about">
-    <div class="container">
-      <div class="about-grid">
-        <div class="about-visual fade-in-left">
-          <div class="about-image">
-            <!-- Thay bằng ảnh thực tế:
-                 <img src="about.jpg" alt="Quy trình làm kefir thủ công"> -->
-            <div class="about-image-placeholder">
-              <span class="icon">✦</span>
-              <span>Ảnh quy trình làm kefir</span>
-            </div>
-          </div>
-          <div class="about-accent"></div>
-        </div>
-
-        <div class="about-content fade-in-right">
-          <span class="section-tag">Câu chuyện Men Lành</span>
-          <h2>Không phải thần dược. Chỉ là một hũ kefir làm đúng cách.</h2>
-          <p class="about-text">
-            Men Lành sinh ra từ một niềm tin rất giản dị: cơ thể biết cách tự chữa lành — nếu ta cho nó thời gian.
-          </p>
-          <p class="about-text">
-            Chúng tôi không hứa hẹn thay đổi sau một đêm, không dọa nạt bạn phải "sống sạch", không ép bạn phải hoàn hảo. Chỉ mời bạn bắt đầu — mỗi ngày một hũ, đều đặn và nhẹ nhàng.
-          </p>
-
-          <ul class="about-features">
-            <li><span class="check">✓</span>Hạt kefir truyền thống, nuôi dưỡng qua nhiều năm</li>
-            <li><span class="check">✓</span>Sữa tươi sạch từ trang trại đối tác</li>
-            <li><span class="check">✓</span>Lên men tự nhiên 24 giờ, không chất phụ gia</li>
-            <li><span class="check">✓</span>Làm theo lô nhỏ, giao trong ngày</li>
-          </ul>
-
-          <blockquote class="about-quote">
-            "Để men làm việc của men."
-          </blockquote>
+        <div class="trust-item">
+          <span class="trust-num">Số 0</span>
+          <span class="trust-title">Chất Bảo Quản & Phụ Gia</span>
+          <span class="trust-desc">Không hương liệu, không đường tinh luyện thừa</span>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ============================================
-       VẤN ĐỀ KHÁCH HÀNG
+       VẤN ĐỀ KHÁCH HÀNG (CHẠM NỖI ĐAU)
   ============================================= -->
   <section class="section problem" id="problem">
     <div class="container">
-      <div class="section-header fade-in">
-        <span class="section-tag">Chúng tôi hiểu bạn</span>
-        <h2>Bạn có đang mệt mỏi vì cố gắng "sống khỏe"?</h2>
+      <div class="section-header">
+        <span class="section-tag">Thấu hiểu bạn</span>
+        <h2>Bạn có đang mệt mỏi với những lời khuyên "sống sạch" cực đoan?</h2>
+        <p>Phụ nữ hiện đại bận rộn không cần thêm áp lực phải hoàn hảo. Bạn chỉ cần đường ruột được chăm sóc đúng cách.</p>
       </div>
 
-      <div class="problem-grid stagger fade-in">
+      <div class="problem-grid">
         <div class="problem-card">
           <div class="problem-icon">😮‍💨</div>
           <div>
-            <h4>Thử mãi không bền</h4>
-            <p>Detox, eat clean, ăn kiêng cực đoan — thử đủ kiểu nhưng không thể duy trì quá hai tuần. Cơ thể mệt mỏi, tinh thần kiệt sức.</p>
+            <h4>Đầy bụng, khó tiêu dai dẳng</h4>
+            <p>Sau bữa ăn bụng hay ấm ách, nặng nề. Dù ăn ít hay kiêng khem, cảm giác ì ạch vẫn theo bạn cả ngày dài làm việc.</p>
           </div>
         </div>
 
         <div class="problem-card">
-          <div class="problem-icon">🫤</div>
+          <div class="problem-icon">🥤</div>
           <div>
-            <h4>Đường ruột nhạy cảm</h4>
-            <p>Hay đầy bụng, khó tiêu, da xỉn màu, hay nổi mụn — những tín hiệu từ bên trong mà bạn chưa biết lắng nghe.</p>
+            <h4>Detox khắc nghiệt không duy trì nổi</h4>
+            <p>Uống nước ép thanh lọc, ăn kiêng gắt gao được 3-5 ngày là kiệt sức, rát ruột. Vừa dừng lại là cơ thể lại mệt mỏi như cũ.</p>
           </div>
         </div>
 
         <div class="problem-card">
-          <div class="problem-icon">🤷‍♀️</div>
+          <div class="problem-icon">🪞</div>
           <div>
-            <h4>Không biết bắt đầu từ đâu</h4>
-            <p>Muốn chăm sóc cơ thể nhưng thị trường quá nhiều sản phẩm, quá nhiều lời hứa. Chọn cái gì cũng thấy chưa đủ tin.</p>
+            <h4>Da sạm, mụn nội tiết do nóng trong</h4>
+            <p>Dùng bao nhiêu mỹ phẩm đắt tiền nhưng da vẫn sần sùi, thiếu sức sống vì gốc rễ độc tố từ đường ruột chưa được xử lý.</p>
           </div>
         </div>
 
         <div class="problem-card">
-          <div class="problem-icon">😵‍💫</div>
+          <div class="problem-icon">💊</div>
           <div>
-            <h4>Càng nghe càng hoang mang</h4>
-            <p>Sáng nghe "nên uống", chiều nghe "không nên uống". Quá nhiều lời khuyên trái chiều khiến bạn không dám bắt đầu.</p>
+            <h4>Ngại uống men vi sinh dạng thuốc</h4>
+            <p>Uống viên nang hay cốm men vi sinh như uống thuốc, vừa tốn kém vừa khó biến thành thói quen thưởng thức mỗi ngày.</p>
           </div>
         </div>
       </div>
 
-      <p class="problem-closing fade-in">
-        Bạn không cần thêm một "thần dược" nữa.<br>
-        Bạn cần một thói quen nhỏ, đều đặn, và lành.
-      </p>
+      <div class="problem-closing">
+        "Cơ thể bạn không cần thêm một 'thần dược' ép buộc.<br>Bạn chỉ cần một thói quen nhỏ, dịu lành và đều đặn mỗi sáng."
+      </div>
     </div>
   </section>
 
   <!-- ============================================
-       LỢI ÍCH SẢN PHẨM
+       BẢNG SO SÁNH (VŨ KHÍ BÁN HÀNG ĐỘT PHÁ)
   ============================================= -->
-  <section class="section benefits" id="benefits">
+  <section class="section comparison" id="comparison">
     <div class="container">
-      <div class="section-header fade-in">
-        <span class="section-tag">Vì sao chọn kefir?</span>
-        <h2>Lành từ ruột, nhẹ từ tâm.</h2>
-        <p>Kefir không chữa bách bệnh. Nhưng uống đều đặn mỗi ngày, cơ thể bạn sẽ tự cảm nhận sự khác biệt.</p>
+      <div class="section-header">
+        <span class="section-tag">Sự khác biệt rõ ràng</span>
+        <h2>Kefir Men Lành khác gì sữa chua siêu thị?</h2>
+        <p>Cùng mang tiếng là "sữa chua", nhưng sự khác biệt nằm ở độ sống của men và thời gian ủ.</p>
       </div>
 
-      <div class="benefits-grid stagger fade-in">
-        <div class="benefit-card">
-          <div class="benefit-icon">🦠</div>
-          <h3>Hàng tỷ lợi khuẩn sống</h3>
-          <p>Kefir chứa hơn 30 chủng lợi khuẩn và nấm men có lợi, gấp nhiều lần sữa chua thông thường. Hỗ trợ cân bằng hệ vi sinh đường ruột tự nhiên.</p>
-        </div>
-
-        <div class="benefit-card">
-          <div class="benefit-icon">🪶</div>
-          <h3>Dễ hấp thu, nhẹ bụng</h3>
-          <p>Quá trình lên men tự nhiên đã phân giải phần lớn lactose. Phù hợp cả với người nhạy cảm với sữa, không gây đầy bụng.</p>
-        </div>
-
-        <div class="benefit-card">
-          <div class="benefit-icon">🛡️</div>
-          <h3>Hỗ trợ miễn dịch</h3>
-          <p>70% hệ miễn dịch nằm ở đường ruột. Chăm ruột tốt là chăm cả cơ thể từ bên trong — bền vững, không phụ thuộc thực phẩm chức năng.</p>
-        </div>
-
-        <div class="benefit-card">
-          <div class="benefit-icon">✨</div>
-          <h3>Đẹp da từ gốc</h3>
-          <p>Đường ruột cân bằng giúp giảm viêm, cải thiện làn da từ bên trong. Không cần kem dưỡng đắt tiền hay thần dược detox.</p>
-        </div>
+      <div class="table-responsive">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th class="col-feature">Đặc điểm</th>
+              <th class="col-menlanh">
+                Men Lành Kefir
+                <span class="tag-best">Khuyên dùng</span>
+              </th>
+              <th class="col-other">Sữa chua công nghiệp</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="col-feature">Số lượng chủng men</td>
+              <td class="col-menlanh"><span class="check-yes">✓</span> <strong>Hơn 30-50 chủng</strong> lợi khuẩn & nấm men sống</td>
+              <td class="col-other"><span class="check-no">✗</span> Chỉ 1-2 chủng men nuôi công nghiệp</td>
+            </tr>
+            <tr>
+              <td class="col-feature">Trạng thái lợi khuẩn</td>
+              <td class="col-menlanh"><span class="check-yes">✓</span> <strong>Men sống tự nhiên</strong>, tiếp tục hoạt động trong ruột</td>
+              <td class="col-other"><span class="check-no">✗</span> Qua xử lý nhiệt/tiệt trùng làm giảm hoạt tính</td>
+            </tr>
+            <tr>
+              <td class="col-feature">Hấp thu đường Lactose</td>
+              <td class="col-menlanh"><span class="check-yes">✓</span> <strong>Đã phân giải 99%</strong> lactose, không lo đau bụng</td>
+              <td class="col-other"><span class="check-no">✗</span> Dễ gây đầy bụng ở người nhạy cảm lactose</td>
+            </tr>
+            <tr>
+              <td class="col-feature">Đường & Phụ gia</td>
+              <td class="col-menlanh"><span class="check-yes">✓</span> <strong>0 đường hóa học</strong>, 0 chất làm đặc gelatin</td>
+              <td class="col-other"><span class="check-no">✗</span> Nhiều đường tinh luyện & chất ổn định</td>
+            </tr>
+            <tr>
+              <td class="col-feature">Quy cách sản xuất</td>
+              <td class="col-menlanh"><span class="check-yes">✓</span> <strong>Mẻ nhỏ 50-100 chai</strong>, ủ tươi giao trong tuần</td>
+              <td class="col-other"><span class="check-no">✗</span> Sản xuất công nghiệp hàng loạt, để lâu</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </section>
 
   <!-- ============================================
-       SỐ LIỆU
-  ============================================= -->
-  <section class="stats" id="stats">
-    <div class="container">
-      <div class="stats-grid stagger fade-in">
-        <div class="stat-item">
-          <span class="stat-number">30+</span>
-          <span class="stat-label">Chủng lợi khuẩn</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number">24h</span>
-          <span class="stat-label">Lên men tự nhiên</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number">100%</span>
-          <span class="stat-label">Nguyên liệu sạch</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number">0</span>
-          <span class="stat-label">Chất bảo quản</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================
-       SẢN PHẨM
+       SẢN PHẨM (CHAI 500ML & 1 LÍT NGUYÊN CHẤT)
   ============================================= -->
   <section class="section products" id="products">
     <div class="container">
-      <div class="section-header fade-in">
-        <span class="section-tag">Sản phẩm</span>
-        <h2>Chọn hũ kefir cho bạn</h2>
-        <p>Bắt đầu từ nguyên chất, hay thử vị dễ uống — không có lựa chọn nào sai cả.</p>
+      <div class="section-header">
+        <span class="section-tag">Sữa chua Kefir nguyên chất</span>
+        <h2>Chọn dung tích chai phù hợp với bạn</h2>
+        <p>100% lên men tự nhiên bằng hạt Kefir truyền thống từ sữa tươi sạch. Vị chua thanh mộc mạc, không chất bảo quản.</p>
       </div>
 
-      <div class="products-grid stagger fade-in">
-        <!-- Sản phẩm 1 -->
+      <div class="products-grid">
+        <!-- Chai 500ml -->
         <div class="product-card">
           <div class="product-image">
-            <!-- <img src="product-original.jpg" alt="Kefir Nguyên Chất"> -->
-            <span class="placeholder-icon">🥛</span>
+            <img src="kefir-chai-500ml.png" alt="Sữa chua Kefir Nguyên Chất — Chai 500ml">
           </div>
           <div class="product-info">
-            <h3>Kefir Nguyên Chất</h3>
-            <p>Vị chua dịu tự nhiên, nguyên bản. Cho bạn nào muốn trải nghiệm kefir thuần túy nhất.</p>
+            <h3>Kefir Nguyên Chất — Chai 500ml</h3>
+            <p>Vị chua thanh mát lành, êm ru đường ruột. Thích hợp cho cá nhân sử dụng đều đặn trong 2 đến 3 ngày (~150ml mỗi sáng).</p>
             <div class="product-footer">
-              <span class="product-price">45.000đ</span>
-              <button class="product-btn" aria-label="Thêm vào giỏ">+</button>
+              <span class="product-price">40.000đ</span>
+              <a href="#cta" class="product-btn-order">Đặt mua ngay →</a>
             </div>
           </div>
         </div>
 
-        <!-- Sản phẩm 2 -->
-        <div class="product-card">
+        <!-- Chai 1 Lít -->
+        <div class="product-card featured">
           <div class="product-image">
-            <span class="product-badge">Dễ uống</span>
-            <!-- <img src="product-honey.jpg" alt="Kefir Mật Ong"> -->
-            <span class="placeholder-icon">🍯</span>
+            <img src="kefir-chai.png" alt="Sữa chua Kefir Nguyên Chất — Chai 1 Lít (1.000ml)">
+            <span class="product-badge">🔥 Tiết kiệm nhất · Cho cả gia đình</span>
           </div>
           <div class="product-info">
-            <h3>Kefir Mật Ong</h3>
-            <p>Dịu ngọt tự nhiên từ mật ong rừng. Lựa chọn hoàn hảo cho người mới bắt đầu.</p>
+            <h3>Kefir Nguyên Chất — Chai 1 Lít (1.000ml)</h3>
+            <p>Dung tích lớn tiết kiệm chi phí, đủ uống trong 4 đến 5 ngày. Lựa chọn hoàn hảo để cả gia đình cùng chăm sóc hệ tiêu hóa.</p>
             <div class="product-footer">
-              <span class="product-price">55.000đ</span>
-              <button class="product-btn" aria-label="Thêm vào giỏ">+</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Sản phẩm 3 -->
-        <div class="product-card">
-          <div class="product-image">
-            <!-- <img src="product-fruit.jpg" alt="Kefir Trái Cây Mùa"> -->
-            <span class="placeholder-icon">🍓</span>
-          </div>
-          <div class="product-info">
-            <h3>Kefir Trái Cây Mùa</h3>
-            <p>Kết hợp trái cây theo mùa. Mỗi tuần một vị mới — để bạn không bao giờ thấy nhàm.</p>
-            <div class="product-footer">
-              <span class="product-price">55.000đ</span>
-              <button class="product-btn" aria-label="Thêm vào giỏ">+</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Sản phẩm 4 -->
-        <div class="product-card">
-          <div class="product-image">
-            <span class="product-badge">Tiết kiệm</span>
-            <!-- <img src="product-set.jpg" alt="Set Khởi Đầu 7 Ngày"> -->
-            <span class="placeholder-icon">📦</span>
-          </div>
-          <div class="product-info">
-            <h3>Set Khởi Đầu 7 Ngày</h3>
-            <p>7 hũ kefir cho tuần đầu tiên. Kèm hướng dẫn uống và lời nhắn nhẹ nhàng mỗi ngày.</p>
-            <div class="product-footer">
-              <span class="product-price">280.000đ</span>
-              <button class="product-btn" aria-label="Thêm vào giỏ">+</button>
+              <span class="product-price" style="color: var(--honey);">70.000đ</span>
+              <a href="#cta" class="product-btn-order" style="background: var(--forest);">Đặt mua ngay →</a>
             </div>
           </div>
         </div>
@@ -1548,18 +1334,49 @@
   </section>
 
   <!-- ============================================
-       KEFIR 101 (FAQ)
+       CÂU CHUYỆN "MEN KHÔNG THỂ GIỤC"
+  ============================================= -->
+  <section class="section philosophy" id="philosophy">
+    <div class="container">
+      <div class="about-box">
+        <div>
+          <span class="section-tag">Triết lý Men Lành</span>
+          <h2>Không phải thần dược.<br>Chỉ là một chai kefir làm đúng cách.</h2>
+          <p>
+            Chúng tôi không hứa hẹn cơ thể bạn sẽ thay đổi sau một đêm. Chúng tôi chỉ tin rằng: đường ruột khỏe mạnh là nền tảng của một tinh thần thư thái và làn da tươi tắn.
+          </p>
+          <ul class="about-checklist">
+            <li><span class="check">✓</span> Hạt nấm men kefir giống cổ truyền thuần chủng</li>
+            <li><span class="check">✓</span> 100% sữa tươi đạt chuẩn</li>
+            <li><span class="check">✓</span> Kiểm soát mẻ nhỏ thủ công nghiêm ngặt</li>
+            <li><span class="check">✓</span> Luôn ủ tươi và giao lạnh trong ngày</li>
+          </ul>
+        </div>
+        <div>
+          <div class="quote-box">
+            "Chăm sóc bản thân không phải là một chiến dịch ngắn ngày đầy mệt mỏi. Đó là một khoảng chậm dịu dàng bạn dành cho chính mình mỗi sáng."
+            <div style="margin-top: 1rem; font-family: var(--font-sans); font-size: 0.9rem; font-style: normal; font-weight: 600; color: var(--sage-dark);">
+              — Men Lành
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       KEFIR 101 (FAQ - GIỮ NGUYÊN NỘI DUNG)
   ============================================= -->
   <section class="section kefir101" id="kefir101">
     <div class="container">
-      <div class="section-header fade-in">
+      <div class="section-header">
         <span class="section-tag">Kefir 101</span>
         <h2>Hiểu biết dịu dàng</h2>
         <p>Lần đầu nghe về kefir? Không sao cả. Ở đây không ai giáo điều — chỉ chia sẻ nhẹ nhàng thôi.</p>
       </div>
 
-      <div class="faq-list fade-in">
-        <details class="faq-item">
+      <div class="faq-list">
+        <details class="faq-item" open>
           <summary>Kefir là gì?</summary>
           <div class="faq-answer">
             Kefir là thức uống lên men truyền thống có nguồn gốc từ vùng núi Kavkaz, với hàng nghìn năm lịch sử. Nó được làm từ <strong>hạt kefir</strong> — một cộng sinh tự nhiên giữa lợi khuẩn và nấm men — ủ cùng sữa tươi. Khác với sữa chua thông thường, kefir chứa đa dạng chủng lợi khuẩn hơn (hơn 30 chủng), có kết cấu lỏng mịn, dễ uống như một ly smoothie tự nhiên.
@@ -1598,83 +1415,27 @@
   </section>
 
   <!-- ============================================
-       CẢM NHẬN KHÁCH HÀNG
-  ============================================= -->
-  <section class="section testimonials" id="testimonials">
-    <div class="container">
-      <div class="section-header fade-in">
-        <span class="section-tag">Cảm nhận</span>
-        <h2>Những người đã chọn chậm lại</h2>
-      </div>
-
-      <div class="testimonials-grid stagger fade-in">
-        <div class="testimonial-card">
-          <div class="testimonial-quote">"</div>
-          <p class="testimonial-text">
-            Mình uống kefir Men Lành được 3 tháng rồi. Không có gì "thần kỳ" cả, nhưng bụng đỡ đầy, da bớt nổi mụn, và mình thấy vui vì đang làm điều tốt cho cơ thể mỗi ngày.
-          </p>
-          <div class="testimonial-author">
-            <div class="testimonial-avatar">MA</div>
-            <div>
-              <div class="testimonial-name">Minh Anh</div>
-              <div class="testimonial-role">32 tuổi · Nhân viên văn phòng</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="testimonial-quote">"</div>
-          <p class="testimonial-text">
-            Lần đầu uống thấy hơi chua, nhưng quen rồi thì nghiện luôn. Con gái mình 8 tuổi cũng thích uống mỗi sáng. Cả nhà giờ đều uống kefir như một thói quen nhỏ.
-          </p>
-          <div class="testimonial-author">
-            <div class="testimonial-avatar">TH</div>
-            <div>
-              <div class="testimonial-name">Thanh Hà</div>
-              <div class="testimonial-role">38 tuổi · Mẹ bỉm sữa</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="testimonial-quote">"</div>
-          <p class="testimonial-text">
-            Từng thử đủ loại detox, cuối cùng một hũ kefir mỗi ngày lại là thứ mình giữ được lâu nhất. Không áp lực, không cực đoan, không cần ép bản thân.
-          </p>
-          <div class="testimonial-author">
-            <div class="testimonial-avatar">PL</div>
-            <div>
-              <div class="testimonial-name">Phương Linh</div>
-              <div class="testimonial-role">28 tuổi · Freelancer</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================
-       CTA — KÊU GỌI TƯ VẤN
+       CTA — CHỐT ĐƠN & TƯ VẤN (NỀN TỐI SANG TRỌNG)
   ============================================= -->
   <section class="cta-section" id="cta">
     <div class="container">
-      <div class="cta-content fade-in">
-        <h2>Bạn không cần thay đổi hoàn toàn.</h2>
-        <p class="cta-sub">Chỉ cần bắt đầu.</p>
+      <div class="cta-content">
+        <h2>Bắt đầu chăm ruột nhẹ nhàng</h2>
+        <p class="cta-sub">Chai 500ml (40.000đ) · Chai 1 Lít (70.000đ)</p>
         <p>
-          Nhắn cho Men Lành để được tư vấn cách bắt đầu phù hợp với bạn — nhẹ nhàng, không áp lực, đúng kiểu Men Lành.
+          Mỗi tuần Men Lành chỉ ủ các mẻ nhỏ để đảm bảo từng chai kefir tươi đến tay bạn luôn ở độ sung mãn nhất. Để lại số điện thoại để đặt lịch giao lạnh trong ngày nhé!
         </p>
 
         <div class="cta-form">
           <input type="text" placeholder="Tên của bạn" aria-label="Tên">
-          <input type="tel" placeholder="Số điện thoại" aria-label="Số điện thoại">
-          <button class="btn btn-honey" type="button">Nhận tư vấn</button>
+          <input type="tel" placeholder="Số điện thoại của bạn" aria-label="Số điện thoại">
+          <button class="btn btn-primary" type="button">Đặt ngay</button>
         </div>
 
-        <div class="cta-social">
-          <a href="#" aria-label="Nhắn qua Zalo">💬 Nhắn Zalo</a>
-          <a href="#" aria-label="Nhắn qua Instagram">📷 Instagram</a>
-          <a href="#" aria-label="Nhắn qua Facebook">📘 Facebook</a>
+        <div class="cta-guarantee">
+          <span>🛡️ Giao thùng lạnh bảo quản</span>
+          <span>🔄 Đổi mới 100% nếu hỏng men</span>
+          <span>⚡ Giao nhanh trong ngày</span>
         </div>
       </div>
     </div>
@@ -1694,26 +1455,25 @@
               <span class="dot-honey"></span>
             </span>
           </a>
-          <p>Sữa chua kefir thủ công — chậm mà lành. Chăm ruột đều đặn, nhẹ nhàng, không cực đoan.</p>
+          <p>Sữa chua kefir thủ công — chậm mà lành. Chăm ruột đều đặn, nhẹ nhàng, không cực đoan cho phụ nữ Việt.</p>
         </div>
 
         <div>
           <h4>Điều hướng</h4>
           <ul class="footer-links">
-            <li><a href="#about">Câu chuyện</a></li>
-            <li><a href="#products">Sản phẩm</a></li>
+            <li><a href="#comparison">So sánh Kefir</a></li>
+            <li><a href="#products">Thực đơn & Giá</a></li>
+            <li><a href="#philosophy">Câu chuyện</a></li>
             <li><a href="#kefir101">Kefir 101</a></li>
-            <li><a href="#testimonials">Cảm nhận</a></li>
           </ul>
         </div>
 
         <div>
-          <h4>Kết nối</h4>
+          <h4>Kênh tư vấn</h4>
           <ul class="footer-links">
-            <li><a href="#">Facebook</a></li>
+            <li><a href="#">Nhắn qua Zalo</a></li>
+            <li><a href="#">Trang Facebook</a></li>
             <li><a href="#">Instagram</a></li>
-            <li><a href="#">Zalo</a></li>
-            <li><a href="#">TikTok</a></li>
           </ul>
         </div>
 
@@ -1722,22 +1482,22 @@
           <ul class="footer-contact">
             <li>📍 TP. Hồ Chí Minh</li>
             <li>📞 0900 000 000</li>
-            <li>✉️ hello@menlanh.vn</li>
+            <li>✉️ hello@menlanh.online</li>
           </ul>
         </div>
       </div>
 
       <div class="footer-bottom">
-        <p>© 2025 Men Lành. Tất cả quyền được bảo lưu. Chậm mà lành. ♡</p>
+        <p>© 2025 Men Lành (menlanh.online). Giữ trọn nhịp sống của men. ♡</p>
       </div>
     </div>
   </footer>
 
   <!-- ============================================
-       FLOATING CTA BUTTON
+       FLOATING CTA BUTTON (VÀNG MẬT ONG BẮT MẮT)
   ============================================= -->
   <div class="floating-cta">
-    <span class="floating-cta-label">Nhắn tư vấn ✦</span>
+    <span class="floating-cta-label">💬 Nhắn tư vấn ngay</span>
     <a href="#cta" class="floating-cta-btn" aria-label="Nhận tư vấn">
       💬
     </a>
@@ -1747,13 +1507,15 @@
        JAVASCRIPT
   ============================================= -->
   <script>
-    // ---- Navbar scroll effect ----
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 50);
+      if (window.scrollY > 40) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
     });
 
-    // ---- Mobile menu ----
     const hamburger = document.getElementById('hamburger');
     const navLinks = document.getElementById('navLinks');
     const navCta = document.getElementById('navCta');
@@ -1764,7 +1526,6 @@
       navCta.classList.toggle('active');
     });
 
-    // Close menu on link click
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         hamburger.classList.remove('active');
@@ -1773,46 +1534,13 @@
       });
     });
 
-    // ---- Scroll animations ----
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px 0px -80px 0px',
-      threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .stagger').forEach(el => {
-      observer.observe(el);
-    });
-
-    // ---- FAQ accordion (only one open at a time) ----
+    // FAQ accordion: tự động đóng mục khác khi mở
     document.querySelectorAll('.faq-item').forEach(item => {
       item.addEventListener('toggle', () => {
         if (item.open) {
           document.querySelectorAll('.faq-item').forEach(other => {
             if (other !== item && other.open) other.open = false;
           });
-        }
-      });
-    });
-
-    // ---- Smooth scroll for anchor links ----
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          e.preventDefault();
-          const offset = navbar.offsetHeight + 20;
-          const top = target.getBoundingClientRect().top + window.scrollY - offset;
-          window.scrollTo({ top, behavior: 'smooth' });
         }
       });
     });
