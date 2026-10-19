@@ -919,6 +919,376 @@
     }
 
     /* ========================================
+       14B. SURVEY MODAL POPUP & TRIGGER BUTTONS
+       (Tách biệt hoàn toàn khỏi flow chính của website)
+    ======================================== */
+    .cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      align-items: center;
+      margin: 2.2rem 0 1rem;
+    }
+    .btn-survey-trigger {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      padding: 1.05rem 2rem;
+      border-radius: 50px;
+      font-family: var(--font-sans);
+      font-size: 1.02rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--cream);
+      border: 1.5px solid rgba(248, 244, 236, 0.4);
+      backdrop-filter: blur(4px);
+      text-decoration: none;
+    }
+    .btn-survey-trigger:hover {
+      background: rgba(255, 255, 255, 0.22);
+      border-color: var(--honey);
+      color: var(--white);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Modal Backdrop */
+    .survey-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(18, 28, 19, 0.78);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem 1rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.28s ease, visibility 0.28s ease;
+    }
+    .survey-modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Modal Box */
+    .survey-modal-dialog {
+      background: var(--white);
+      border-radius: var(--radius);
+      width: 100%;
+      max-width: 660px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(212, 146, 38, 0.28);
+      position: relative;
+      transform: translateY(24px) scale(0.97);
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      padding: 2.2rem 2.4rem;
+      box-sizing: border-box;
+      text-align: left;
+    }
+    .survey-modal-overlay.active .survey-modal-dialog {
+      transform: translateY(0) scale(1);
+    }
+    .survey-modal-close {
+      position: absolute;
+      top: 1.1rem;
+      right: 1.1rem;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(70, 53, 40, 0.08);
+      border: none;
+      font-size: 1.3rem;
+      color: var(--brown);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      transition: all var(--transition);
+      z-index: 10;
+    }
+    .survey-modal-close:hover {
+      background: rgba(70, 53, 40, 0.18);
+      color: var(--forest);
+      transform: rotate(90deg);
+    }
+    .survey-modal-dialog::-webkit-scrollbar {
+      width: 6px;
+    }
+    .survey-modal-dialog::-webkit-scrollbar-thumb {
+      background: rgba(70, 53, 40, 0.2);
+      border-radius: 3px;
+    }
+
+    /* Modal Content & Tabs */
+    .survey-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0.6rem;
+      margin-bottom: 1.4rem;
+    }
+    .survey-tab-btn {
+      background: rgba(70, 53, 40, 0.07);
+      border: 1px solid rgba(70, 53, 40, 0.15);
+      color: var(--brown);
+      padding: 0.45rem 1rem;
+      border-radius: 50px;
+      font-size: 0.82rem;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .survey-tab-btn:hover {
+      background: rgba(70, 53, 40, 0.13);
+    }
+    .survey-tab-btn.active {
+      background: var(--honey);
+      border-color: var(--honey);
+      color: var(--white);
+      font-weight: 600;
+      box-shadow: 0 4px 14px rgba(212, 146, 38, 0.35);
+    }
+
+    .survey-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.2rem;
+      border-bottom: 1px solid rgba(70, 53, 40, 0.08);
+      padding-right: 2rem;
+    }
+    .survey-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--honey-light);
+      color: #9E630A;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.35rem 0.9rem;
+      border-radius: 50px;
+      margin-bottom: 0.6rem;
+      letter-spacing: 0.02em;
+    }
+    .survey-header h3 {
+      font-family: var(--font-serif);
+      font-size: 1.55rem;
+      color: var(--brown);
+      margin-bottom: 0.35rem;
+    }
+    .survey-header p {
+      font-size: 0.88rem;
+      color: var(--brown-muted);
+      margin: 0;
+    }
+
+    .survey-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .survey-row-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .survey-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .survey-label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--brown);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      line-height: 1.4;
+    }
+    .survey-label .req {
+      color: #D9483B;
+      font-weight: 700;
+    }
+    .survey-input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1px solid rgba(70, 53, 40, 0.18);
+      border-radius: var(--radius-sm);
+      font-size: 0.92rem;
+      font-family: var(--font-sans);
+      background: #FAFAF7;
+      color: var(--brown);
+      outline: none;
+      transition: all var(--transition);
+      box-sizing: border-box;
+    }
+    .survey-input:focus {
+      border-color: var(--honey);
+      background: var(--white);
+      box-shadow: 0 0 0 3px rgba(212, 146, 38, 0.15);
+    }
+    .survey-options-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.55rem;
+    }
+    .survey-options-grid.grid-2col {
+      grid-template-columns: 1fr 1fr;
+    }
+    .survey-option-label {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.7rem 0.9rem;
+      border: 1.5px solid rgba(70, 53, 40, 0.12);
+      border-radius: var(--radius-sm);
+      background: #FCFBF9;
+      cursor: pointer;
+      font-size: 0.86rem;
+      color: var(--brown-light);
+      transition: all var(--transition);
+      user-select: none;
+      box-sizing: border-box;
+    }
+    .survey-option-label:hover {
+      border-color: var(--sage);
+      background: var(--cream-tint);
+    }
+    .survey-option-label input[type="radio"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border: 1.5px solid rgba(70, 53, 40, 0.35);
+      border-radius: 50%;
+      outline: none;
+      margin: 0;
+      flex-shrink: 0;
+      cursor: pointer;
+      display: grid;
+      place-content: center;
+      transition: all var(--transition);
+    }
+    .survey-option-label input[type="radio"]::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      transform: scale(0);
+      transition: 0.15s transform ease-in-out;
+      background: var(--honey);
+    }
+    .survey-option-label input[type="radio"]:checked {
+      border-color: var(--honey);
+    }
+    .survey-option-label input[type="radio"]:checked::before {
+      transform: scale(1);
+    }
+    .survey-option-label:has(input[type="radio"]:checked) {
+      border-color: var(--honey);
+      background: #FFF9ED;
+      color: var(--brown);
+      font-weight: 500;
+      box-shadow: 0 2px 8px rgba(212, 146, 38, 0.12);
+    }
+    .survey-btn-submit {
+      width: 100%;
+      padding: 1rem;
+      border: none;
+      border-radius: 50px;
+      background: var(--honey);
+      color: var(--white);
+      font-size: 1.02rem;
+      font-weight: 700;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      box-shadow: 0 4px 18px var(--honey-glow);
+      transition: all var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.6rem;
+    }
+    .survey-btn-submit:hover {
+      background: var(--honey-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(212, 146, 38, 0.45);
+    }
+    .survey-alt-zalo {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--brown-muted);
+      margin-top: 0.9rem;
+    }
+    .survey-alt-zalo a {
+      color: var(--sage-dark);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .survey-alt-zalo a:hover {
+      text-decoration: underline;
+    }
+    .survey-success {
+      display: none;
+      text-align: center;
+      padding: 2.2rem 1.5rem;
+    }
+    .survey-success-icon {
+      font-size: 3.2rem;
+      margin-bottom: 0.8rem;
+      display: inline-block;
+    }
+    .survey-success h4 {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      color: var(--forest);
+      margin-bottom: 0.5rem;
+    }
+    .survey-success p {
+      font-size: 0.92rem;
+      color: var(--brown-light);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    .survey-embed-box {
+      display: none;
+      width: 100%;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: var(--white);
+      text-align: center;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .survey-embed-box iframe {
+      width: 100%;
+      min-height: 600px;
+      border: none;
+      border-radius: var(--radius-sm);
+    }
+    .survey-embed-notice {
+      background: #FDF8EE;
+      border: 1px dashed var(--honey);
+      padding: 0.9rem 1.1rem;
+      border-radius: var(--radius-sm);
+      color: var(--brown);
+      font-size: 0.85rem;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+      text-align: left;
+    }
+
+    /* ========================================
        15. FOOTER
     ======================================== */
     .footer {
@@ -1072,6 +1442,11 @@
 
       .products-grid { grid-template-columns: 1fr; max-width: 360px; margin: 0 auto; }
       .cta-form { flex-direction: column; }
+      .survey-modal-dialog { padding: 1.6rem 1.2rem; max-height: 92vh; }
+      .survey-row-2col { grid-template-columns: 1fr; }
+      .survey-options-grid.grid-2col { grid-template-columns: 1fr; }
+      .cta-actions { flex-direction: column; width: 100%; max-width: 320px; margin: 2rem auto 1rem; }
+      .cta-actions .btn, .cta-actions .btn-survey-trigger { width: 100%; box-sizing: border-box; }
       .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
       .floating-cta-label { display: none; }
     }
@@ -1330,6 +1705,13 @@
           </div>
         </div>
       </div>
+
+      <div style="text-align: center; margin-top: 2rem;">
+        <span style="font-size: 0.92rem; color: var(--brown-muted); margin-right: 0.5rem;">Chưa rõ dung tích nào phù hợp với nhu cầu của bạn?</span>
+        <button type="button" onclick="openSurveyModal()" style="background: none; border: none; color: var(--forest); font-weight: 700; font-size: 0.92rem; cursor: pointer; text-decoration: underline; padding: 0.2rem 0.4rem; font-family: var(--font-sans);">
+          Làm khảo sát 30 giây chọn mẻ phù hợp →
+        </button>
+      </div>
     </div>
   </section>
 
@@ -1423,13 +1805,17 @@
         <h2>Bắt đầu chăm ruột nhẹ nhàng</h2>
         <p class="cta-sub">Chai 500ml (40.000đ) · Chai 1 Lít (70.000đ)</p>
         <p>
-          Mỗi tuần Men Lành chỉ ủ các mẻ nhỏ để đảm bảo từng chai kefir tươi đến tay bạn luôn ở độ sung mãn nhất. Nhắn tin cho Men Lành để được tư vấn và giao lạnh trong ngày nhé!
+          Mỗi tuần Men Lành chỉ ủ các mẻ nhỏ để đảm bảo từng chai kefir tươi đến tay bạn luôn ở độ sung mãn nhất. Nhắn tin tư vấn trực tiếp qua Zalo hoặc làm bài khảo sát 30 giây để chọn mẻ tươi phù hợp nhất cho bạn và gia đình nhé!
         </p>
 
-        <div style="margin: 2.2rem 0 1rem;">
-          <a href="https://zalo.me/0934857201" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size: 1.1rem; padding: 1.05rem 2.6rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; box-shadow: 0 8px 24px rgba(212, 146, 38, 0.4);">
-            Tư vấn ngay →
+        <!-- Nút hành động: Giữ nguyên flow Zalo và Nút bấm mở khảo sát riêng biệt -->
+        <div class="cta-actions">
+          <a href="https://zalo.me/0934857201" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size: 1.05rem; padding: 1.05rem 2.4rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; box-shadow: 0 8px 24px rgba(212, 146, 38, 0.4);">
+            💬 Tư vấn ngay qua Zalo →
           </a>
+          <button type="button" class="btn-survey-trigger" onclick="openSurveyModal()">
+            📋 Khảo sát 30s chọn mẻ phù hợp
+          </button>
         </div>
 
         <div class="cta-guarantee">
@@ -1440,6 +1826,136 @@
       </div>
     </div>
   </section>
+
+  <!-- ============================================
+       MODAL DIALOG KHẢO SÁT (POPUP RIÊNG BIỆT)
+  ============================================= -->
+  <div class="survey-modal-overlay" id="surveyModal" role="dialog" aria-modal="true" aria-labelledby="surveyModalTitle">
+    <div class="survey-modal-dialog">
+      <!-- Nút đóng ✕ -->
+      <button type="button" class="survey-modal-close" onclick="closeSurveyModal()" aria-label="Đóng bảng khảo sát">✕</button>
+
+      <!-- Header modal -->
+      <div class="survey-header">
+        <span class="survey-badge">🌱 Khảo sát nhanh 30 giây</span>
+        <h3 id="surveyModalTitle">Để Men Lành hiểu bạn hơn</h3>
+        <p>Chọn nhanh nhu cầu bên dưới để Men Lành tư vấn mẻ tươi phù hợp nhất cho bạn nhé!</p>
+      </div>
+
+      <!-- Tabs chuyển đổi chế độ xem -->
+      <div class="survey-tabs">
+        <button type="button" class="survey-tab-btn active" id="tabCustomBtn" onclick="switchSurveyTab('custom')">✨ Form Men Lành (Tối ưu giao diện)</button>
+        <button type="button" class="survey-tab-btn" id="tabEmbedBtn" onclick="switchSurveyTab('embed')">📋 Nhúng Google Form gốc</button>
+      </div>
+
+      <!-- 1. BẢN FORM THIẾT KẾ RIÊNG (TỰ ĐỘNG GỬI GOOGLE SHEETS) -->
+      <div id="surveyCustomView">
+        <div id="surveySuccess" class="survey-success">
+          <span class="survey-success-icon">🌿</span>
+          <h4>Cảm ơn bạn đã chia sẻ!</h4>
+          <p>Men Lành đã ghi nhận thông tin và sẽ gửi tư vấn chi tiết qua Zalo cho bạn trong ít phút. ♡</p>
+          <a href="https://zalo.me/0934857201" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none;">
+            💬 Mở Zalo trò chuyện ngay →
+          </a>
+        </div>
+
+        <form id="surveyForm" class="survey-form">
+          <!-- Hàng 1: Tên & SĐT/Zalo -->
+          <div class="survey-row-2col">
+            <div class="survey-group">
+              <label class="survey-label" for="surveyName">
+                1. Tên của bạn là gì để Men Lành tiện xưng hô ạ? <span class="req">*</span>
+              </label>
+              <input type="text" id="surveyName" name="entry_name" class="survey-input" placeholder="Ví dụ: Thu Trang, Hoàng Nam..." required>
+            </div>
+
+            <div class="survey-group">
+              <label class="survey-label" for="surveyPhone">
+                2. Số điện thoại / Zalo nhận thông tin tư vấn: <span class="req">*</span>
+              </label>
+              <input type="tel" id="surveyPhone" name="entry_phone" class="survey-input" placeholder="Ví dụ: 0934 857 201..." required>
+            </div>
+          </div>
+
+          <!-- Câu 3: Nhu cầu cải thiện -->
+          <div class="survey-group">
+            <label class="survey-label">
+              3. Điều bạn mong muốn cải thiện nhất khi tìm đến sữa chua Kefir là gì? <span class="req">*</span>
+            </label>
+            <div class="survey-options-grid">
+              <label class="survey-option-label">
+                <input type="radio" name="entry_goal" value="Êm bụng, giảm đầy hơi / khó tiêu / táo bón" required checked>
+                <span>Êm bụng, giảm đầy hơi / khó tiêu / táo bón</span>
+              </label>
+              <label class="survey-option-label">
+                <input type="radio" name="entry_goal" value="Bổ sung lợi khuẩn tự nhiên, tăng đề kháng đường ruột">
+                <span>Bổ sung lợi khuẩn tự nhiên, tăng đề kháng đường ruột</span>
+              </label>
+              <label class="survey-option-label">
+                <input type="radio" name="entry_goal" value="Thanh lọc cơ thể, hỗ trợ sáng da & giữ dáng">
+                <span>Thanh lọc cơ thể, hỗ trợ sáng da & giữ dáng</span>
+              </label>
+              <label class="survey-option-label">
+                <input type="radio" name="entry_goal" value="Tìm sữa chua sạch 100% tự nhiên, không phụ gia cho gia đình">
+                <span>Tìm sữa chua sạch 100% tự nhiên, không phụ gia cho gia đình</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Câu 4: Ai sử dụng -->
+          <div class="survey-group">
+            <label class="survey-label">
+              4. Bạn đang tìm mua Kefir cho ai dùng ạ? <span class="req">*</span>
+            </label>
+            <div class="survey-options-grid grid-2col">
+              <label class="survey-option-label">
+                <input type="radio" name="entry_target" value="Riêng mình bạn sử dụng" required checked>
+                <span>Riêng mình bạn sử dụng</span>
+              </label>
+              <label class="survey-option-label">
+                <input type="radio" name="entry_target" value="Cho cả gia đình (có trẻ nhỏ / người lớn tuổi)">
+                <span>Cho cả gia đình (có trẻ nhỏ / người lớn)</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Câu 5: Dung tích muốn thử -->
+          <div class="survey-group">
+            <label class="survey-label">
+              5. Bạn muốn bắt đầu thử với dung tích nào trước? <span class="req">*</span>
+            </label>
+            <div class="survey-options-grid grid-2col">
+              <label class="survey-option-label">
+                <input type="radio" name="entry_size" value="Chai 500ml (40.000đ — dùng thử cá nhân 2–3 ngày)" required checked>
+                <span>Chai 500ml (40.000đ — 2–3 ngày)</span>
+              </label>
+              <label class="survey-option-label">
+                <input type="radio" name="entry_size" value="Chai 1 Lít (70.000đ — tiết kiệm, đủ cho cả tuần hoặc gia đình)">
+                <span>Chai 1 Lít (70.000đ — cả tuần/gia đình)</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="survey-btn-submit">
+            Gửi khảo sát & Nhận tư vấn qua Zalo →
+          </button>
+
+          <div class="survey-alt-zalo">
+            Hoặc bạn muốn nhắn tin trực tiếp với người ủ men? <a href="https://zalo.me/0934857201" target="_blank" rel="noopener noreferrer">Nhắn Zalo 0934 857 201 ↗</a>
+          </div>
+        </form>
+      </div>
+
+      <!-- 2. BẢN NHÚNG GOOGLE FORM TRỰC TIẾP (IFRAME) -->
+      <div class="survey-embed-box" id="surveyEmbedView">
+        <div class="survey-embed-notice">
+          💡 <strong>Cách nhúng Google Form của bạn:</strong> Sau khi bạn tạo Google Form với 5 câu hỏi trên ➔ Bấm nút <em>Gửi (Send)</em> ➔ Chọn biểu tượng mã nhúng <code>&lt;&gt;</code> ➔ Sao chép link và thay vào thuộc tính <code>src</code> của thẻ <code>&lt;iframe&gt;</code> dưới đây. Dữ liệu khi khách bấm gửi sẽ tự động ghi thẳng vào Google Sheets!
+        </div>
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSc-PLACEHOLDER/viewform?embedded=true" title="Khảo sát nhu cầu Men Lành">Đang tải biểu mẫu...</iframe>
+      </div>
+    </div>
+  </div>
 
   <!-- ============================================
        FOOTER
@@ -1536,6 +2052,87 @@
         }
       });
     });
+
+    // ---- Xử lý Modal Khảo sát (Popup riêng biệt) ----
+    function openSurveyModal() {
+      const modal = document.getElementById('surveyModal');
+      if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeSurveyModal() {
+      const modal = document.getElementById('surveyModal');
+      if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+
+    // Đóng modal khi click vào vùng nền tối mờ
+    window.addEventListener('click', function(e) {
+      const modal = document.getElementById('surveyModal');
+      if (e.target === modal) {
+        closeSurveyModal();
+      }
+    });
+
+    // Đóng modal khi nhấn phím Escape (ESC)
+    window.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeSurveyModal();
+      }
+    });
+
+    // ---- Xử lý chuyển đổi Tab xem Form khảo sát ----
+    function switchSurveyTab(tab) {
+      const customView = document.getElementById('surveyCustomView');
+      const embedView = document.getElementById('surveyEmbedView');
+      const customBtn = document.getElementById('tabCustomBtn');
+      const embedBtn = document.getElementById('tabEmbedBtn');
+
+      if (tab === 'custom') {
+        customView.style.display = 'block';
+        embedView.style.display = 'none';
+        customBtn.classList.add('active');
+        embedBtn.classList.remove('active');
+      } else {
+        customView.style.display = 'none';
+        embedView.style.display = 'block';
+        embedBtn.classList.add('active');
+        customBtn.classList.remove('active');
+      }
+    }
+
+    // ---- Xử lý gửi Form khảo sát ----
+    const surveyForm = document.getElementById('surveyForm');
+    if (surveyForm) {
+      surveyForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const submitBtn = surveyForm.querySelector('.survey-btn-submit');
+        submitBtn.innerHTML = '⏳ Đang gửi thông tin...';
+        submitBtn.disabled = true;
+
+        const formData = new FormData(surveyForm);
+        const surveyData = {
+          name: formData.get('entry_name'),
+          phone: formData.get('entry_phone'),
+          goal: formData.get('entry_goal'),
+          target_user: formData.get('entry_target'),
+          size_preference: formData.get('entry_size'),
+          submitted_at: new Date().toLocaleString('vi-VN')
+        };
+
+        console.log('Men Lành Survey Submitted:', surveyData);
+
+        setTimeout(() => {
+          surveyForm.style.display = 'none';
+          document.getElementById('surveySuccess').style.display = 'block';
+        }, 600);
+      });
+    }
   </script>
 </body>
 </html>
