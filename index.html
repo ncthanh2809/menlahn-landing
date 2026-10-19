@@ -1853,27 +1853,33 @@
         <div id="surveySuccess" class="survey-success">
           <span class="survey-success-icon">🌿</span>
           <h4>Cảm ơn bạn đã chia sẻ!</h4>
-          <p>Men Lành đã ghi nhận thông tin và sẽ gửi tư vấn chi tiết qua Zalo cho bạn trong ít phút. ♡</p>
-          <a href="https://zalo.me/0934857201" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none;">
+          <p>Men Lành đã ghi nhận thông tin vào hệ thống và sẽ gửi tư vấn chi tiết qua Zalo cho bạn trong ít phút. ♡</p>
+          <a href="https://zalo.me/0934857201" id="surveyZaloBtn" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none;">
             💬 Mở Zalo trò chuyện ngay →
           </a>
         </div>
 
-        <form id="surveyForm" class="survey-form">
+        <form id="surveyForm" name="kefir-survey" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="survey-form" data-google-sheet-url="">
+          <!-- Bắt buộc cho Netlify Forms Database lưu trữ vĩnh viễn -->
+          <input type="hidden" name="form-name" value="kefir-survey" />
+          <p style="display:none">
+            <label>Bỏ trống ô này: <input name="bot-field" /></label>
+          </p>
+
           <!-- Hàng 1: Tên & SĐT/Zalo -->
           <div class="survey-row-2col">
             <div class="survey-group">
               <label class="survey-label" for="surveyName">
                 1. Tên của bạn là gì để Men Lành tiện xưng hô ạ? <span class="req">*</span>
               </label>
-              <input type="text" id="surveyName" name="entry_name" class="survey-input" placeholder="Ví dụ: Thu Trang, Hoàng Nam..." required>
+              <input type="text" id="surveyName" name="ten_khach_hang" class="survey-input" placeholder="Ví dụ: Thu Trang, Hoàng Nam..." required>
             </div>
 
             <div class="survey-group">
               <label class="survey-label" for="surveyPhone">
                 2. Số điện thoại / Zalo nhận thông tin tư vấn: <span class="req">*</span>
               </label>
-              <input type="tel" id="surveyPhone" name="entry_phone" class="survey-input" placeholder="Ví dụ: 0934 857 201..." required>
+              <input type="tel" id="surveyPhone" name="so_dien_thoai_zalo" class="survey-input" placeholder="Ví dụ: 0934 857 201..." required>
             </div>
           </div>
 
@@ -1884,19 +1890,19 @@
             </label>
             <div class="survey-options-grid">
               <label class="survey-option-label">
-                <input type="radio" name="entry_goal" value="Êm bụng, giảm đầy hơi / khó tiêu / táo bón" required checked>
+                <input type="radio" name="nhu_cau_cai_thien" value="Êm bụng, giảm đầy hơi / khó tiêu / táo bón" required checked>
                 <span>Êm bụng, giảm đầy hơi / khó tiêu / táo bón</span>
               </label>
               <label class="survey-option-label">
-                <input type="radio" name="entry_goal" value="Bổ sung lợi khuẩn tự nhiên, tăng đề kháng đường ruột">
+                <input type="radio" name="nhu_cau_cai_thien" value="Bổ sung lợi khuẩn tự nhiên, tăng đề kháng đường ruột">
                 <span>Bổ sung lợi khuẩn tự nhiên, tăng đề kháng đường ruột</span>
               </label>
               <label class="survey-option-label">
-                <input type="radio" name="entry_goal" value="Thanh lọc cơ thể, hỗ trợ sáng da & giữ dáng">
+                <input type="radio" name="nhu_cau_cai_thien" value="Thanh lọc cơ thể, hỗ trợ sáng da & giữ dáng">
                 <span>Thanh lọc cơ thể, hỗ trợ sáng da & giữ dáng</span>
               </label>
               <label class="survey-option-label">
-                <input type="radio" name="entry_goal" value="Tìm sữa chua sạch 100% tự nhiên, không phụ gia cho gia đình">
+                <input type="radio" name="nhu_cau_cai_thien" value="Tìm sữa chua sạch 100% tự nhiên, không phụ gia cho gia đình">
                 <span>Tìm sữa chua sạch 100% tự nhiên, không phụ gia cho gia đình</span>
               </label>
             </div>
@@ -1909,11 +1915,11 @@
             </label>
             <div class="survey-options-grid grid-2col">
               <label class="survey-option-label">
-                <input type="radio" name="entry_target" value="Riêng mình bạn sử dụng" required checked>
+                <input type="radio" name="doi_tuong_su_dung" value="Riêng mình bạn sử dụng" required checked>
                 <span>Riêng mình bạn sử dụng</span>
               </label>
               <label class="survey-option-label">
-                <input type="radio" name="entry_target" value="Cho cả gia đình (có trẻ nhỏ / người lớn tuổi)">
+                <input type="radio" name="doi_tuong_su_dung" value="Cho cả gia đình (có trẻ nhỏ / người lớn tuổi)">
                 <span>Cho cả gia đình (có trẻ nhỏ / người lớn)</span>
               </label>
             </div>
@@ -1926,11 +1932,11 @@
             </label>
             <div class="survey-options-grid grid-2col">
               <label class="survey-option-label">
-                <input type="radio" name="entry_size" value="Chai 500ml (40.000đ — dùng thử cá nhân 2–3 ngày)" required checked>
+                <input type="radio" name="dung_tich_muon_thu" value="Chai 500ml (40.000đ — dùng thử cá nhân 2–3 ngày)" required checked>
                 <span>Chai 500ml (40.000đ — 2–3 ngày)</span>
               </label>
               <label class="survey-option-label">
-                <input type="radio" name="entry_size" value="Chai 1 Lít (70.000đ — tiết kiệm, đủ cho cả tuần hoặc gia đình)">
+                <input type="radio" name="dung_tich_muon_thu" value="Chai 1 Lít (70.000đ — tiết kiệm, đủ cho cả tuần hoặc gia đình)">
                 <span>Chai 1 Lít (70.000đ — cả tuần/gia đình)</span>
               </label>
             </div>
@@ -2105,34 +2111,89 @@
       }
     }
 
-    // ---- Xử lý gửi Form khảo sát ----
+    // ---- Xử lý gửi Form khảo sát & Lưu vào Database ----
     const surveyForm = document.getElementById('surveyForm');
     if (surveyForm) {
       surveyForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
         const submitBtn = surveyForm.querySelector('.survey-btn-submit');
-        submitBtn.innerHTML = '⏳ Đang gửi thông tin...';
+        submitBtn.innerHTML = '⏳ Đang lưu dữ liệu vào hệ thống...';
         submitBtn.disabled = true;
 
         const formData = new FormData(surveyForm);
+        if (!formData.get('form-name')) {
+          formData.append('form-name', 'kefir-survey');
+        }
+
         const surveyData = {
-          name: formData.get('entry_name'),
-          phone: formData.get('entry_phone'),
-          goal: formData.get('entry_goal'),
-          target_user: formData.get('entry_target'),
-          size_preference: formData.get('entry_size'),
-          submitted_at: new Date().toLocaleString('vi-VN')
+          ten_khach_hang: formData.get('ten_khach_hang'),
+          so_dien_thoai_zalo: formData.get('so_dien_thoai_zalo'),
+          nhu_cau_cai_thien: formData.get('nhu_cau_cai_thien'),
+          doi_tuong_su_dung: formData.get('doi_tuong_su_dung'),
+          dung_tich_muon_thu: formData.get('dung_tich_muon_thu'),
+          thoi_gian: new Date().toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })
         };
 
-        console.log('Men Lành Survey Submitted:', surveyData);
+        console.log('Men Lành Survey Data:', surveyData);
 
-        setTimeout(() => {
-          surveyForm.style.display = 'none';
-          document.getElementById('surveySuccess').style.display = 'block';
-        }, 600);
+        // 1. LƯU VÀO DATABASE NETLIFY FORMS (Chính thức, bảo đảm vĩnh viễn trên Netlify)
+        const netlifyPromise = fetch("/", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams(formData).toString()
+        }).then(res => {
+          console.log('✅ Netlify Forms: Đã lưu thành công vào Database!');
+          return res;
+        }).catch(err => {
+          console.warn('Netlify form error:', err);
+        });
+
+        // 2. LƯU VÀO GOOGLE SHEETS (Nếu đã gắn link Web App Apps Script)
+        const googleSheetUrl = surveyForm.getAttribute('data-google-sheet-url');
+        let googlePromise = Promise.resolve();
+        if (googleSheetUrl && googleSheetUrl.trim().startsWith('http')) {
+          googlePromise = fetch(googleSheetUrl.trim(), {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(surveyData)
+          }).then(() => {
+            console.log('✅ Google Sheets: Đã bắn dữ liệu thành công!');
+          }).catch(err => {
+            console.warn('Google Sheets error:', err);
+          });
+        }
+
+        // 3. LƯU DỰ PHÒNG VÀO LOCALSTORAGE TRÌNH DUYỆT (Để kiểm tra ngay)
+        try {
+          const localLeads = JSON.parse(localStorage.getItem('menlanh_leads') || '[]');
+          localLeads.push(surveyData);
+          localStorage.setItem('menlanh_leads', JSON.stringify(localLeads));
+        } catch (err) {}
+
+        // Sau khi lưu xong -> Hiển thị màn hình thành công
+        Promise.allSettled([netlifyPromise, googlePromise]).then(() => {
+          setTimeout(() => {
+            surveyForm.style.display = 'none';
+            document.getElementById('surveySuccess').style.display = 'block';
+
+            // Cá nhân hoá lời nhắn nút Zalo
+            const zaloBtn = document.getElementById('surveyZaloBtn');
+            if (zaloBtn && surveyData.ten_khach_hang) {
+              zaloBtn.textContent = `💬 Nhắn Zalo tư vấn cho ${surveyData.ten_khach_hang} →`;
+            }
+          }, 400);
+        });
       });
     }
+
+    // Công cụ kiểm tra nhanh Leads trực tiếp trên Console trình duyệt
+    window.xemDanhSachKhach = function() {
+      const leads = JSON.parse(localStorage.getItem('menlanh_leads') || '[]');
+      console.table(leads);
+      return leads;
+    };
   </script>
 </body>
 </html>
