@@ -1859,7 +1859,7 @@
           </a>
         </div>
 
-        <form id="surveyForm" name="kefir-survey" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="survey-form" data-google-sheet-url="">
+        <form id="surveyForm" name="kefir-survey" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="survey-form" data-google-sheet-url="https://script.google.com/macros/s/AKfycbxhnAJpclTyJQiBqHHoDsRMC0SnSH_v1qM8sIndqixCSzPe_x0a7ws-hcGCmSt4Ka64Xg/exec">
           <!-- Bắt buộc cho Netlify Forms Database lưu trữ vĩnh viễn -->
           <input type="hidden" name="form-name" value="kefir-survey" />
           <p style="display:none">
@@ -2149,21 +2149,18 @@
           console.warn('Netlify form error:', err);
         });
 
-        // 2. LƯU VÀO GOOGLE SHEETS (Nếu đã gắn link Web App Apps Script)
-        const googleSheetUrl = surveyForm.getAttribute('data-google-sheet-url');
-        let googlePromise = Promise.resolve();
-        if (googleSheetUrl && googleSheetUrl.trim().startsWith('http')) {
-          googlePromise = fetch(googleSheetUrl.trim(), {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(surveyData)
-          }).then(() => {
-            console.log('✅ Google Sheets: Đã bắn dữ liệu thành công!');
-          }).catch(err => {
-            console.warn('Google Sheets error:', err);
-          });
-        }
+        // 2. LƯU TỰ ĐỘNG VÀO GOOGLE SHEETS
+        const GOOGLE_SHEETS_URL = surveyForm.getAttribute('data-google-sheet-url') || "https://script.google.com/macros/s/AKfycbxhnAJpclTyJQiBqHHoDsRMC0SnSH_v1qM8sIndqixCSzPe_x0a7ws-hcGCmSt4Ka64Xg/exec";
+        const googlePromise = fetch(GOOGLE_SHEETS_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(surveyData)
+        }).then(() => {
+          console.log('✅ Google Sheets: Đã đồng bộ dữ liệu vào Google Sheets thành công!');
+        }).catch(err => {
+          console.warn('Google Sheets error:', err);
+        });
 
         // 3. LƯU DỰ PHÒNG VÀO LOCALSTORAGE TRÌNH DUYỆT (Để kiểm tra ngay)
         try {
