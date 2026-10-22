@@ -1415,6 +1415,420 @@
       .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
       .floating-cta-label { display: none; }
     }
+
+    /* ========================================
+       17. MINI CHATBOT WIDGET (MEN LÀNH)
+    ======================================== */
+    .chatbot-launcher {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 998;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--forest);
+      color: var(--white);
+      padding: 0.65rem 1.15rem 0.65rem 0.75rem;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 10px 28px rgba(44, 74, 46, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      user-select: none;
+    }
+    .chatbot-launcher:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 14px 34px rgba(44, 74, 46, 0.45);
+      background: #233c25;
+    }
+    .chatbot-launcher-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.14);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      position: relative;
+    }
+    .chatbot-pulse-dot {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 12px;
+      height: 12px;
+      background: #52c41a;
+      border-radius: 50%;
+      border: 2px solid var(--forest);
+      animation: pulseGreen 2s infinite;
+    }
+    @keyframes pulseGreen {
+      0% { box-shadow: 0 0 0 0 rgba(82, 196, 26, 0.7); }
+      70% { box-shadow: 0 0 0 8px rgba(82, 196, 26, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(82, 196, 26, 0); }
+    }
+    .chatbot-launcher-text {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+    .chatbot-launcher-text .title {
+      font-weight: 700;
+      font-size: 0.88rem;
+      letter-spacing: -0.01em;
+      color: var(--white);
+    }
+    .chatbot-launcher-text .status {
+      font-size: 0.72rem;
+      color: #D3E4D1;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .chatbot-launcher-text .status::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #52c41a;
+    }
+
+    /* Khung Chat */
+    .chatbot-window {
+      position: fixed;
+      bottom: 88px;
+      right: 24px;
+      width: 380px;
+      max-width: calc(100vw - 32px);
+      height: 550px;
+      max-height: calc(100vh - 110px);
+      background: var(--white);
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(44, 74, 46, 0.25), 0 4px 16px rgba(0,0,0,0.06);
+      border: 1px solid rgba(90, 125, 86, 0.2);
+      z-index: 999;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      animation: chatPopupFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .chatbot-window.active {
+      display: flex;
+    }
+    @keyframes chatPopupFadeIn {
+      from { opacity: 0; transform: translateY(16px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Header Chat */
+    .chatbot-header {
+      background: linear-gradient(135deg, var(--forest) 0%, #365B38 100%);
+      color: var(--white);
+      padding: 0.95rem 1.15rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .chatbot-header-info {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .chatbot-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      border: 2px solid var(--sage-light);
+    }
+    .chatbot-header-text h4 {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--white);
+      margin: 0;
+      line-height: 1.2;
+    }
+    .chatbot-header-text p {
+      font-size: 0.72rem;
+      color: #D3E4D1;
+      margin: 0.15rem 0 0;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .chatbot-header-text p::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #52c41a;
+    }
+    .chatbot-close-btn {
+      background: rgba(255, 255, 255, 0.12);
+      border: none;
+      color: var(--white);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+    .chatbot-close-btn:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Khu vực tin nhắn */
+    .chatbot-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      background: #FAF8F5;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      scroll-behavior: smooth;
+    }
+    .chatbot-message {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      max-width: 86%;
+      animation: messageSlideIn 0.25s ease-out;
+    }
+    @keyframes messageSlideIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .chatbot-message.bot {
+      align-self: flex-start;
+    }
+    .chatbot-message.user {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+    .chatbot-msg-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .chatbot-msg-bubble {
+      padding: 0.75rem 0.95rem;
+      border-radius: 14px;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      word-break: break-word;
+    }
+    .chatbot-message.bot .chatbot-msg-bubble {
+      background: var(--white);
+      color: var(--brown);
+      border: 1px solid rgba(90, 125, 86, 0.12);
+      border-top-left-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    }
+    .chatbot-message.user .chatbot-msg-bubble {
+      background: var(--forest);
+      color: var(--white);
+      border-top-right-radius: 4px;
+    }
+
+    /* Thẻ CTA mua hàng trong chat */
+    .chatbot-cta-box {
+      margin-top: 0.75rem;
+      background: #FDF9EE;
+      border: 1px dashed var(--honey);
+      border-radius: 12px;
+      padding: 0.85rem;
+      text-align: center;
+    }
+    .chatbot-cta-box h5 {
+      font-family: var(--font-serif);
+      color: var(--forest);
+      font-size: 0.98rem;
+      margin: 0 0 0.4rem;
+    }
+    .chatbot-cta-box p {
+      font-size: 0.8rem;
+      color: var(--brown);
+      line-height: 1.45;
+      margin-bottom: 0.75rem;
+    }
+    .btn-chat-action {
+      display: block;
+      width: 100%;
+      background: var(--honey);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 0.86rem;
+      padding: 0.65rem 0.8rem;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(212, 146, 38, 0.35);
+      transition: all 0.2s;
+      margin-bottom: 0.4rem;
+      box-sizing: border-box;
+      text-decoration: none;
+    }
+    .btn-chat-action:hover {
+      background: var(--honey-hover);
+      transform: translateY(-1px);
+    }
+    .btn-chat-subaction {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      font-size: 0.78rem;
+      color: var(--forest);
+      text-decoration: underline;
+      font-weight: 600;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0.2rem;
+    }
+
+    /* Gợi ý câu hỏi nhanh (Chips) */
+    .chatbot-suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.4rem;
+    }
+    .chat-chip {
+      background: var(--white);
+      border: 1px solid var(--sage-light);
+      color: var(--forest);
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 0.4rem 0.75rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .chat-chip:hover {
+      background: var(--sage-light);
+      color: var(--forest);
+      border-color: var(--sage);
+      transform: translateY(-1px);
+    }
+    .chat-chip.highlight {
+      background: #FDF4E5;
+      border-color: var(--honey);
+      color: var(--brown);
+      font-weight: 600;
+    }
+
+    /* Typing indicator */
+    .chatbot-typing {
+      display: none;
+      align-items: center;
+      gap: 4px;
+      padding: 0.5rem 0.8rem;
+      background: var(--white);
+      border-radius: 14px;
+      border-top-left-radius: 4px;
+      width: fit-content;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .chatbot-typing span {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--sage);
+      animation: typingBounce 1.4s infinite ease-in-out;
+    }
+    .chatbot-typing span:nth-child(2) { animation-delay: 0.2s; }
+    .chatbot-typing span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typingBounce {
+      0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+      40% { transform: scale(1.1); opacity: 1; }
+    }
+
+    /* Footer nhập tin nhắn */
+    .chatbot-footer {
+      padding: 0.75rem 0.95rem;
+      background: var(--white);
+      border-top: 1px solid rgba(90, 125, 86, 0.12);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .chatbot-input {
+      flex: 1;
+      border: 1px solid rgba(90, 125, 86, 0.25);
+      border-radius: 50px;
+      padding: 0.6rem 0.95rem;
+      font-size: 0.86rem;
+      font-family: var(--font-sans);
+      color: var(--brown);
+      background: #FAF8F5;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .chatbot-input:focus {
+      border-color: var(--sage);
+      background: var(--white);
+      box-shadow: 0 0 0 2px rgba(90, 125, 86, 0.12);
+    }
+    .chatbot-send-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--forest);
+      color: var(--white);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .chatbot-send-btn:hover {
+      background: #233c25;
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 600px) {
+      .chatbot-launcher {
+        bottom: 16px;
+        right: 16px;
+        padding: 0.55rem 0.9rem 0.55rem 0.65rem;
+      }
+      .chatbot-launcher-text .status { display: none; }
+      .chatbot-window {
+        bottom: 80px;
+        right: 12px;
+        width: calc(100vw - 24px);
+        height: 72vh;
+        max-height: 520px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1973,7 +2387,70 @@
     </div>
   </footer>
 
+  <!-- ============================================
+       MINI CHATBOT WIDGET (MEN LÀNH)
+  ============================================= -->
+  <!-- Nút bấm nổi mở chatbot -->
+  <div class="chatbot-launcher" id="chatbotLauncher" onclick="toggleChatbot()" title="Chat tư vấn mẻ tươi Men Lành">
+    <div class="chatbot-launcher-icon">
+      <span>🌿</span>
+      <span class="chatbot-pulse-dot"></span>
+    </div>
+    <div class="chatbot-launcher-text">
+      <span class="title">Tư vấn mẻ tươi</span>
+      <span class="status">Đang trực tuyến</span>
+    </div>
+  </div>
 
+  <!-- Cửa sổ Chatbot -->
+  <div class="chatbot-window" id="chatbotWindow" role="dialog" aria-label="Khung chat tư vấn Men Lành">
+    <!-- Header -->
+    <div class="chatbot-header">
+      <div class="chatbot-header-info">
+        <div class="chatbot-avatar">🌿</div>
+        <div class="chatbot-header-text">
+          <h4>Men Lành</h4>
+          <p>Tư vấn mẻ tươi · Phản hồi ngay</p>
+        </div>
+      </div>
+      <button type="button" class="chatbot-close-btn" onclick="toggleChatbot()" aria-label="Đóng chat">✕</button>
+    </div>
+
+    <!-- Khung tin nhắn -->
+    <div class="chatbot-body" id="chatbotMessages">
+      <!-- Tin nhắn chào mở đầu theo sales_script.md -->
+      <div class="chatbot-message bot">
+        <div class="chatbot-msg-avatar">🌿</div>
+        <div class="chatbot-msg-bubble">
+          Dạ Men Lành chào bạn nhé! 🌿 Cảm ơn bạn đã ghé thăm góc nhỏ của tụi mình.<br><br>
+          Hôm nay tụi mình vừa ủ xong một mẻ Kefir tươi chuẩn độ chín, vị thanh êm lắm. Bạn đang tìm sữa chua Kefir để cải thiện cái bụng hay tìm cho cả gia đình dùng vậy ạ?
+        </div>
+      </div>
+
+      <!-- Gợi ý câu hỏi nhanh ban đầu -->
+      <div class="chatbot-suggestions" id="chatInitialSuggestions">
+        <button type="button" class="chat-chip highlight" onclick="handleChipClick('mua_hang')">🛒 Đặt mẻ tươi hôm nay</button>
+        <button type="button" class="chat-chip" onclick="handleChipClick('kefir_la_gi')">❓ Kefir khác gì sữa chua thường?</button>
+        <button type="button" class="chat-chip" onclick="handleChipClick('vi_chua')">😋 Vị có bị chua gắt không?</button>
+        <button type="button" class="chat-chip" onclick="handleChipClick('gia_dung_tich')">💰 Giá & dung tích chai?</button>
+        <button type="button" class="chat-chip" onclick="handleChipClick('da_day')">😮‍💨 Đau dạ dày có uống được không?</button>
+        <button type="button" class="chat-chip" onclick="handleChipClick('lactose')">🥛 Không uống được sữa tươi?</button>
+        <button type="button" class="chat-chip" onclick="handleChipClick('tre_em')">👶 Bé táo bón có dùng được không?</button>
+        <button type="button" class="chat-chip" onclick="handleChipClick('khao_sat')">🌱 Làm khảo sát nhận tư vấn</button>
+      </div>
+
+      <!-- Typing animation -->
+      <div class="chatbot-typing" id="chatbotTyping">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <!-- Ô gõ tin nhắn -->
+    <form class="chatbot-footer" id="chatbotInputForm" onsubmit="handleChatSubmit(event)">
+      <input type="text" id="chatbotInput" class="chatbot-input" placeholder="Hỏi Men Lành điều bạn thắc mắc..." autocomplete="off">
+      <button type="submit" class="chatbot-send-btn" aria-label="Gửi tin nhắn">➤</button>
+    </form>
+  </div>
 
   <!-- ============================================
        JAVASCRIPT
@@ -2139,6 +2616,255 @@
       console.table(leads);
       return leads;
     };
+
+    // ============================================
+    // LOGIC CHATBOT TƯ VẤN MEN LÀNH (THEO SALES_SCRIPT.MD)
+    // ============================================
+    const chatbotWindow = document.getElementById('chatbotWindow');
+    const chatbotMessages = document.getElementById('chatbotMessages');
+    const chatbotInput = document.getElementById('chatbotInput');
+    const chatbotTyping = document.getElementById('chatbotTyping');
+
+    function toggleChatbot() {
+      if (!chatbotWindow) return;
+      chatbotWindow.classList.toggle('active');
+      if (chatbotWindow.classList.contains('active')) {
+        setTimeout(() => {
+          if (chatbotInput) chatbotInput.focus();
+          scrollChatToBottom();
+        }, 150);
+      }
+    }
+
+    // Mở form khảo sát / danh sách chờ từ chatbot
+    function openSurveyModalFromChat() {
+      if (chatbotWindow) chatbotWindow.classList.remove('active');
+      openSurveyModal();
+    }
+
+    function scrollChatToBottom() {
+      if (chatbotMessages) {
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+      }
+    }
+
+    // Cơ sở tri thức chatbot chuẩn sales_script.md
+    const CHAT_RESPONSES = {
+      mua_hang: {
+        text: `Dạ tuyệt vời quá! Hôm nay Men Lành đang có mẻ tươi vừa ủ xong chuẩn độ chín, thơm ngậy nhẹ và vị rất thanh êm. 🌿<br><br>
+Tụi mình giao lạnh trong ngày kèm đá gel để đảm bảo lợi khuẩn sống khỏe nhất đến tận tay bạn. Bạn bấm vào nút bên dưới để điền nhanh thông tin vào <strong>Danh sách đăng ký mẻ tươi</strong> nhé:`,
+        cta: {
+          title: "✨ Đăng ký nhận mẻ tươi Men Lành",
+          desc: "Điền nhanh 30 giây để tụi mình giữ mẻ ủ tươi mới và tư vấn liều lượng phù hợp nhất cho bạn:",
+          btnText: "📋 Mở form danh sách mẻ tươi →",
+          action: "openSurveyModalFromChat()",
+          zaloText: "💬 Hoặc nhắn Zalo đặt nhanh: 0934 857 201 →"
+        }
+      },
+      kefir_la_gi: {
+        text: `Dạ, cùng mang tiếng là "sữa chua" nhưng Kefir khác biệt rất nhiều so với sữa chua công nghiệp bạn nha:<br><br>
+• <strong>Sữa chua siêu thị:</strong> Thường chỉ có 1–2 chủng men công nghiệp, qua xử lý nhiệt và thêm nhiều đường tinh luyện cùng chất làm dày (gelatin) để để được lâu.<br>
+• <strong>Kefir Men Lành:</strong> Lên men tự nhiên từ <strong>hạt nấm Kefir sống cổ truyền</strong> với hơn 30–50 chủng lợi khuẩn phong phú. Sữa sánh mịn tự nhiên, 100% không đường hóa học.<br><br>
+Nó giống như một ly men vi sinh tươi mỗi sáng, đưa lợi khuẩn sống đi thẳng vào đường ruột giúp bụng nhẹ nhõm, êm ru mà không cần kiêng khem detox cực đoan ạ! ♡`
+      },
+      vi_chua: {
+        text: `Dạ đây là điều mà ai chuẩn bị uống Kefir cũng lo nhất luôn! 😅<br><br>
+Nhiều nơi làm số lượng lớn để kho lạnh cả tuần nên men tiếp tục sinh chua gắt, uống rất xót dạ dày. Nhưng Men Lành chuyên <strong>ủ mẻ tươi thủ công mỗi ngày</strong> — tụi mình canh đúng thời điểm men "chín tới" để sữa thơm ngậy béo, sánh mịn và chỉ chua thanh dịu nhẹ thôi.<br><br>
+Cả các bé nhỏ và người lớn tuổi trong nhà đều uống rất ngon miệng ngay từ ngụm đầu tiên ạ!`
+      },
+      gia_dung_tich: {
+        text: `Dạ Men Lành có 2 dung tích ủ tươi mỗi ngày để bạn lựa chọn:<br><br>
+🍶 <strong>Chai 500ml — 40.000đ:</strong> Vừa vặn cho 1 người uống thử làm quen trong 2–3 ngày (~150ml/ngày).<br>
+🍼 <strong>Chai 1 Lít (1.000ml) — 70.000đ:</strong> <em>(Tiết kiệm nhất & bán chạy nhất)</em> — Đủ uống cả tuần hoặc cho cả gia đình 2–4 người cùng chăm sóc đường ruột.<br><br>
+Bạn muốn trải nghiệm thử chai 500ml trước hay lấy chai 1 Lít tiết kiệm luôn ạ?`,
+        cta: {
+          title: "🌱 Giữ mẻ tươi chiều nay",
+          desc: "Bạn có thể để lại thông tin để Men Lành chuẩn bị mẻ tươi ủ vừa tới gửi cho bạn:",
+          btnText: "📋 Đăng ký nhận mẻ tươi ngay →",
+          action: "openSurveyModalFromChat()",
+          zaloText: "💬 Hoặc tư vấn trực tiếp qua Zalo →"
+        }
+      },
+      da_day: {
+        text: `Dạ người bị trào ngược, đau dạ dày hay đại tràng lại càng rất nên uống Kefir bạn nhé! 🌿<br><br>
+Hàng tỷ lợi khuẩn sống trong Kefir giúp ức chế vi khuẩn có hại và làm dịu niêm mạc ruột. Mẻ tươi Men Lành được canh dừng ủ khi vị còn rất thanh dịu, hoàn toàn không gây cồn cào xót ruột.<br><br>
+<strong>Cách uống êm nhất:</strong> Bạn uống sau khi ăn no khoảng 30 phút, bắt đầu từ 50–70ml/ngày để bụng làm quen. Sau 4–5 ngày bạn sẽ cảm nhận bụng nhẹ tênh, giảm hẳn ợ hơi và nóng rát ạ!`
+      },
+      lactose: {
+        text: `Dạ bạn yên tâm 100% nha! Bụng sôi ùng ục hay tiêu chảy khi uống sữa bò là do thiếu men tiêu hóa đường Lactose.<br><br>
+Trong quá trình lên men tự nhiên 24 giờ, hạt nấm men Kefir đã <strong>phân giải đến 99% lượng lactose</strong> này rồi. Do đó, người bất dung nạp lactose uống Kefir Men Lành bụng vẫn êm re, không hề bị đau bụng đâu ạ!`
+      },
+      tre_em: {
+        text: `Dạ bé từ 1 tuổi trở lên là uống Kefir cực kỳ tốt luôn bạn ơi! 👶<br><br>
+Nhiều mẹ bỉm tâm sự bé lười ăn rau, táo bón quấy khóc mỗi lần đi tiêu. Mẹ trộn 50ml Kefir Men Lành với chuối chín hoặc dầm xoài xế chiều, bé mê tít ăn hết veo. Lợi khuẩn tự nhiên giúp phân mềm xốp và kích thích hệ tiêu hóa non nớt của bé.<br><br>
+Sau khoảng 4–5 ngày là bé đi ngoài trơn tru, không còn đau rát hay sợ đi vệ sinh nữa ạ!`
+      },
+      bao_quan: {
+        text: `Dạ chai bảo quản ngăn mát tủ lạnh (2°C – 6°C) được <strong>10 – 14 ngày</strong> bạn nha. Ngon nhất trong 5–7 ngày đầu khi vị chua còn thanh ngọt êm dịu nhất.<br><br>
+💡 <strong>Mẹo nhỏ:</strong> Nếu thấy có lớp nước vàng trong tách ở đáy chai thì đó là nước váng sữa (Whey Kefir) tự nhiên cực giàu protein, không phải bị hỏng đâu ạ. Bạn chỉ cần <strong>lắc đều chai</strong> trước khi rót là sữa lại sánh mịn như mới nha!`
+      },
+      khao_sat: {
+        text: `Dạ vâng bạn nè! Sức khỏe đường ruột là trên hết, bạn cứ thong thả tìm hiểu cho an tâm nha. ♡<br><br>
+Men Lành có một bảng khảo sát ngắn 30 giây giúp bạn kiểm tra tình trạng bụng (đầy hơi, khó tiêu, táo bón hay dạ dày nhạy cảm) hợp với mẻ tươi nào nhất. Bạn bấm vào nút bên dưới để làm thử nha:`,
+        cta: {
+          title: "🌱 Khảo sát 30 giây Men Lành",
+          desc: "Chọn nhanh nhu cầu để người ủ men tư vấn mẻ tươi và lộ trình êm bụng cho bạn:",
+          btnText: "📋 Mở bảng khảo sát nhu cầu →",
+          action: "openSurveyModalFromChat()",
+          zaloText: "💬 Nhắn Zalo với người ủ men →"
+        }
+      }
+    };
+
+    function appendUserMessage(text) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'chatbot-message user';
+      msgDiv.innerHTML = `<div class="chatbot-msg-bubble">${escapeHtml(text)}</div>`;
+      if (chatbotTyping && chatbotMessages.contains(chatbotTyping)) {
+        chatbotMessages.insertBefore(msgDiv, chatbotTyping);
+      } else {
+        chatbotMessages.appendChild(msgDiv);
+      }
+      scrollChatToBottom();
+    }
+
+    function appendBotMessage(htmlContent, ctaObj) {
+      if (chatbotTyping) chatbotTyping.style.display = 'flex';
+      scrollChatToBottom();
+
+      setTimeout(() => {
+        if (chatbotTyping) chatbotTyping.style.display = 'none';
+
+        const msgDiv = document.createElement('div');
+        msgDiv.className = 'chatbot-message bot';
+        
+        let ctaHtml = '';
+        if (ctaObj) {
+          ctaHtml = `
+            <div class="chatbot-cta-box">
+              <h5>${ctaObj.title}</h5>
+              <p>${ctaObj.desc}</p>
+              <button type="button" class="btn-chat-action" onclick="${ctaObj.action}">${ctaObj.btnText}</button>
+              <a href="https://zalo.me/0934857201" target="_blank" rel="noopener noreferrer" class="btn-chat-subaction">${ctaObj.zaloText || '💬 Nhắn tin Zalo trực tiếp →'}</a>
+            </div>
+          `;
+        }
+
+        msgDiv.innerHTML = `
+          <div class="chatbot-msg-avatar">🌿</div>
+          <div class="chatbot-msg-bubble">
+            ${htmlContent}
+            ${ctaHtml}
+          </div>
+        `;
+
+        if (chatbotTyping && chatbotMessages.contains(chatbotTyping)) {
+          chatbotMessages.insertBefore(msgDiv, chatbotTyping);
+        } else {
+          chatbotMessages.appendChild(msgDiv);
+        }
+        scrollChatToBottom();
+      }, 350);
+    }
+
+    function handleChipClick(key) {
+      const resp = CHAT_RESPONSES[key];
+      if (!resp) return;
+
+      const chipLabels = {
+        mua_hang: "Tôi muốn đặt mẻ tươi hôm nay",
+        kefir_la_gi: "Kefir khác gì sữa chua thường?",
+        vi_chua: "Vị Kefir có bị chua gắt không?",
+        gia_dung_tich: "Giá & dung tích chai bao nhiêu?",
+        da_day: "Đau dạ dày / trào ngược có uống được không?",
+        lactose: "Tôi không uống được sữa tươi bò?",
+        tre_em: "Bé nhỏ táo bón có dùng được không?",
+        khao_sat: "Tôi muốn làm khảo sát tư vấn"
+      };
+      appendUserMessage(chipLabels[key] || "Tư vấn giúp tôi");
+      appendBotMessage(resp.text, resp.cta);
+    }
+
+    function handleChatSubmit(e) {
+      e.preventDefault();
+      if (!chatbotInput) return;
+      const q = chatbotInput.value.trim();
+      if (!q) return;
+
+      appendUserMessage(q);
+      chatbotInput.value = '';
+
+      const lower = q.toLowerCase();
+
+      // Nhận diện ý định mua / đặt hàng -> Mở danh sách chờ
+      if (lower.includes('mua') || lower.includes('đặt') || lower.includes('order') || lower.includes('ship') || lower.includes('1 lít') || lower.includes('500ml') || lower.includes('danh sách') || lower.includes('chờ') || lower.includes('lấy')) {
+        appendBotMessage(CHAT_RESPONSES.mua_hang.text, CHAT_RESPONSES.mua_hang.cta);
+        return;
+      }
+
+      // Nhận diện giá / bao nhiêu
+      if (lower.includes('giá') || lower.includes('nhiêu tiền') || lower.includes('bao nhiêu') || lower.includes('dung tích')) {
+        appendBotMessage(CHAT_RESPONSES.gia_dung_tich.text, CHAT_RESPONSES.gia_dung_tich.cta);
+        return;
+      }
+
+      // Nhận diện vị chua
+      if (lower.includes('chua') || lower.includes('khó uống') || lower.includes('vị') || lower.includes('ngon')) {
+        appendBotMessage(CHAT_RESPONSES.vi_chua.text);
+        return;
+      }
+
+      // Nhận diện dạ dày, trào ngược
+      if (lower.includes('dạ dày') || lower.includes('trào ngược') || lower.includes('bao tử') || lower.includes('đại tràng') || lower.includes('xót ruột') || lower.includes('bụng yếu')) {
+        appendBotMessage(CHAT_RESPONSES.da_day.text);
+        return;
+      }
+
+      // Nhận diện lactose, sữa bò
+      if (lower.includes('lactose') || lower.includes('sữa bò') || lower.includes('sữa tươi') || lower.includes('tiêu chảy') || lower.includes('sôi bụng')) {
+        appendBotMessage(CHAT_RESPONSES.lactose.text);
+        return;
+      }
+
+      // Nhận diện trẻ em, bé nhỏ
+      if (lower.includes('bé') || lower.includes('trẻ em') || lower.includes('con nít') || lower.includes('cho con') || lower.includes('mẹ bầu')) {
+        appendBotMessage(CHAT_RESPONSES.tre_em.text);
+        return;
+      }
+
+      // Nhận diện kefir là gì, siêu thị
+      if (lower.includes('kefir là gì') || lower.includes('siêu thị') || lower.includes('khác gì')) {
+        appendBotMessage(CHAT_RESPONSES.kefir_la_gi.text);
+        return;
+      }
+
+      // Nhận diện bảo quản, hạn dùng, tách nước
+      if (lower.includes('bảo quản') || lower.includes('tủ lạnh') || lower.includes('hạn dùng') || lower.includes('bao lâu') || lower.includes('tách nước') || lower.includes('nước vàng')) {
+        appendBotMessage(CHAT_RESPONSES.bao_quan.text);
+        return;
+      }
+
+      // Nhận diện khảo sát, suy nghĩ thêm, hỏi người nhà
+      if (lower.includes('suy nghĩ') || lower.includes('hỏi') || lower.includes('chưa') || lower.includes('khảo sát') || lower.includes('tư vấn')) {
+        appendBotMessage(CHAT_RESPONSES.khao_sat.text, CHAT_RESPONSES.khao_sat.cta);
+        return;
+      }
+
+      // Phản hồi tự nhiên mặc định
+      const defaultText = `Dạ Men Lành đã ghi nhận câu hỏi của bạn rồi ạ! ♡<br><br>
+Để người ủ men tư vấn thật sát với nhu cầu và thể trạng bụng của bạn, bạn có thể bấm vào nút bên dưới để điền form danh sách tư vấn, hoặc nhắn tin trực tiếp qua Zalo với tụi mình nhé:`;
+      appendBotMessage(defaultText, {
+        title: "🌿 Nhận tư vấn trực tiếp từ Men Lành",
+        desc: "Chọn nhanh 30 giây để tụi mình xem xét thể trạng và gợi ý mẻ tươi phù hợp nhất cho bạn:",
+        btnText: "📋 Điền form nhận tư vấn & mẻ tươi →",
+        action: "openSurveyModalFromChat()",
+        zaloText: "💬 Nhắn Zalo: 0934 857 201 →"
+      });
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
   </script>
 </body>
 </html>
