@@ -2693,19 +2693,7 @@
 
         <div class="sepay-quick-actions">
           <button type="button" class="sepay-save-btn" id="modalSaveQrBtn" onclick="saveModalQrImage()">⬇️ Lưu ảnh QR về máy</button>
-        </div>
-
-        <div class="sepay-deeplink-box">
-          <div class="sepay-deeplink-title">⚡ Mở nhanh app ngân hàng (1 chạm trên điện thoại)</div>
-          <div class="sepay-deeplink-sub">Tự điền sẵn STK, số tiền &amp; nội dung — bạn chỉ cần bấm xác nhận.</div>
-          <div class="sepay-bank-chips" id="modalBankChips"></div>
-          <div class="sepay-bank-other">
-            <select class="sepay-bank-select" id="modalBankSelect" aria-label="Chọn ngân hàng khác">
-              <option value="">Chọn ngân hàng khác...</option>
-            </select>
-            <button type="button" class="sepay-bank-open-btn" onclick="openModalSelectedBank()">Mở app →</button>
-          </div>
-          <div class="sepay-tip-note">Nếu mở từ Facebook/Zalo bị chặn mở app, bạn bấm <strong>Lưu ảnh QR</strong> ở trên rồi chọn ảnh trong app ngân hàng nhé.</div>
+          <div class="sepay-tip-note" style="margin-top: 0.45rem;">Trên điện thoại: bấm <strong>Lưu ảnh QR</strong> → mở app ngân hàng → chọn ảnh vừa lưu để quét (tự điền đủ STK, số tiền &amp; mã đơn).</div>
         </div>
 
         <div id="sepayStatusPill" class="sepay-status-pill">
@@ -3314,70 +3302,6 @@ Men Lành có một bảng khảo sát ngắn 30 giây giúp bạn kiểm tra t�
     let currentOrderAmount = 70000;
     let currentModalQrUrl = "";
 
-    const MODAL_POPULAR_BANKS = [
-      { id: 'vcb', name: 'Vietcombank' },
-      { id: 'tcb', name: 'Techcombank' },
-      { id: 'mb', name: 'MBBank' },
-      { id: 'acb', name: 'ACB' },
-      { id: 'bidv', name: 'BIDV' },
-      { id: 'icb', name: 'VietinBank' },
-      { id: 'vpb', name: 'VPBank' },
-      { id: 'ocb', name: 'OCB' }
-    ];
-    let modalAllBanks = [
-      ...MODAL_POPULAR_BANKS,
-      { id: 'tpb', name: 'TPBank' },
-      { id: 'vib', name: 'VIB' },
-      { id: 'stb', name: 'Sacombank' },
-      { id: 'shb', name: 'SHB' },
-      { id: 'hdb', name: 'HDBank' },
-      { id: 'msb', name: 'MSB' },
-      { id: 'seab', name: 'SeABank' },
-      { id: 'eib', name: 'Eximbank' },
-      { id: 'lpb', name: 'LPBank' },
-      { id: 'vba', name: 'Agribank' },
-      { id: 'cake', name: 'CAKE by VPBank' },
-      { id: 'timo', name: 'Timo' },
-      { id: 'momo', name: 'MoMo' }
-    ];
-
-    function buildModalDeeplink(appId) {
-      const p = new URLSearchParams({
-        app: appId,
-        ba: `${SEPAY_BANK_ACC}@ocb`,
-        am: String(currentOrderAmount || 0),
-        tn: currentOrderCode || '',
-        bn: 'NGUYEN TRANG THANH HUYEN',
-        url: window.location.href
-      });
-      return `https://dl.vietqr.io/pay?${p.toString()}`;
-    }
-
-    function renderModalBankDeeplinks() {
-      const chips = document.getElementById('modalBankChips');
-      const sel = document.getElementById('modalBankSelect');
-      if (chips) {
-        chips.innerHTML = MODAL_POPULAR_BANKS.map(b =>
-          `<a class="sepay-bank-chip" href="${buildModalDeeplink(b.id)}">${b.name}</a>`
-        ).join('');
-      }
-      if (sel) {
-        const popIds = new Set(MODAL_POPULAR_BANKS.map(b => b.id));
-        const others = modalAllBanks.filter(b => !popIds.has(b.id));
-        sel.innerHTML = '<option value="">Chọn ngân hàng khác...</option>' +
-          others.map(b => `<option value="${b.id}">${b.name}</option>`).join('');
-      }
-    }
-
-    function openModalSelectedBank() {
-      const sel = document.getElementById('modalBankSelect');
-      if (!sel || !sel.value) {
-        alert('Bạn chọn ngân hàng ở danh sách bên cạnh trước nhé!');
-        return;
-      }
-      window.location.href = buildModalDeeplink(sel.value);
-    }
-
     async function saveModalQrImage() {
       const btn = document.getElementById('modalSaveQrBtn');
       if (!currentModalQrUrl) return;
@@ -3411,18 +3335,6 @@ Men Lành có một bảng khảo sát ngắn 30 giây giúp bạn kiểm tra t�
         setTimeout(() => { btn.textContent = old; }, 2600);
       }
     }
-
-    (async function preloadModalBanks() {
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-      try {
-        const r = await fetch(isIOS ? 'https://api.vietqr.io/v2/ios-app-deeplinks' : 'https://api.vietqr.io/v2/android-app-deeplinks');
-        const j = await r.json();
-        if (j && Array.isArray(j.apps) && j.apps.length) {
-          modalAllBanks = j.apps.filter(a => a.appId && a.appName).map(a => ({ id: a.appId, name: a.appName }));
-          if (currentOrderCode) renderModalBankDeeplinks();
-        }
-      } catch {}
-    })();
 
     function formatVND(amount) {
       return Number(amount || 0).toLocaleString('vi-VN') + 'đ';
@@ -3637,7 +3549,6 @@ Men Lành có một bảng khảo sát ngắn 30 giây giúp bạn kiểm tra t�
         document.getElementById('qrAmountText').textContent = formatVND(total);
         document.getElementById('qrOrderCodeText').textContent = currentOrderCode;
         document.getElementById('sepayStatusText').textContent = 'Đang chờ chuyển khoản... tự động xác nhận sau 5–10 giây';
-        renderModalBankDeeplinks();
 
         document.getElementById('orderFormView').style.display = 'none';
         document.getElementById('orderQrView').style.display = 'block';

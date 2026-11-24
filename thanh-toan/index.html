@@ -586,21 +586,9 @@
           <img id="sepayQrImg" src="" alt="Mã QR thanh toán SePay Men Lành">
         </div>
 
-        <div class="qr-quick-actions">
+        <div class="qr-quick-actions" style="flex-direction: column; align-items: center;">
           <button type="button" class="btn-save-qr" id="saveQrBtn" onclick="saveQrImage()">⬇️ Lưu ảnh QR về máy</button>
-        </div>
-
-        <div class="bank-deeplink-box" id="bankDeeplinkBox">
-          <div class="bank-deeplink-title">⚡ Mở nhanh app ngân hàng (1 chạm trên điện thoại)</div>
-          <div class="bank-deeplink-sub">Tự điền sẵn STK, số tiền &amp; nội dung — bạn chỉ cần bấm xác nhận.</div>
-          <div class="bank-chips" id="bankChips"></div>
-          <div class="bank-other-row">
-            <select class="bank-other-select" id="bankOtherSelect" aria-label="Chọn ngân hàng khác">
-              <option value="">Chọn ngân hàng khác...</option>
-            </select>
-            <button type="button" class="bank-open-btn" onclick="openSelectedBank()">Mở app →</button>
-          </div>
-          <div class="qr-tip-note">Nếu mở từ Facebook/Zalo bị chặn mở app, bạn bấm <strong>Lưu ảnh QR</strong> ở trên rồi chọn ảnh trong app ngân hàng nhé.</div>
+          <div class="qr-tip-note" style="margin-top: 0.45rem; max-width: 360px;">Trên điện thoại: bấm <strong>Lưu ảnh QR</strong> → mở app ngân hàng → chọn ảnh vừa lưu để quét (tự điền đủ STK, số tiền &amp; mã đơn).</div>
         </div>
 
         <div>
@@ -679,92 +667,6 @@
     let currentOrderCode = '';
     let currentOrderAmount = 70000;
     let currentQrUrl = '';
-
-    const POPULAR_BANKS = [
-      { id: 'vcb', name: 'Vietcombank' },
-      { id: 'tcb', name: 'Techcombank' },
-      { id: 'mb', name: 'MBBank' },
-      { id: 'acb', name: 'ACB' },
-      { id: 'bidv', name: 'BIDV' },
-      { id: 'icb', name: 'VietinBank' },
-      { id: 'vpb', name: 'VPBank' },
-      { id: 'ocb', name: 'OCB' }
-    ];
-
-    const FALLBACK_OTHER_BANKS = [
-      { id: 'tpb', name: 'TPBank' },
-      { id: 'vib', name: 'VIB' },
-      { id: 'stb', name: 'Sacombank' },
-      { id: 'shb', name: 'SHB' },
-      { id: 'hdb', name: 'HDBank' },
-      { id: 'msb', name: 'MSB' },
-      { id: 'seab', name: 'SeABank' },
-      { id: 'eib', name: 'Eximbank' },
-      { id: 'lpb', name: 'LPBank' },
-      { id: 'vba', name: 'Agribank' },
-      { id: 'scb', name: 'SCB' },
-      { id: 'cake', name: 'CAKE by VPBank' },
-      { id: 'timo', name: 'Timo' },
-      { id: 'momo', name: 'MoMo' },
-      { id: 'viettelmoney', name: 'Viettel Money' }
-    ];
-
-    let allBankApps = [...POPULAR_BANKS, ...FALLBACK_OTHER_BANKS];
-
-    function buildVietQrDeeplink(appId) {
-      const params = new URLSearchParams({
-        app: appId,
-        ba: `${SEPAY_BANK_ACC}@ocb`,
-        am: String(currentOrderAmount || 0),
-        tn: currentOrderCode || '',
-        bn: 'NGUYEN TRANG THANH HUYEN',
-        url: window.location.href
-      });
-      return `https://dl.vietqr.io/pay?${params.toString()}`;
-    }
-
-    function renderBankDeeplinks() {
-      const chipsEl = document.getElementById('bankChips');
-      const selectEl = document.getElementById('bankOtherSelect');
-      if (chipsEl) {
-        chipsEl.innerHTML = POPULAR_BANKS.map(b =>
-          `<a class="bank-chip" href="${buildVietQrDeeplink(b.id)}">${b.name}</a>`
-        ).join('');
-      }
-      if (selectEl) {
-        const popularIds = new Set(POPULAR_BANKS.map(b => b.id));
-        const others = allBankApps.filter(b => !popularIds.has(b.id));
-        selectEl.innerHTML = '<option value="">Chọn ngân hàng khác...</option>' +
-          others.map(b => `<option value="${b.id}">${b.name}</option>`).join('');
-      }
-    }
-
-    function openSelectedBank() {
-      const sel = document.getElementById('bankOtherSelect');
-      const appId = sel ? sel.value : '';
-      if (!appId) {
-        alert('Bạn chọn ngân hàng ở danh sách bên cạnh trước nhé!');
-        return;
-      }
-      window.location.href = buildVietQrDeeplink(appId);
-    }
-
-    async function loadVietQrBankList() {
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-      const endpoint = isIOS
-        ? 'https://api.vietqr.io/v2/ios-app-deeplinks'
-        : 'https://api.vietqr.io/v2/android-app-deeplinks';
-      try {
-        const res = await fetch(endpoint);
-        const json = await res.json();
-        if (json && Array.isArray(json.apps) && json.apps.length) {
-          allBankApps = json.apps
-            .filter(a => a.appId && a.appName)
-            .map(a => ({ id: a.appId, name: a.appName }));
-          if (currentOrderCode) renderBankDeeplinks();
-        }
-      } catch {}
-    }
 
     async function saveQrImage() {
       const btn = document.getElementById('saveQrBtn');
@@ -1118,7 +1020,6 @@
       document.getElementById('qrAmountText').textContent = formatVND(total);
       document.getElementById('qrCodeText').textContent = currentOrderCode;
       document.getElementById('statusText').textContent = 'Trạng thái: pending — Đang chờ chuyển khoản (tự xác nhận sau 5–10 giây)';
-      renderBankDeeplinks();
 
       document.getElementById('orderFormView').style.display = 'none';
       document.getElementById('orderQrView').style.display = 'block';
@@ -1129,7 +1030,6 @@
 
     syncStockLabels();
     updateSummary();
-    loadVietQrBankList();
   </script>
 </body>
 </html>
