@@ -1829,6 +1829,173 @@
         max-height: 520px;
       }
     }
+    /* ========================================
+       17. ORDER & SEPAY QR PAYMENT MODAL
+    ======================================== */
+    .order-item-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.85rem 1rem;
+      background: var(--cream);
+      border: 1.5px solid rgba(90, 125, 86, 0.18);
+      border-radius: var(--radius-sm);
+      margin-bottom: 0.65rem;
+    }
+    .order-item-info strong {
+      display: block;
+      font-size: 0.94rem;
+      color: var(--brown);
+    }
+    .order-item-info span {
+      font-size: 0.84rem;
+      color: var(--sage-dark);
+      font-weight: 600;
+    }
+    .qty-control {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      background: var(--white);
+      border: 1px solid rgba(70, 53, 40, 0.15);
+      border-radius: 50px;
+      padding: 0.25rem 0.45rem;
+    }
+    .qty-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--cream-tint);
+      color: var(--forest);
+      font-size: 1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .qty-btn:hover {
+      background: var(--sage);
+      color: var(--white);
+    }
+    .qty-value {
+      min-width: 22px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--brown);
+    }
+    .order-total-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 1.1rem;
+      background: #FCF9F2;
+      border: 1.5px dashed var(--honey);
+      border-radius: var(--radius-sm);
+      margin: 0.85rem 0 1.2rem;
+    }
+    .order-total-bar span {
+      font-size: 0.92rem;
+      color: var(--brown-light);
+      font-weight: 600;
+    }
+    .order-total-bar strong {
+      font-family: var(--font-serif);
+      font-size: 1.45rem;
+      color: var(--forest);
+    }
+    .order-ship-note {
+      background: var(--cream-tint);
+      border-left: 3px solid var(--sage);
+      border-radius: 10px;
+      padding: 0.75rem 0.95rem;
+      font-size: 0.83rem;
+      line-height: 1.55;
+      color: var(--brown-light);
+      margin: -0.45rem 0 1.2rem;
+    }
+    .order-ship-note strong {
+      color: var(--forest);
+    }
+    .sepay-qr-box {
+      text-align: center;
+      padding: 1rem 0.5rem 0.5rem;
+    }
+    .sepay-qr-frame {
+      display: inline-block;
+      background: var(--white);
+      padding: 0.9rem;
+      border-radius: 18px;
+      border: 2px solid rgba(90, 125, 86, 0.25);
+      box-shadow: var(--shadow);
+      margin: 0.75rem 0 1rem;
+    }
+    .sepay-qr-frame img {
+      width: 220px;
+      height: 220px;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+    .sepay-bank-card {
+      background: var(--cream);
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.1rem;
+      text-align: left;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(70, 53, 40, 0.08);
+    }
+    .sepay-bank-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.42rem 0;
+      font-size: 0.88rem;
+      border-bottom: 1px dashed rgba(70, 53, 40, 0.1);
+    }
+    .sepay-bank-row:last-child { border-bottom: none; }
+    .sepay-bank-row span.label { color: var(--brown-muted); }
+    .sepay-bank-row strong { color: var(--forest); font-weight: 700; }
+    .copy-mini-btn {
+      background: var(--white);
+      border: 1px solid rgba(90, 125, 86, 0.35);
+      color: var(--forest);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.55rem;
+      border-radius: 50px;
+      margin-left: 0.4rem;
+      transition: all 0.2s;
+    }
+    .copy-mini-btn:hover {
+      background: var(--sage);
+      color: var(--white);
+    }
+    .sepay-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--honey-light);
+      color: #8A5306;
+      padding: 0.55rem 1.15rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.85rem;
+    }
+    .sepay-spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(138, 83, 6, 0.25);
+      border-top-color: #8A5306;
+      border-radius: 50%;
+      animation: sepaySpin 0.9s linear infinite;
+    }
+    @keyframes sepaySpin {
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
@@ -1854,7 +2021,7 @@
       </ul>
 
       <div class="nav-cta" id="navCta">
-        <a href="https://zalo.me/0934857201" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Đặt mẻ tươi</a>
+        <button type="button" onclick="openOrderModal('1000ml')" class="btn btn-primary">Đặt mẻ tươi</button>
       </div>
 
       <button class="hamburger" id="hamburger" aria-label="Menu">
@@ -2063,7 +2230,7 @@
             <p>Vị chua thanh mát lành, êm ru đường ruột. Thích hợp cho cá nhân sử dụng đều đặn trong 2 đến 3 ngày (~150ml mỗi sáng).</p>
             <div class="product-footer">
               <span class="product-price">40.000đ</span>
-              <a href="https://zalo.me/0934857201" target="_blank" rel="noopener noreferrer" class="product-btn-order">Đặt mua ngay →</a>
+              <button type="button" onclick="openOrderModal('500ml')" class="product-btn-order">Đặt mua ngay →</button>
             </div>
           </div>
         </div>
@@ -2079,7 +2246,7 @@
             <p>Dung tích lớn tiết kiệm chi phí, đủ uống trong 4 đến 5 ngày. Lựa chọn hoàn hảo để cả gia đình cùng chăm sóc hệ tiêu hóa.</p>
             <div class="product-footer">
               <span class="product-price" style="color: var(--honey);">70.000đ</span>
-              <a href="https://zalo.me/0934857201" target="_blank" rel="noopener noreferrer" class="product-btn-order" style="background: var(--forest);">Đặt mua ngay →</a>
+              <button type="button" onclick="openOrderModal('1000ml')" class="product-btn-order" style="background: var(--forest);">Đặt mua ngay →</button>
             </div>
           </div>
         </div>
@@ -2147,7 +2314,7 @@
         <details class="faq-item">
           <summary>Vị chua có bình thường không?</summary>
           <div class="faq-answer">
-            Hoàn toàn bình thường! Vị chua dịu là dấu hiệu đẹp đẽ của quá trình lên men tự nhiên — nghĩa là lợi khuẩn đang sống và hoạt động. Nếu bạn chưa quen, hãy thử thêm một chút mật ong, trái cây tươi, hoặc granola. Hoặc bắt đầu với dòng <strong>Kefir Mật Ong</strong> của Men Lành — ngọt dịu tự nhiên, rất dễ uống.
+            Hoàn toàn bình thường! Vị chua dịu là dấu hiệu đẹp đẽ của quá trình lên men tự nhiên — nghĩa là lợi khuẩn đang sống và hoạt động. Mẻ tươi Men Lành được canh dừng ủ đúng độ chín nên vị chỉ chua thanh dịu. Nếu bạn chưa quen, hãy thử khuấy thêm một chút mật ong, xay cùng chuối chín hoặc ăn kèm granola — rất dễ uống.
           </div>
         </details>
 
@@ -2243,7 +2410,7 @@
               <label class="survey-label" for="surveyPhone">
                 2. Số điện thoại / Zalo nhận thông tin tư vấn: <span class="req">*</span>
               </label>
-              <input type="tel" id="surveyPhone" name="so_dien_thoai_zalo" class="survey-input" placeholder="Ví dụ: 0934 857 201..." required>
+              <input type="tel" id="surveyPhone" name="so_dien_thoai_zalo" class="survey-input" placeholder="Ví dụ: 093 48 57 201..." required>
             </div>
           </div>
 
@@ -2312,7 +2479,7 @@
           </button>
 
           <div class="survey-alt-zalo">
-            Hoặc bạn muốn nhắn tin trực tiếp với người ủ men? <a href="https://zalo.me/0934857201" target="_blank" rel="noopener noreferrer">Nhắn Zalo 0934 857 201 ↗</a>
+            Hoặc bạn muốn nhắn tin trực tiếp với người ủ men? <a href="https://zalo.me/0934857201" target="_blank" rel="noopener noreferrer">Nhắn Zalo 093 48 57 201 ↗</a>
           </div>
         </form>
       </div>
@@ -2331,6 +2498,160 @@
         <p style="font-size: 0.85rem; color: var(--brown-muted); margin: 0;">
           💡 Người ủ men sẽ phản hồi tư vấn cho bạn trong vòng 5-10 phút.
         </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       MODAL ĐẶT HÀNG & THANH TOÁN QR SEPAY TỰ ĐỘNG
+  ============================================= -->
+  <div class="survey-modal-overlay" id="orderModal" role="dialog" aria-modal="true" aria-labelledby="orderModalTitle">
+    <div class="survey-modal-dialog">
+      <button type="button" class="survey-modal-close" onclick="closeOrderModal()" aria-label="Đóng cửa sổ đặt hàng">✕</button>
+
+      <!-- BƯỚC 1: FORM CHỌN SẢN PHẨM & THÔNG TIN GIAO HÀNG -->
+      <div id="orderFormView">
+        <div class="survey-header">
+          <span class="survey-badge">🥛 Đặt mẻ tươi Men Lành</span>
+          <h3 id="orderModalTitle">Đặt mua Kefir Nguyên Chất</h3>
+          <p>Giao lạnh hỏa tốc trong ngày tại TP. Hồ Chí Minh. Thanh toán QR tự động xác nhận sau 5 giây.</p>
+        </div>
+
+        <form id="orderForm" class="survey-form">
+          <div class="survey-group">
+            <label class="survey-label">1. Chọn dung tích & số lượng <span class="req">*</span></label>
+            <div class="order-item-row">
+              <div class="order-item-info">
+                <strong>Kefir Nguyên Chất — Chai 500ml</strong>
+                <span>40.000đ / chai</span>
+              </div>
+              <div class="qty-control">
+                <button type="button" class="qty-btn" onclick="changeOrderQty('500ml', -1)">−</button>
+                <span class="qty-value" id="qty500">0</span>
+                <button type="button" class="qty-btn" onclick="changeOrderQty('500ml', 1)">+</button>
+              </div>
+            </div>
+
+            <div class="order-item-row">
+              <div class="order-item-info">
+                <strong>Kefir Nguyên Chất — Chai 1 Lít (1.000ml)</strong>
+                <span>70.000đ / chai · Tiết kiệm nhất</span>
+              </div>
+              <div class="qty-control">
+                <button type="button" class="qty-btn" onclick="changeOrderQty('1000ml', -1)">−</button>
+                <span class="qty-value" id="qty1000">1</span>
+                <button type="button" class="qty-btn" onclick="changeOrderQty('1000ml', 1)">+</button>
+              </div>
+            </div>
+
+            <div class="order-total-bar">
+              <span>Tiền sữa (chưa gồm phí ship)</span>
+              <strong id="orderTotalDisplay">70.000đ</strong>
+            </div>
+
+            <div class="order-ship-note">
+              🛵 <strong>Về phí giao hỏa tốc (TP.HCM):</strong> Khoản thanh toán hôm nay chỉ gồm <strong>tiền sữa</strong>. Nhận đơn xong tụi mình sẽ kiểm tra cước giao theo địa chỉ của bạn, báo trước qua Zalo rồi mới đặt ship — bạn <strong>trả phí ship trực tiếp cho shipper khi nhận hàng</strong> nhé.
+            </div>
+          </div>
+
+          <div class="survey-row-2col">
+            <div class="survey-group">
+              <label class="survey-label" for="orderName">2. Họ tên người nhận <span class="req">*</span></label>
+              <input type="text" id="orderName" class="survey-input" placeholder="Ví dụ: Minh Anh" required>
+            </div>
+            <div class="survey-group">
+              <label class="survey-label" for="orderPhone">3. Số điện thoại / Zalo <span class="req">*</span></label>
+              <input type="tel" id="orderPhone" class="survey-input" placeholder="Ví dụ: 093 48 57 201" required>
+            </div>
+          </div>
+
+          <div class="survey-group">
+            <label class="survey-label" for="orderAddress">4. Địa chỉ giao hàng (TP.HCM) <span class="req">*</span></label>
+            <input type="text" id="orderAddress" class="survey-input" placeholder="Số nhà, tên đường, phường, quận..." required>
+          </div>
+
+          <div class="survey-group">
+            <label class="survey-label" for="orderNote">5. Ghi chú khung giờ nhận (không bắt buộc)</label>
+            <input type="text" id="orderNote" class="survey-input" placeholder="Ví dụ: Giao buổi sáng trước 11h...">
+          </div>
+
+          <button type="submit" id="orderSubmitBtn" class="survey-btn-submit">
+            Tạo đơn & Hiện mã QR thanh toán →
+          </button>
+
+          <div class="survey-alt-zalo">
+            Cần hỏi thêm trước khi đặt? <a href="https://zalo.me/0934857201" target="_blank" rel="noopener noreferrer">Nhắn Zalo 093 48 57 201 ↗</a>
+          </div>
+        </form>
+      </div>
+
+      <!-- BƯỚC 2: HIỂN THỊ MÃ QR SEPAY & CHỜ XÁC NHẬN TỰ ĐỘNG -->
+      <div id="orderQrView" class="sepay-qr-box" style="display: none;">
+        <span class="survey-badge">⚡ Chuyển khoản QR 24/7</span>
+        <h3 style="margin-bottom: 0.35rem;">Quét mã QR để thanh toán</h3>
+        <p style="font-size: 0.88rem; color: var(--brown-light); margin-bottom: 0.4rem;">
+          Mở app ngân hàng bất kỳ và quét mã bên dưới. Giữ nguyên nội dung chuyển khoản để hệ thống tự xác nhận nhé!
+        </p>
+
+        <div class="sepay-qr-frame">
+          <img id="sepayQrImg" src="" alt="Mã QR thanh toán SePay Men Lành">
+        </div>
+
+        <div id="sepayStatusPill" class="sepay-status-pill">
+          <span class="sepay-spinner"></span>
+          <span id="sepayStatusText">Đang chờ chuyển khoản... tự động xác nhận sau 5–10 giây</span>
+        </div>
+
+        <div class="sepay-bank-card">
+          <div class="sepay-bank-row">
+            <span class="label">Ngân hàng</span>
+            <strong>OCB (Phương Đông)</strong>
+          </div>
+          <div class="sepay-bank-row">
+            <span class="label">Chủ tài khoản</span>
+            <strong>NGUYEN TRANG THANH HUYEN</strong>
+          </div>
+          <div class="sepay-bank-row">
+            <span class="label">Số tài khoản</span>
+            <div>
+              <strong>SEPNH15810</strong>
+              <button type="button" class="copy-mini-btn" onclick="copyTextValue('SEPNH15810', this)">Copy</button>
+            </div>
+          </div>
+          <div class="sepay-bank-row">
+            <span class="label">Tiền sữa (chưa gồm ship)</span>
+            <strong id="qrAmountText" style="color: var(--honey); font-size: 1rem;">70.000đ</strong>
+          </div>
+          <div class="sepay-bank-row">
+            <span class="label">Nội dung CK</span>
+            <div>
+              <strong id="qrOrderCodeText">ML000000</strong>
+              <button type="button" class="copy-mini-btn" onclick="copyTextValue(document.getElementById('qrOrderCodeText').textContent, this)">Copy</button>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" onclick="backToOrderForm()" style="background: none; color: var(--brown-muted); font-size: 0.85rem; text-decoration: underline;">
+          ← Quay lại sửa đơn hàng
+        </button>
+      </div>
+
+      <!-- BƯỚC 3: THANH TOÁN THÀNH CÔNG -->
+      <div id="orderSuccessView" class="survey-success">
+        <div class="survey-success-badge">✅ Thanh toán đã được xác nhận tự động</div>
+        <span class="survey-success-icon">🎉</span>
+        <h4>Cảm ơn bạn đã đặt mẻ tươi!</h4>
+        <p id="orderSuccessDesc">
+          Men Lành đã nhận thanh toán cho đơn hàng của bạn. Tụi mình sẽ chuẩn bị chai kefir tươi từ ngăn mát và liên hệ giao lạnh hỏa tốc trong ngày tại TP.HCM nhé!
+        </p>
+        <div style="margin: 1.5rem 0 1rem;">
+          <a href="https://zalo.me/0934857201" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;">
+            💬 Nhắn Zalo theo dõi giao hàng →
+          </a>
+        </div>
+        <button type="button" onclick="closeOrderModal()" style="background: none; color: var(--brown-muted); font-size: 0.86rem; text-decoration: underline; margin-top: 0.4rem;">
+          Đóng cửa sổ
+        </button>
       </div>
     </div>
   </div>
@@ -2366,8 +2687,8 @@
           <h4>Kênh tư vấn</h4>
           <ul class="footer-links">
             <li><a href="https://zalo.me/0934857201" target="_blank" rel="noopener noreferrer">Nhắn qua Zalo</a></li>
-            <li><a href="#">Trang Facebook</a></li>
-            <li><a href="#">Instagram</a></li>
+            <li><a href="https://www.facebook.com/1460853970446602" target="_blank" rel="noopener noreferrer">Trang Facebook Men Lành</a></li>
+            <li><a href="https://www.facebook.com/1460853970446602" target="_blank" rel="noopener noreferrer">Reels &amp; Mẻ Tươi</a></li>
           </ul>
         </div>
 
@@ -2375,14 +2696,14 @@
           <h4>Liên hệ</h4>
           <ul class="footer-contact">
             <li>📍 TP. Hồ Chí Minh</li>
-            <li>📞 0934 857 201</li>
+            <li>📞 093 48 57 201</li>
             <li>✉️ hello@menlanh.online</li>
           </ul>
         </div>
       </div>
 
       <div class="footer-bottom">
-        <p>© 2025 Men Lành (menlanh.online). Giữ trọn nhịp sống của men. ♡</p>
+        <p>© 2026 Men Lành (menlanh.online). Giữ trọn nhịp sống của men. ♡</p>
       </div>
     </div>
   </footer>
@@ -2652,13 +2973,13 @@
     const CHAT_RESPONSES = {
       mua_hang: {
         text: `Dạ tuyệt vời quá! Hôm nay Men Lành đang có mẻ tươi vừa ủ xong chuẩn độ chín, thơm ngậy nhẹ và vị rất thanh êm. 🌿<br><br>
-Tụi mình giao lạnh trong ngày kèm đá gel để đảm bảo lợi khuẩn sống khỏe nhất đến tận tay bạn. Bạn bấm vào nút bên dưới để điền nhanh thông tin vào <strong>Danh sách đăng ký mẻ tươi</strong> nhé:`,
+Tụi mình giao hỏa tốc trong ngày tại TP.HCM ngay khi chai vừa lấy từ ngăn mát để đảm bảo lợi khuẩn sống khỏe nhất đến tận tay bạn. Bạn bấm vào nút bên dưới để điền nhanh thông tin vào <strong>Danh sách đăng ký mẻ tươi</strong> nhé:`,
         cta: {
           title: "✨ Đăng ký nhận mẻ tươi Men Lành",
           desc: "Điền nhanh 30 giây để tụi mình giữ mẻ ủ tươi mới và tư vấn liều lượng phù hợp nhất cho bạn:",
           btnText: "📋 Mở form danh sách mẻ tươi →",
           action: "openSurveyModalFromChat()",
-          zaloText: "💬 Hoặc nhắn Zalo đặt nhanh: 0934 857 201 →"
+          zaloText: "💬 Hoặc nhắn Zalo đặt nhanh: 093 48 57 201 →"
         }
       },
       kefir_la_gi: {
@@ -2858,12 +3179,209 @@ Men Lành có một bảng khảo sát ngắn 30 giây giúp bạn kiểm tra t�
         desc: "Chọn nhanh 30 giây để tụi mình xem xét thể trạng và gợi ý mẻ tươi phù hợp nhất cho bạn:",
         btnText: "📋 Điền form nhận tư vấn & mẻ tươi →",
         action: "openSurveyModalFromChat()",
-        zaloText: "💬 Nhắn Zalo: 0934 857 201 →"
+        zaloText: "💬 Nhắn Zalo: 093 48 57 201 →"
       });
     }
 
     function escapeHtml(str) {
       return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    // ============================================
+    // ĐẶT HÀNG & THANH TOÁN QR SEPAY TỰ ĐỘNG
+    // ============================================
+    const SEPAY_ORDER_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwxXoefhH0DLPc_E6HA3wO-fiOASfaTheu8_fpRVMPOHFAkQ8XjoWPKpyHt6FzHFyJW/exec";
+    const SEPAY_BANK_CODE = "OCB";
+    const SEPAY_BANK_ACC = "SEPNH15810";
+
+    const orderState = { qty500: 0, qty1000: 1 };
+    let paymentPollTimer = null;
+    let currentOrderCode = "";
+
+    function formatVND(amount) {
+      return Number(amount || 0).toLocaleString('vi-VN') + 'đ';
+    }
+
+    function updateOrderSummary() {
+      const el500 = document.getElementById('qty500');
+      const el1000 = document.getElementById('qty1000');
+      const elTotal = document.getElementById('orderTotalDisplay');
+      const total = orderState.qty500 * 40000 + orderState.qty1000 * 70000;
+      if (el500) el500.textContent = orderState.qty500;
+      if (el1000) el1000.textContent = orderState.qty1000;
+      if (elTotal) elTotal.textContent = formatVND(total);
+    }
+
+    function changeOrderQty(size, delta) {
+      if (size === '500ml') {
+        orderState.qty500 = Math.max(0, orderState.qty500 + delta);
+      } else {
+        orderState.qty1000 = Math.max(0, orderState.qty1000 + delta);
+      }
+      updateOrderSummary();
+    }
+
+    function stopPaymentPolling() {
+      if (paymentPollTimer) {
+        clearInterval(paymentPollTimer);
+        paymentPollTimer = null;
+      }
+    }
+
+    function openOrderModal(defaultSize) {
+      stopPaymentPolling();
+      orderState.qty500 = defaultSize === '500ml' ? 1 : 0;
+      orderState.qty1000 = defaultSize === '500ml' ? 0 : 1;
+      updateOrderSummary();
+
+      const modal = document.getElementById('orderModal');
+      const formView = document.getElementById('orderFormView');
+      const qrView = document.getElementById('orderQrView');
+      const successView = document.getElementById('orderSuccessView');
+      const submitBtn = document.getElementById('orderSubmitBtn');
+
+      if (formView) formView.style.display = 'block';
+      if (qrView) qrView.style.display = 'none';
+      if (successView) successView.style.display = 'none';
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Tạo đơn & Hiện mã QR thanh toán →';
+      }
+      if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeOrderModal() {
+      stopPaymentPolling();
+      const modal = document.getElementById('orderModal');
+      if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+
+    function backToOrderForm() {
+      stopPaymentPolling();
+      document.getElementById('orderFormView').style.display = 'block';
+      document.getElementById('orderQrView').style.display = 'none';
+      const submitBtn = document.getElementById('orderSubmitBtn');
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Tạo đơn & Hiện mã QR thanh toán →';
+      }
+    }
+
+    function copyTextValue(text, btn) {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+          const old = btn.textContent;
+          btn.textContent = 'Đã copy ✓';
+          setTimeout(() => { btn.textContent = old; }, 1600);
+        });
+      }
+    }
+
+    window.addEventListener('click', function(e) {
+      const orderModal = document.getElementById('orderModal');
+      if (e.target === orderModal) closeOrderModal();
+    });
+
+    window.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeOrderModal();
+    });
+
+    function startPaymentPolling(orderCode, expectedAmount) {
+      stopPaymentPolling();
+      let attempts = 0;
+      const maxAttempts = 150; // ~10 phút (mỗi 4 giây kiểm tra 1 lần)
+
+      paymentPollTimer = setInterval(async () => {
+        attempts++;
+        if (attempts > maxAttempts) {
+          stopPaymentPolling();
+          const st = document.getElementById('sepayStatusText');
+          if (st) st.textContent = 'Hết thời gian chờ tự động. Nếu đã chuyển khoản, nhắn Zalo giúp tụi mình nhé!';
+          return;
+        }
+
+        try {
+          const res = await fetch(`${SEPAY_ORDER_SCRIPT_URL}?action=check_order&order_code=${encodeURIComponent(orderCode)}`);
+          const data = await res.json();
+
+          if (data && data.payment_status === 'Đã thanh toán') {
+            stopPaymentPolling();
+            document.getElementById('orderQrView').style.display = 'none';
+            document.getElementById('orderSuccessView').style.display = 'block';
+            const desc = document.getElementById('orderSuccessDesc');
+            if (desc) {
+              desc.innerHTML = `Men Lành đã nhận đủ <strong>${formatVND(data.paid_amount || expectedAmount)}</strong> tiền sữa cho đơn hàng <strong>${orderCode}</strong>.<br><br>🛵 <strong>Bước tiếp theo:</strong> Tụi mình sẽ nhắn Zalo (theo SĐT bạn vừa điền) để báo phí ship hỏa tốc theo địa chỉ và xác nhận khung giờ bạn tiện nhận. Khi shipper giao tới, bạn chỉ cần thanh toán phí ship cho shipper là xong nhé!`;
+            }
+          } else if (data && data.payment_status === 'Thiếu tiền') {
+            const st = document.getElementById('sepayStatusText');
+            if (st) st.textContent = `Đã nhận ${formatVND(data.paid_amount)} (chưa đủ ${formatVND(expectedAmount)}). Vui lòng nhắn Zalo 093 48 57 201 để tụi mình hỗ trợ nhé!`;
+          }
+        } catch (err) {
+          console.warn('SePay polling error:', err);
+        }
+      }, 4000);
+    }
+
+    const orderForm = document.getElementById('orderForm');
+    if (orderForm) {
+      orderForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const total = orderState.qty500 * 40000 + orderState.qty1000 * 70000;
+        if (total <= 0) {
+          alert('Bạn vui lòng chọn ít nhất 1 chai Kefir nhé!');
+          return;
+        }
+
+        const submitBtn = document.getElementById('orderSubmitBtn');
+        submitBtn.disabled = true;
+        submitBtn.textContent = '⏳ Đang tạo đơn & mã QR...';
+
+        const itemParts = [];
+        if (orderState.qty500 > 0) itemParts.push(`${orderState.qty500}x Chai 500ml`);
+        if (orderState.qty1000 > 0) itemParts.push(`${orderState.qty1000}x Chai 1 Lít`);
+
+        currentOrderCode = 'ML' + Date.now().toString().slice(-5) + Math.floor(Math.random() * 10);
+
+        const payload = {
+          action: 'create_order',
+          order_code: currentOrderCode,
+          customer_name: document.getElementById('orderName').value.trim(),
+          phone: document.getElementById('orderPhone').value.trim(),
+          address: document.getElementById('orderAddress').value.trim(),
+          items: itemParts.join(', '),
+          amount: total,
+          note: document.getElementById('orderNote').value.trim()
+        };
+
+        try {
+          await fetch(SEPAY_ORDER_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(payload)
+          });
+        } catch (err) {
+          console.warn('Create order error:', err);
+        }
+
+        const qrUrl = `https://qr.sepay.vn/img?acc=${encodeURIComponent(SEPAY_BANK_ACC)}&bank=${encodeURIComponent(SEPAY_BANK_CODE)}&amount=${total}&des=${encodeURIComponent(currentOrderCode)}`;
+        document.getElementById('sepayQrImg').src = qrUrl;
+        document.getElementById('qrAmountText').textContent = formatVND(total);
+        document.getElementById('qrOrderCodeText').textContent = currentOrderCode;
+        document.getElementById('sepayStatusText').textContent = 'Đang chờ chuyển khoản... tự động xác nhận sau 5–10 giây';
+
+        document.getElementById('orderFormView').style.display = 'none';
+        document.getElementById('orderQrView').style.display = 'block';
+
+        startPaymentPolling(currentOrderCode, total);
+      });
     }
   </script>
 </body>
