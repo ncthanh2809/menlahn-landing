@@ -2508,6 +2508,13 @@
             </div>
           </div>
 
+          <div class="survey-group">
+            <label class="survey-label" for="surveyEmail">
+              Email nhận cẩm nang &amp; thông tin mẻ tươi từ Men Lành: <span class="req">*</span>
+            </label>
+            <input type="email" id="surveyEmail" name="email" class="survey-input" placeholder="Ví dụ: thutrang@gmail.com" required>
+          </div>
+
           <!-- Câu 3: Nhu cầu cải thiện -->
           <div class="survey-group">
             <label class="survey-label">
@@ -2975,6 +2982,7 @@
         const surveyData = {
           ten_khach_hang: formData.get('ten_khach_hang'),
           so_dien_thoai_zalo: formData.get('so_dien_thoai_zalo'),
+          email: String(formData.get('email') || '').trim(),
           nhu_cau_cai_thien: formData.get('nhu_cau_cai_thien'),
           doi_tuong_su_dung: formData.get('doi_tuong_su_dung'),
           dung_tich_muon_thu: formData.get('dung_tich_muon_thu'),
@@ -3008,15 +3016,43 @@
           console.warn('Google Sheets error:', err);
         });
 
-        // 3. LƯU DỰ PHÒNG VÀO LOCALSTORAGE TRÌNH DUYỆT (Để kiểm tra ngay)
+        // 3. GỬI CHUỖI EMAIL CHĂM SÓC TỰ ĐỘNG QUA RESEND (Hỗ trợ chế độ +test gửi ngay cả 3 email)
+        const resendPromise = surveyData.email ? fetch('/.netlify/functions/send-waitlist-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: surveyData.ten_khach_hang,
+            email: surveyData.email
+          })
+        }).then(r => r.json()).then(d => {
+          console.log('✅ Resend Waitlist Email:', d);
+        }).catch(err => {
+          console.warn('Resend Waitlist error:', err);
+        }) : Promise.resolve();
+
+        // 4. LƯU DỰ PHÒNG VÀO LOCALSTORAGE & ĐỒNG BỘ SANG /admin
         try {
           const localLeads = JSON.parse(localStorage.getItem('menlanh_leads') || '[]');
           localLeads.push(surveyData);
           localStorage.setItem('menlanh_leads', JSON.stringify(localLeads));
+
+          const adminCusts = JSON.parse(localStorage.getItem('menlanh_admin_customers') || '[]');
+          if (Array.isArray(adminCusts) && surveyData.ten_khach_hang) {
+            const nextId = adminCusts.reduce((m, c) => Math.max(m, Number(c.id || 0)), 0) + 1;
+            adminCusts.unshift({
+              id: nextId,
+              name: surveyData.ten_khach_hang,
+              phone: surveyData.so_dien_thoai_zalo || '',
+              email: surveyData.email || '',
+              zalo: surveyData.so_dien_thoai_zalo || '',
+              registered_at: surveyData.thoi_gian
+            });
+            localStorage.setItem('menlanh_admin_customers', JSON.stringify(adminCusts));
+          }
         } catch (err) {}
 
         // Sau khi lưu xong -> Hiển thị màn hình thành công độc lập
-        Promise.allSettled([netlifyPromise, googlePromise]).then(() => {
+        Promise.allSettled([netlifyPromise, googlePromise, resendPromise]).then(() => {
           setTimeout(() => {
             const formView = document.getElementById('surveyFormView');
             const successView = document.getElementById('surveySuccess');

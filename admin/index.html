@@ -349,10 +349,10 @@
     ];
 
     const SEED_CUSTOMERS = [
-      { id: 1, name: 'Nguyễn Chí Thành', phone: '0934857201', zalo: '0934857201', registered_at: '24/11/2026 07:57:00' },
-      { id: 2, name: 'Minh Anh', phone: '0908123456', zalo: 'minhanh.hcm@gmail.com', registered_at: '24/11/2026 08:04:00' },
-      { id: 3, name: 'Thu Thảo', phone: '0919223344', zalo: '0919223344', registered_at: '22/11/2026 14:20:00' },
-      { id: 4, name: 'Lan Hương', phone: '0987654321', zalo: '0987654321', registered_at: '21/11/2026 09:15:00' }
+      { id: 1, name: 'Nguyễn Chí Thành', phone: '0934857201', email: 'chithanhisme@gmail.com', zalo: '0934857201', registered_at: '24/11/2026 07:57:00' },
+      { id: 2, name: 'Minh Anh', phone: '0908123456', email: 'minhanh.hcm@gmail.com', zalo: '0908123456', registered_at: '24/11/2026 08:04:00' },
+      { id: 3, name: 'Thu Thảo', phone: '0919223344', email: 'thuthao.sg@gmail.com', zalo: '0919223344', registered_at: '22/11/2026 14:20:00' },
+      { id: 4, name: 'Lan Hương', phone: '0987654321', email: 'lanhuong.q3@gmail.com', zalo: '0987654321', registered_at: '21/11/2026 09:15:00' }
     ];
 
     const SEED_ORDERS = [
@@ -591,13 +591,14 @@
         container.innerHTML = `
           <table>
             <thead>
-              <tr><th>ID</th><th>Tên khách hàng</th><th>Số điện thoại</th><th>Zalo</th><th>Ngày đăng ký</th><th>Thao tác</th></tr>
+              <tr><th>ID</th><th>Tên khách hàng</th><th>Email</th><th>Số điện thoại</th><th>Zalo</th><th>Ngày đăng ký</th><th>Thao tác</th></tr>
             </thead>
             <tbody>
               ${state.customers.map(c => `
                 <tr>
                   <td>#${c.id}</td>
                   <td><strong>${escapeHtml(c.name)}</strong></td>
+                  <td>${escapeHtml(c.email || '—')}</td>
                   <td>${escapeHtml(c.phone || '—')}</td>
                   <td>${escapeHtml(c.zalo || '—')}</td>
                   <td>${escapeHtml(c.registered_at)}</td>
@@ -725,6 +726,10 @@
             <label>Tên khách hàng *</label>
             <input name="name" required value="${escapeHtml(item ? item.name : '')}" placeholder="Ví dụ: Minh Anh">
           </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input name="email" type="email" value="${escapeHtml(item ? item.email : '')}" placeholder="Ví dụ: minhanh@gmail.com">
+          </div>
           <div class="form-row">
             <div class="form-group">
               <label>Số điện thoại</label>
@@ -775,6 +780,10 @@
               <label>Số điện thoại / Zalo</label>
               <input name="phone" value="${escapeHtml(item ? item.phone : '')}" placeholder="093...">
             </div>
+          </div>
+          <div class="form-group">
+            <label>Email khách hàng (tự động gửi email xác nhận đơn khi tạo mới)</label>
+            <input name="customer_email" type="email" value="${escapeHtml(item ? item.customer_email || '' : '')}" placeholder="Ví dụ: khachhang@gmail.com">
           </div>
           <div class="form-group">
             <label>Địa chỉ giao hàng</label>
@@ -904,19 +913,21 @@
             const list = getLocal('menlanh_admin_customers', SEED_CUSTOMERS);
             if (state.editingItem) {
               const idx = list.findIndex(c => c.id === state.editingItem.id);
-              if (idx !== -1) list[idx] = { ...list[idx], name: payload.name, phone: payload.phone || '', zalo: payload.zalo || '', registered_at: payload.registered_at || list[idx].registered_at };
+              if (idx !== -1) list[idx] = { ...list[idx], name: payload.name, email: payload.email || '', phone: payload.phone || '', zalo: payload.zalo || '', registered_at: payload.registered_at || list[idx].registered_at };
             } else {
               const nextId = list.reduce((m, c) => Math.max(m, Number(c.id || 0)), 0) + 1;
-              list.unshift({ id: nextId, name: payload.name, phone: payload.phone || '', zalo: payload.zalo || '', registered_at: payload.registered_at || nowVN() });
+              list.unshift({ id: nextId, name: payload.name, email: payload.email || '', phone: payload.phone || '', zalo: payload.zalo || '', registered_at: payload.registered_at || nowVN() });
             }
             setLocal('menlanh_admin_customers', list);
           }
         } else if (state.tab === 'orders') {
           if (state.editingItem) payload.original_order_code = state.editingItem.order_code;
+          const generatedCode = (payload.order_code || ('ML' + Date.now().toString().slice(-6))).trim().toUpperCase();
+          payload.order_code = generatedCode;
           const res = await postAction({ action: 'admin_save_order', ...payload });
           if (res.status === 'local_only') {
             const orders = getLocal('menlanh_admin_orders', SEED_ORDERS);
-            const code = (payload.order_code || ('ML' + Date.now().toString().slice(-6))).trim().toUpperCase();
+            const code = generatedCode;
             if (state.editingItem) {
               const idx = orders.findIndex(o => o.order_code === state.editingItem.order_code);
               if (idx !== -1) {
@@ -924,6 +935,7 @@
                   ...orders[idx],
                   order_code: code,
                   customer_name: payload.customer_name,
+                  customer_email: payload.customer_email || '',
                   phone: payload.phone || '',
                   address: payload.address || '',
                   items: payload.items,
@@ -949,6 +961,7 @@
                 order_date: nowVN(),
                 order_code: code,
                 customer_name: payload.customer_name,
+                customer_email: payload.customer_email || '',
                 phone: payload.phone || '',
                 address: payload.address || '',
                 items: payload.items,
@@ -961,8 +974,33 @@
               });
             }
             setLocal('menlanh_admin_orders', orders);
-          } else if (!state.editingItem && res.stock_deducted) {
-            showToast('Đã tạo đơn & tự động trừ tồn kho!');
+          }
+
+          // Gửi email xác nhận đơn hàng tự động qua Resend khi tạo đơn mới có email
+          if (!state.editingItem && payload.customer_email && payload.customer_email.trim()) {
+            try {
+              const emailRes = await fetch('/.netlify/functions/send-order-email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  customer_name: payload.customer_name,
+                  email: payload.customer_email.trim(),
+                  order_code: generatedCode,
+                  items: payload.items,
+                  amount: Number(payload.amount || 0),
+                  address: payload.address || 'TP. Hồ Chí Minh',
+                  status: payload.status || 'Chờ thanh toán'
+                })
+              });
+              const emailJson = await emailRes.json();
+              if (!emailRes.ok) {
+                showToast(`Đã tạo đơn, nhưng gửi email lỗi: ${emailJson.error || 'Chưa cấu hình Resend'}`, true);
+              } else {
+                showToast(`Đã tạo đơn ${generatedCode} & gửi email xác nhận thành công!`);
+              }
+            } catch (emailErr) {
+              console.warn('Send order email error:', emailErr);
+            }
           }
         }
         closeModal();
