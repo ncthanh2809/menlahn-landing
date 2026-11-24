@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thanh Toán — Sữa Chua Kefir Men Lành</title>
+  <meta name="description" content="Đặt mua Sữa Chua Kefir Nguyên Chất Men Lành và thanh toán tự động qua mã QR SePay.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #F8F4EC;
+      --cream-tint: #EDF2EC;
+      --white: #FFFFFF;
+      --forest: #223623;
+      --sage: #5A7D56;
+      --honey: #D49226;
+      --honey-hover: #B87B1A;
+      --brown: #463528;
+      --brown-light: #6E5A4B;
+      --danger: #C0392B;
+      --danger-bg: #FDF2F2;
+      --border: rgba(70, 53, 40, 0.14);
+      --radius: 16px;
+      --shadow: 0 8px 30px rgba(34, 54, 35, 0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Be Vietnam Pro', system-ui, sans-serif;
+      background: var(--cream);
+      color: var(--brown);
+      min-height: 100vh;
+      line-height: 1.55;
+    }
+    header {
+      background: var(--forest);
+      color: var(--cream);
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      text-decoration: none;
+      color: var(--white);
+    }
+    .brand h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.45rem;
+      color: var(--white);
+    }
+    .brand-tag {
+      font-size: 0.78rem;
+      background: rgba(212, 146, 38, 0.25);
+      color: #F8D38A;
+      padding: 0.2rem 0.65rem;
+      border-radius: 50px;
+      font-weight: 600;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.86rem;
+    }
+    .nav-links a {
+      color: rgba(248, 244, 236, 0.9);
+      text-decoration: none;
+      padding: 0.4rem 0.85rem;
+      border-radius: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.2s;
+    }
+    .nav-links a:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--white);
+    }
+    main {
+      max-width: 720px;
+      margin: 2rem auto 3.5rem;
+      padding: 0 1.1rem;
+    }
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      padding: 2rem 1.75rem;
+    }
+    .badge {
+      display: inline-block;
+      background: var(--cream-tint);
+      color: var(--forest);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.3rem 0.85rem;
+      border-radius: 50px;
+      margin-bottom: 0.75rem;
+    }
+    h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.65rem;
+      color: var(--forest);
+      margin-bottom: 0.4rem;
+    }
+    .subtitle {
+      font-size: 0.92rem;
+      color: var(--brown-light);
+      margin-bottom: 1.5rem;
+    }
+    .form-group { margin-bottom: 1.15rem; }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    label.field-label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--forest);
+      margin-bottom: 0.4rem;
+    }
+    .req { color: var(--danger); }
+    input[type="text"], input[type="email"], input[type="tel"] {
+      width: 100%;
+      padding: 0.72rem 0.95rem;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.94rem;
+      color: var(--brown);
+      background: var(--white);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input:focus {
+      outline: none;
+      border-color: var(--sage);
+      box-shadow: 0 0 0 3px rgba(90, 125, 86, 0.14);
+    }
+    input.is-invalid {
+      border-color: var(--danger);
+      background: var(--danger-bg);
+    }
+    .error-msg {
+      display: none;
+      font-size: 0.8rem;
+      color: var(--danger);
+      margin-top: 0.32rem;
+      font-weight: 500;
+    }
+    .error-msg.show { display: block; }
+    .item-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.85rem 1rem;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 0.65rem;
+      background: #FCFBF8;
+    }
+    .item-row.test-row {
+      border-style: dashed;
+      border-color: rgba(212, 146, 38, 0.55);
+      background: #FFFBF2;
+    }
+    .item-info strong {
+      display: block;
+      font-size: 0.94rem;
+      color: var(--forest);
+    }
+    .item-info span {
+      font-size: 0.82rem;
+      color: var(--brown-light);
+    }
+    .stock-pill {
+      display: inline-block;
+      font-size: 0.72rem;
+      background: var(--cream-tint);
+      color: var(--sage);
+      padding: 0.12rem 0.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      margin-left: 0.35rem;
+    }
+    .qty-control {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+    .qty-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      color: var(--forest);
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .qty-btn:hover { border-color: var(--sage); background: var(--cream-tint); }
+    .qty-value {
+      min-width: 24px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .total-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 1.1rem;
+      background: var(--cream-tint);
+      border-radius: 12px;
+      margin-top: 0.75rem;
+    }
+    .total-bar span { font-size: 0.9rem; font-weight: 600; color: var(--forest); }
+    .total-bar strong { font-size: 1.25rem; color: var(--honey); }
+    .ship-note {
+      margin-top: 0.75rem;
+      font-size: 0.83rem;
+      color: var(--brown-light);
+      background: #FAF6EE;
+      border-left: 3px solid var(--honey);
+      padding: 0.7rem 0.9rem;
+      border-radius: 0 10px 10px 0;
+    }
+    .btn-submit {
+      width: 100%;
+      padding: 0.95rem 1.25rem;
+      border: none;
+      border-radius: 50px;
+      background: var(--honey);
+      color: var(--white);
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      margin-top: 0.4rem;
+    }
+    .btn-submit:hover { background: var(--honey-hover); }
+    .btn-submit:disabled { opacity: 0.65; cursor: not-allowed; }
+    .qr-box { text-align: center; }
+    .qr-frame {
+      display: inline-block;
+      background: var(--white);
+      padding: 0.9rem;
+      border-radius: 16px;
+      border: 2px solid var(--cream-tint);
+      box-shadow: 0 6px 24px rgba(34, 54, 35, 0.1);
+      margin: 1rem 0;
+    }
+    .qr-frame img {
+      display: block;
+      width: 250px;
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      background: #FFF8E7;
+      color: #8A5A00;
+      border: 1px solid rgba(212, 146, 38, 0.35);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .spinner {
+      width: 15px;
+      height: 15px;
+      border: 2.5px solid rgba(212, 146, 38, 0.3);
+      border-top-color: var(--honey);
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .bank-card {
+      text-align: left;
+      background: #FCFBF8;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 0.9rem 1.1rem;
+      margin: 0.85rem 0 1.25rem;
+    }
+    .bank-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0;
+      border-bottom: 1px dashed rgba(70, 53, 40, 0.12);
+      font-size: 0.9rem;
+      gap: 0.75rem;
+    }
+    .bank-row:last-child { border-bottom: none; }
+    .bank-row .label { color: var(--brown-light); }
+    .bank-row strong { color: var(--forest); }
+    .copy-btn {
+      margin-left: 0.4rem;
+      padding: 0.2rem 0.55rem;
+      font-size: 0.75rem;
+      font-family: inherit;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--white);
+      color: var(--forest);
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .copy-btn:hover { background: var(--cream-tint); }
+    .success-view {
+      display: none;
+      text-align: center;
+      padding: 1.2rem 0.5rem;
+    }
+    .success-icon { font-size: 3rem; display: block; margin-bottom: 0.5rem; }
+    .success-badge {
+      display: inline-block;
+      background: #E8F5E9;
+      color: #1E6B38;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 0.35rem 0.9rem;
+      border-radius: 50px;
+      margin-bottom: 0.85rem;
+    }
+    .link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.7rem 1.35rem;
+      border-radius: 50px;
+      background: var(--forest);
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin: 0.4rem;
+    }
+    .link-btn.secondary {
+      background: var(--white);
+      color: var(--forest);
+      border: 1.5px solid var(--border);
+    }
+    .back-link {
+      background: none;
+      border: none;
+      color: var(--brown-light);
+      font-family: inherit;
+      font-size: 0.86rem;
+      text-decoration: underline;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+    @media (max-width: 600px) {
+      .form-row { grid-template-columns: 1fr; }
+      .card { padding: 1.4rem 1.15rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="brand" href="/">
+      <h1>men lành</h1>
+      <span class="brand-tag">Thanh toán QR tự động</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/">← Trang chủ</a>
+      <a href="/admin">Quản trị (/admin)</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="card">
+      <!-- BƯỚC 1: FORM ĐẶT HÀNG & VALIDATE -->
+      <div id="orderFormView">
+        <span class="badge">🥛 Đặt mẻ tươi Men Lành · SePay Auto QR</span>
+        <h2>Đặt hàng &amp; Thanh toán</h2>
+        <p class="subtitle">Điền thông tin bên dưới để tạo đơn (trạng thái <strong>pending</strong>) và nhận mã QR SePay thanh toán tự động 24/7.</p>
+
+        <form id="checkoutForm" novalidate>
+          <div class="form-group">
+            <label class="field-label">1. Chọn sản phẩm &amp; số lượng <span class="req">*</span></label>
+
+            <div class="item-row">
+              <div class="item-info">
+                <strong>Kefir Nguyên Chất — Chai 500ml <span class="stock-pill" id="stock500Label">Còn 24 chai</span></strong>
+                <span>40.000đ / chai · Sản phẩm vật lý (tự động trừ tồn kho)</span>
+              </div>
+              <div class="qty-control">
+                <button type="button" class="qty-btn" onclick="changeQty('p500', -1)">−</button>
+                <span class="qty-value" id="qty-p500">0</span>
+                <button type="button" class="qty-btn" onclick="changeQty('p500', 1)">+</button>
+              </div>
+            </div>
+
+            <div class="item-row">
+              <div class="item-info">
+                <strong>Kefir Nguyên Chất — Chai 1 Lít (1.000ml) <span class="stock-pill" id="stock1000Label">Còn 18 chai</span></strong>
+                <span>70.000đ / chai · Tiết kiệm nhất · Sản phẩm vật lý</span>
+              </div>
+              <div class="qty-control">
+                <button type="button" class="qty-btn" onclick="changeQty('p1000', -1)">−</button>
+                <span class="qty-value" id="qty-p1000">0</span>
+                <button type="button" class="qty-btn" onclick="changeQty('p1000', 1)">+</button>
+              </div>
+            </div>
+
+            <div class="item-row test-row">
+              <div class="item-info">
+                <strong>Gói Test Thanh Toán Tự Động SePay (Cẩm nang 7 ngày) <span class="stock-pill">Sản phẩm số</span></strong>
+                <span>2.000đ · Dành cho kiểm thử quét QR nhận tiền tự động (không trừ tồn kho)</span>
+              </div>
+              <div class="qty-control">
+                <button type="button" class="qty-btn" onclick="changeQty('pTest', -1)">−</button>
+                <span class="qty-value" id="qty-pTest">1</span>
+                <button type="button" class="qty-btn" onclick="changeQty('pTest', 1)">+</button>
+              </div>
+            </div>
+
+            <div class="error-msg" id="err-items">Vui lòng chọn ít nhất 1 sản phẩm.</div>
+
+            <div class="total-bar">
+              <span>Tổng thanh toán</span>
+              <strong id="totalDisplay">2.000đ</strong>
+            </div>
+
+            <div class="ship-note">
+              🛵 Giao lạnh hỏa tốc trong ngày tại TP. Hồ Chí Minh (chưa gồm phí ship đối với chai Kefir tươi). Với gói test 2.000đ, bạn có thể quét QR ngay để kiểm tra xác nhận tự động trong 5–10 giây.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="field-label" for="custName">2. Họ và tên <span class="req">*</span></label>
+            <input type="text" id="custName" placeholder="Ví dụ: Nguyễn Minh Anh" autocomplete="name" required>
+            <div class="error-msg" id="err-name">Vui lòng nhập họ tên hợp lệ (tối thiểu 2 ký tự).</div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="field-label" for="custEmail">3. Email nhận xác nhận đơn <span class="req">*</span></label>
+              <input type="email" id="custEmail" placeholder="Ví dụ: minhanh@gmail.com" autocomplete="email" required>
+              <div class="error-msg" id="err-email">Email không đúng định dạng (ví dụ: ten@gmail.com).</div>
+            </div>
+
+            <div class="form-group">
+              <label class="field-label" for="custPhone">4. Số điện thoại / Zalo <span class="req">*</span></label>
+              <input type="tel" id="custPhone" placeholder="Ví dụ: 0934857201" autocomplete="tel" required>
+              <div class="error-msg" id="err-phone">SĐT không hợp lệ (nhập 10 số bắt đầu bằng 03, 05, 07, 08, 09).</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="field-label" for="custAddress">5. Địa chỉ giao hàng (TP.HCM) <span id="addrReqMark" style="color:var(--brown-light);font-weight:400;">(không bắt buộc với gói số)</span></label>
+            <input type="text" id="custAddress" placeholder="Số nhà, tên đường, phường, quận..." autocomplete="street-address">
+            <div class="error-msg" id="err-address">Vui lòng nhập địa chỉ giao hàng cho đơn Kefir tươi.</div>
+          </div>
+
+          <div class="form-group">
+            <label class="field-label" for="custNote">6. Ghi chú thêm (không bắt buộc)</label>
+            <input type="text" id="custNote" placeholder="Ví dụ: Giao buổi sáng trước 11h...">
+          </div>
+
+          <button type="submit" id="submitBtn" class="btn-submit">
+            Tạo đơn &amp; Hiện mã QR thanh toán →
+          </button>
+        </form>
+      </div>
+
+      <!-- BƯỚC 2: HIỂN THỊ MÃ QR SEPAY & CHỜ XÁC NHẬN TỰ ĐỘNG -->
+      <div id="orderQrView" class="qr-box" style="display:none;">
+        <span class="badge">⚡ Chuyển khoản QR SePay 24/7</span>
+        <h2>Quét mã QR để thanh toán</h2>
+        <p class="subtitle">Mở app ngân hàng bất kỳ và quét mã bên dưới. Giữ nguyên nội dung chuyển khoản để hệ thống tự chuyển trạng thái đơn sang <strong>Đã thanh toán (success)</strong> nhé!</p>
+
+        <div class="qr-frame">
+          <img id="sepayQrImg" src="" alt="Mã QR thanh toán SePay Men Lành">
+        </div>
+
+        <div>
+          <div class="status-pill" id="statusPill">
+            <span class="spinner"></span>
+            <span id="statusText">Trạng thái: pending — Đang chờ chuyển khoản (tự xác nhận sau 5–10 giây)</span>
+          </div>
+        </div>
+
+        <div class="bank-card">
+          <div class="bank-row">
+            <span class="label">Ngân hàng</span>
+            <strong>OCB (Phương Đông)</strong>
+          </div>
+          <div class="bank-row">
+            <span class="label">Chủ tài khoản</span>
+            <strong>NGUYEN TRANG THANH HUYEN</strong>
+          </div>
+          <div class="bank-row">
+            <span class="label">Số tài khoản (VA SePay)</span>
+            <div>
+              <strong>SEPNH15810</strong>
+              <button type="button" class="copy-btn" onclick="copyText('SEPNH15810', this)">Copy</button>
+            </div>
+          </div>
+          <div class="bank-row">
+            <span class="label">Số tiền</span>
+            <strong id="qrAmountText" style="color:var(--honey);font-size:1.05rem;">2.000đ</strong>
+          </div>
+          <div class="bank-row">
+            <span class="label">Nội dung chuyển khoản</span>
+            <div>
+              <strong id="qrCodeText">ML000000</strong>
+              <button type="button" class="copy-btn" onclick="copyText(document.getElementById('qrCodeText').textContent, this)">Copy</button>
+            </div>
+          </div>
+        </div>
+
+        <p style="font-size:0.82rem;color:var(--brown-light);margin-bottom:0.75rem;">
+          Đơn hàng đã được khởi tạo trạng thái <strong>pending</strong> tại <a href="/admin" target="_blank" style="color:var(--forest);font-weight:600;">menlanh.online/admin ↗</a>
+        </p>
+
+        <button type="button" class="back-link" onclick="backToForm()">← Quay lại tạo đơn khác</button>
+      </div>
+
+      <!-- BƯỚC 3: THANH TOÁN THÀNH CÔNG -->
+      <div id="orderSuccessView" class="success-view">
+        <div class="success-badge">✅ Thanh toán thành công (success)</div>
+        <span class="success-icon">🎉</span>
+        <h2>Cảm ơn bạn đã đặt hàng tại Men Lành!</h2>
+        <p id="successDesc" class="subtitle" style="margin-top:0.6rem;"></p>
+        <div style="margin-top:1.25rem;">
+          <a href="/admin" class="link-btn">Xem đơn hàng trong /admin →</a>
+          <a href="/" class="link-btn secondary">← Về trang chủ Men Lành</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const SEPAY_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwxXoefhH0DLPc_E6HA3wO-fiOASfaTheu8_fpRVMPOHFAkQ8XjoWPKpyHt6FzHFyJW/exec";
+    const SEPAY_BANK_CODE = "OCB";
+    const SEPAY_BANK_ACC = "SEPNH15810";
+
+    const DEFAULT_PRODUCTS = [
+      { id: 1, key: 'p500', name: 'Kefir Nguyên Chất 500ml', type: 'physical', price: 40000, description: 'Chai 500ml ủ tươi thủ công 20–24h', stock_quantity: 24, created_at: '20/11/2026 08:00:00' },
+      { id: 2, key: 'p1000', name: 'Kefir Nguyên Chất 1 Lít (1.000ml)', type: 'physical', price: 70000, description: 'Chai 1 Lít tiết kiệm cho cả tuần hoặc gia đình', stock_quantity: 18, created_at: '20/11/2026 08:00:00' },
+      { id: 3, key: 'pTest', name: 'Cẩm nang 7 ngày chăm ruột (Gói Test SePay)', type: 'digital', price: 2000, description: 'Tài liệu số & gói kiểm thử thanh toán QR tự động', stock_quantity: null, created_at: '23/11/2026 09:00:00' }
+    ];
+
+    const qtyState = { p500: 0, p1000: 0, pTest: 1 };
+    let pollTimer = null;
+    let currentOrderCode = '';
+
+    function formatVND(n) {
+      return Number(n || 0).toLocaleString('vi-VN') + 'đ';
+    }
+
+    function nowVN() {
+      const d = new Date();
+      const pad = v => String(v).padStart(2, '0');
+      return `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    }
+
+    function getStoredJson(key, fallback) {
+      try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
+      } catch {
+        return fallback;
+      }
+    }
+
+    function syncStockLabels() {
+      const products = getStoredJson('menlanh_admin_products', DEFAULT_PRODUCTS);
+      const p500 = products.find(p => p.id === 1);
+      const p1000 = products.find(p => p.id === 2);
+      if (p500 && p500.stock_quantity !== null) {
+        document.getElementById('stock500Label').textContent = `Còn ${p500.stock_quantity} chai`;
+      }
+      if (p1000 && p1000.stock_quantity !== null) {
+        document.getElementById('stock1000Label').textContent = `Còn ${p1000.stock_quantity} chai`;
+      }
+    }
+
+    function updateSummary() {
+      document.getElementById('qty-p500').textContent = qtyState.p500;
+      document.getElementById('qty-p1000').textContent = qtyState.p1000;
+      document.getElementById('qty-pTest').textContent = qtyState.pTest;
+      const total = qtyState.p500 * 40000 + qtyState.p1000 * 70000 + qtyState.pTest * 2000;
+      document.getElementById('totalDisplay').textContent = formatVND(total);
+
+      const hasPhysical = (qtyState.p500 + qtyState.p1000) > 0;
+      const mark = document.getElementById('addrReqMark');
+      mark.innerHTML = hasPhysical ? '<span class="req">*</span>' : '(không bắt buộc với gói số)';
+    }
+
+    function changeQty(key, delta) {
+      qtyState[key] = Math.max(0, qtyState[key] + delta);
+      updateSummary();
+      if (qtyState.p500 + qtyState.p1000 + qtyState.pTest > 0) {
+        document.getElementById('err-items').classList.remove('show');
+      }
+    }
+
+    function validateEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
+    }
+
+    function validatePhoneVN(phone) {
+      const cleaned = phone.replace(/[\s.\-()]/g, '');
+      return /^(0|\+84)(3|5|7|8|9)[0-9]{8}$/.test(cleaned);
+    }
+
+    function setFieldError(inputId, errId, isInvalid) {
+      const inp = document.getElementById(inputId);
+      const err = document.getElementById(errId);
+      if (inp) inp.classList.toggle('is-invalid', isInvalid);
+      if (err) err.classList.toggle('show', isInvalid);
+    }
+
+    // Live validation on blur
+    document.getElementById('custEmail').addEventListener('blur', function() {
+      if (this.value.trim()) setFieldError('custEmail', 'err-email', !validateEmail(this.value));
+    });
+    document.getElementById('custPhone').addEventListener('blur', function() {
+      if (this.value.trim()) setFieldError('custPhone', 'err-phone', !validatePhoneVN(this.value));
+    });
+
+    function stopPolling() {
+      if (pollTimer) {
+        clearInterval(pollTimer);
+        pollTimer = null;
+      }
+    }
+
+    function copyText(text, btn) {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+          const old = btn.textContent;
+          btn.textContent = 'Đã copy ✓';
+          setTimeout(() => { btn.textContent = old; }, 1500);
+        });
+      }
+    }
+
+    function backToForm() {
+      stopPolling();
+      document.getElementById('orderQrView').style.display = 'none';
+      document.getElementById('orderSuccessView').style.display = 'none';
+      document.getElementById('orderFormView').style.display = 'block';
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = false;
+      btn.textContent = 'Tạo đơn & Hiện mã QR thanh toán →';
+      syncStockLabels();
+    }
+
+    function showSuccessScreen(orderCode, amount) {
+      stopPolling();
+      document.getElementById('orderQrView').style.display = 'none';
+      document.getElementById('orderSuccessView').style.display = 'block';
+      document.getElementById('successDesc').innerHTML =
+        `Men Lành đã xác nhận thanh toán thành công <strong>${formatVND(amount)}</strong> cho đơn hàng <strong>${orderCode}</strong>.<br><br>Trạng thái đơn hàng trên <strong>/admin</strong> đã được cập nhật sang <strong>Đã thanh toán (success)</strong>. Cảm ơn bạn đã tin yêu Men Lành! 🌿`;
+    }
+
+    function syncOrderToLocalAdmin(orderObj, email) {
+      // 1. Lưu đơn hàng mới (pending)
+      const orders = getStoredJson('menlanh_admin_orders', []);
+      if (!orders.some(o => o.order_code === orderObj.order_code)) {
+        orders.unshift(orderObj);
+        localStorage.setItem('menlanh_admin_orders', JSON.stringify(orders));
+      }
+
+      // 2. Lưu khách hàng nếu chưa có
+      const customers = getStoredJson('menlanh_admin_customers', []);
+      const cleanPhone = orderObj.phone.replace(/[\s.\-()]/g, '');
+      if (!customers.some(c => String(c.phone || '').replace(/[\s.\-()]/g, '') === cleanPhone)) {
+        const nextId = customers.reduce((m, c) => Math.max(m, Number(c.id || 0)), 0) + 1;
+        customers.unshift({
+          id: nextId,
+          name: orderObj.customer_name,
+          phone: orderObj.phone,
+          zalo: email || orderObj.phone,
+          registered_at: orderObj.order_date
+        });
+        localStorage.setItem('menlanh_admin_customers', JSON.stringify(customers));
+      }
+
+      // 3. Trừ tồn kho CHỈ với sản phẩm vật lý (physical); sản phẩm số (digital) không trừ
+      const products = getStoredJson('menlanh_admin_products', DEFAULT_PRODUCTS.map(p => ({ ...p })));
+      if (qtyState.p500 > 0) {
+        const p1 = products.find(p => p.id === 1 && p.type === 'physical');
+        if (p1 && p1.stock_quantity !== null) p1.stock_quantity = Math.max(0, Number(p1.stock_quantity) - qtyState.p500);
+      }
+      if (qtyState.p1000 > 0) {
+        const p2 = products.find(p => p.id === 2 && p.type === 'physical');
+        if (p2 && p2.stock_quantity !== null) p2.stock_quantity = Math.max(0, Number(p2.stock_quantity) - qtyState.p1000);
+      }
+      localStorage.setItem('menlanh_admin_products', JSON.stringify(products));
+      syncStockLabels();
+    }
+
+    function markLocalOrderPaid(orderCode, paidAmount) {
+      const orders = getStoredJson('menlanh_admin_orders', []);
+      const idx = orders.findIndex(o => o.order_code === orderCode);
+      if (idx !== -1) {
+        orders[idx].status = 'Đã thanh toán';
+        orders[idx].paid_amount = paidAmount;
+        orders[idx].paid_at = nowVN();
+        localStorage.setItem('menlanh_admin_orders', JSON.stringify(orders));
+      }
+    }
+
+    function startPolling(orderCode, expectedAmount) {
+      stopPolling();
+      let tries = 0;
+      pollTimer = setInterval(async () => {
+        tries++;
+        if (tries > 150) {
+          stopPolling();
+          document.getElementById('statusText').textContent = 'Hết thời gian chờ tự động. Nếu đã chuyển khoản, nhắn Zalo 093 48 57 201 giúp tụi mình nhé!';
+          return;
+        }
+
+        // Kiểm tra nếu Admin đã kích hoạt thanh toán thủ công trong cùng trình duyệt
+        const localOrders = getStoredJson('menlanh_admin_orders', []);
+        const localMatch = localOrders.find(o => o.order_code === orderCode);
+        if (localMatch && localMatch.status === 'Đã thanh toán') {
+          showSuccessScreen(orderCode, localMatch.paid_amount || expectedAmount);
+          return;
+        }
+
+        // Kiểm tra webhook SePay trực tiếp từ Google Sheets
+        try {
+          const res = await fetch(`${SEPAY_SCRIPT_URL}?action=check_order&order_code=${encodeURIComponent(orderCode)}`);
+          const data = await res.json();
+          if (data && data.payment_status === 'Đã thanh toán') {
+            markLocalOrderPaid(orderCode, data.paid_amount || expectedAmount);
+            showSuccessScreen(orderCode, data.paid_amount || expectedAmount);
+          } else if (data && data.payment_status === 'Thiếu tiền') {
+            document.getElementById('statusText').textContent =
+              `Đã nhận ${formatVND(data.paid_amount)} (chưa đủ ${formatVND(expectedAmount)}). Vui lòng liên hệ Zalo 093 48 57 201.`;
+          }
+        } catch (err) {
+          console.warn('SePay polling error:', err);
+        }
+      }, 4000);
+    }
+
+    document.getElementById('checkoutForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const total = qtyState.p500 * 40000 + qtyState.p1000 * 70000 + qtyState.pTest * 2000;
+      const name = document.getElementById('custName').value.trim();
+      const email = document.getElementById('custEmail').value.trim();
+      const phone = document.getElementById('custPhone').value.trim();
+      const address = document.getElementById('custAddress').value.trim();
+      const note = document.getElementById('custNote').value.trim();
+      const hasPhysical = (qtyState.p500 + qtyState.p1000) > 0;
+
+      let valid = true;
+      if (total <= 0) {
+        document.getElementById('err-items').classList.add('show');
+        valid = false;
+      } else {
+        document.getElementById('err-items').classList.remove('show');
+      }
+
+      const nameInvalid = name.length < 2;
+      setFieldError('custName', 'err-name', nameInvalid);
+      if (nameInvalid) valid = false;
+
+      const emailInvalid = !validateEmail(email);
+      setFieldError('custEmail', 'err-email', emailInvalid);
+      if (emailInvalid) valid = false;
+
+      const phoneInvalid = !validatePhoneVN(phone);
+      setFieldError('custPhone', 'err-phone', phoneInvalid);
+      if (phoneInvalid) valid = false;
+
+      const addrInvalid = hasPhysical && address.length < 5;
+      setFieldError('custAddress', 'err-address', addrInvalid);
+      if (addrInvalid) valid = false;
+
+      if (!valid) return;
+
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = '⏳ Đang khởi tạo đơn hàng (pending) & mã QR...';
+
+      const items = [];
+      if (qtyState.p500 > 0) items.push(`${qtyState.p500}x Kefir 500ml`);
+      if (qtyState.p1000 > 0) items.push(`${qtyState.p1000}x Kefir 1 Lít`);
+      if (qtyState.pTest > 0) items.push(`${qtyState.pTest}x Gói Test SePay (Digital)`);
+
+      currentOrderCode = 'ML' + Date.now().toString().slice(-5) + Math.floor(Math.random() * 10);
+      const createdAt = nowVN();
+
+      const payload = {
+        action: 'create_order',
+        order_code: currentOrderCode,
+        customer_name: name,
+        email: email,
+        phone: phone,
+        address: address || 'Sản phẩm số (nhận qua Email)',
+        items: items.join(', '),
+        amount: total,
+        note: `Email: ${email}${note ? ' | ' + note : ''}`
+      };
+
+      // Ghi đơn hàng lên Google Sheets Webhook (trạng thái pending)
+      try {
+        await fetch(SEPAY_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+      } catch (err) {
+        console.warn('Create order error:', err);
+      }
+
+      // Đồng bộ tức thì sang /admin (pending + khách hàng + trừ tồn kho SP vật lý)
+      syncOrderToLocalAdmin({
+        order_date: createdAt,
+        order_code: currentOrderCode,
+        customer_name: name,
+        phone: phone,
+        address: payload.address,
+        items: payload.items,
+        amount: total,
+        status: 'Chờ thanh toán',
+        paid_amount: 0,
+        paid_at: '',
+        sepay_ref: '',
+        note: payload.note
+      }, email);
+
+      const qrUrl = `https://qr.sepay.vn/img?acc=${encodeURIComponent(SEPAY_BANK_ACC)}&bank=${encodeURIComponent(SEPAY_BANK_CODE)}&amount=${total}&des=${encodeURIComponent(currentOrderCode)}`;
+      document.getElementById('sepayQrImg').src = qrUrl;
+      document.getElementById('qrAmountText').textContent = formatVND(total);
+      document.getElementById('qrCodeText').textContent = currentOrderCode;
+      document.getElementById('statusText').textContent = 'Trạng thái: pending — Đang chờ chuyển khoản (tự xác nhận sau 5–10 giây)';
+
+      document.getElementById('orderFormView').style.display = 'none';
+      document.getElementById('orderQrView').style.display = 'block';
+
+      startPolling(currentOrderCode, total);
+    });
+
+    syncStockLabels();
+    updateSummary();
+  </script>
+</body>
+</html>

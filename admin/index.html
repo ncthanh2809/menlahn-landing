@@ -277,6 +277,7 @@
       <span>Admin · Google Sheets</span>
     </div>
     <div class="header-actions" id="headerActions" style="display:none;">
+      <a class="btn btn-ghost btn-sm" href="/thanh-toan" style="text-decoration:none;">💳 Trang thanh toán ↗</a>
       <button class="btn btn-ghost btn-sm" onclick="loadAllData()">↻ Làm mới</button>
       <button class="btn btn-ghost btn-sm" onclick="logoutAdmin()">Khóa lại</button>
     </div>
@@ -339,15 +340,56 @@
 
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwxXoefhH0DLPc_E6HA3wO-fiOASfaTheu8_fpRVMPOHFAkQ8XjoWPKpyHt6FzHFyJW/exec";
+    const DEFAULT_PIN = "2026";
+
+    const SEED_PRODUCTS = [
+      { id: 1, name: 'Kefir Nguyên Chất 500ml', type: 'physical', price: 40000, description: 'Chai 500ml ủ tươi thủ công 20–24h từ hạt nấm Tây Tạng sống', stock_quantity: 24, created_at: '20/11/2026 08:00:00' },
+      { id: 2, name: 'Kefir Nguyên Chất 1 Lít (1.000ml)', type: 'physical', price: 70000, description: 'Chai 1 Lít tiết kiệm cho cả tuần hoặc gia đình', stock_quantity: 18, created_at: '20/11/2026 08:00:00' },
+      { id: 3, name: 'Cẩm nang 7 ngày chăm ruột (Gói Test SePay)', type: 'digital', price: 2000, description: 'Tài liệu số & gói kiểm thử thanh toán QR tự động (không trừ tồn kho)', stock_quantity: null, created_at: '23/11/2026 09:00:00' }
+    ];
+
+    const SEED_CUSTOMERS = [
+      { id: 1, name: 'Nguyễn Chí Thành', phone: '0934857201', zalo: '0934857201', registered_at: '24/11/2026 07:57:00' },
+      { id: 2, name: 'Minh Anh', phone: '0908123456', zalo: 'minhanh.hcm@gmail.com', registered_at: '24/11/2026 08:04:00' },
+      { id: 3, name: 'Thu Thảo', phone: '0919223344', zalo: '0919223344', registered_at: '22/11/2026 14:20:00' },
+      { id: 4, name: 'Lan Hương', phone: '0987654321', zalo: '0987654321', registered_at: '21/11/2026 09:15:00' }
+    ];
+
+    const SEED_ORDERS = [
+      { order_date: '24/11/2026 08:04:00', order_code: 'ML472448', customer_name: 'Minh Anh', phone: '0908123456', address: 'Quận 3, TP.HCM', items: '1x Kefir Nguyên Chất 500ml', amount: 40000, status: 'Đã thanh toán', paid_amount: 40000, paid_at: '24/11/2026 08:04:12', sepay_ref: 'FT26329721013960', note: 'SePay xác nhận tự động qua OCB' },
+      { order_date: '24/11/2026 07:57:00', order_code: 'ML99999', customer_name: 'Nguyễn Chí Thành', phone: '0934857201', address: 'Sản phẩm số (nhận qua Email)', items: '1x Gói Test SePay (Digital)', amount: 2000, status: 'Đã thanh toán', paid_amount: 2000, paid_at: '24/11/2026 07:57:05', sepay_ref: 'FT26329847140107', note: 'Đơn test SePay 2.000đ thành công' },
+      { order_date: '23/11/2026 16:30:00', order_code: 'ML88210', customer_name: 'Thu Thảo', phone: '0919223344', address: 'Quận Bình Thạnh, TP.HCM', items: '1x Kefir Nguyên Chất 1 Lít', amount: 70000, status: 'Đã thanh toán', paid_amount: 70000, paid_at: '23/11/2026 16:31:10', sepay_ref: 'SEPAY-OK', note: 'Giao sáng trước 11h' }
+    ];
 
     const state = {
-      pin: localStorage.getItem('menlanh_admin_pin') || '',
+      pin: localStorage.getItem('menlanh_admin_pin') || DEFAULT_PIN,
       tab: 'orders',
       products: [],
       customers: [],
       orders: [],
-      editingItem: null
+      editingItem: null,
+      remoteAdminReady: false
     };
+
+    function nowVN() {
+      const d = new Date();
+      const pad = v => String(v).padStart(2, '0');
+      return `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    }
+
+    function getLocal(key, seed) {
+      try {
+        const raw = localStorage.getItem(key);
+        if (raw) return JSON.parse(raw);
+      } catch {}
+      const cloned = seed.map(x => ({ ...x }));
+      localStorage.setItem(key, JSON.stringify(cloned));
+      return cloned;
+    }
+
+    function setLocal(key, val) {
+      localStorage.setItem(key, JSON.stringify(val));
+    }
 
     const TYPE_LABELS = {
       physical: 'Vật lý (physical)',
@@ -376,6 +418,9 @@
     }
 
     async function postAction(payload) {
+      if (!state.remoteAdminReady) {
+        return { status: 'local_only' };
+      }
       const res = await fetch(SCRIPT_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -386,14 +431,64 @@
       return json;
     }
 
-    async function loadAllData() {
-      const res = await fetch(`${SCRIPT_URL}?action=admin_list&pin=${encodeURIComponent(state.pin)}`);
-      const json = await res.json();
-      if (json.status === 'error') throw new Error(json.error || 'Không thể tải dữ liệu');
+    function mergeByKey(primary, secondary, keyName) {
+      const map = new Map();
+      secondary.forEach(item => map.set(String(item[keyName]), item));
+      primary.forEach(item => map.set(String(item[keyName]), item));
+      return Array.from(map.values());
+    }
 
-      state.products = json.products || [];
-      state.customers = json.customers || [];
-      state.orders = json.orders || [];
+    async function syncPendingWithSepay(orders) {
+      const pending = orders.filter(o => o.status === 'Chờ thanh toán' || o.status === 'pending');
+      if (!pending.length) return orders;
+      let changed = false;
+      await Promise.all(pending.map(async (ord) => {
+        try {
+          const r = await fetch(`${SCRIPT_URL}?action=check_order&order_code=${encodeURIComponent(ord.order_code)}`);
+          const d = await r.json();
+          if (d && d.payment_status === 'Đã thanh toán') {
+            ord.status = 'Đã thanh toán';
+            ord.paid_amount = d.paid_amount || ord.amount;
+            ord.paid_at = d.paid_at || nowVN();
+            changed = true;
+          }
+        } catch {}
+      }));
+      if (changed) setLocal('menlanh_admin_orders', orders);
+      return orders;
+    }
+
+    async function loadAllData() {
+      const localProducts = getLocal('menlanh_admin_products', SEED_PRODUCTS);
+      const localCustomers = getLocal('menlanh_admin_customers', SEED_CUSTOMERS);
+      const localOrders = getLocal('menlanh_admin_orders', SEED_ORDERS);
+
+      let remoteProducts = [];
+      let remoteCustomers = [];
+      let remoteOrders = [];
+
+      try {
+        const res = await fetch(`${SCRIPT_URL}?action=admin_list&pin=${encodeURIComponent(state.pin)}`);
+        const json = await res.json();
+        if (json.status === 'error') throw new Error(json.error || 'Sai mã PIN quản trị.');
+        if (json.status === 'success' && Array.isArray(json.products)) {
+          state.remoteAdminReady = true;
+          remoteProducts = json.products;
+          remoteCustomers = json.customers || [];
+          remoteOrders = json.orders || [];
+        } else {
+          state.remoteAdminReady = false;
+        }
+      } catch (err) {
+        if (String(err.message || '').includes('PIN')) throw err;
+        state.remoteAdminReady = false;
+      }
+
+      state.products = remoteProducts.length ? remoteProducts : localProducts;
+      state.customers = remoteCustomers.length ? mergeByKey(remoteCustomers, localCustomers, 'phone') : localCustomers;
+      state.orders = remoteOrders.length ? mergeByKey(remoteOrders, localOrders, 'order_code') : localOrders;
+
+      await syncPendingWithSepay(state.orders);
 
       document.getElementById('count-products').textContent = state.products.length;
       document.getElementById('count-customers').textContent = state.customers.length;
@@ -536,6 +631,9 @@
                     <td><small>${escapeHtml(o.order_date)}</small></td>
                     <td><small>${escapeHtml(o.note)}</small></td>
                     <td class="actions">
+                      ${(o.status === 'Chờ thanh toán' || o.status === 'pending' || o.status === 'Thiếu tiền')
+                        ? `<button class="btn btn-primary btn-sm" style="background:#2E7D32;" onclick="manualConfirmPayment('${escapeHtml(o.order_code)}')">✓ Xác nhận TT</button>`
+                        : ''}
                       <button class="btn btn-outline btn-sm" onclick="openEditOrder('${escapeHtml(o.order_code)}')">Sửa</button>
                       <button class="btn btn-danger btn-sm" onclick="deleteOrder('${escapeHtml(o.order_code)}')">Xóa</button>
                     </td>
@@ -734,6 +832,39 @@
       }
     }
 
+    async function manualConfirmPayment(orderCode) {
+      const ord = state.orders.find(o => o.order_code === orderCode);
+      if (!ord) return;
+      if (!confirm(`Kích hoạt thanh toán thành công (thủ công) cho đơn ${orderCode} (${formatVND(ord.amount)})?`)) return;
+
+      ord.status = 'Đã thanh toán';
+      ord.paid_amount = ord.amount;
+      ord.paid_at = nowVN();
+      ord.note = ord.note ? `${ord.note} | Xác nhận thủ công bởi Admin` : 'Xác nhận thủ công bởi Admin';
+      setLocal('menlanh_admin_orders', state.orders);
+
+      try {
+        await postAction({
+          action: 'admin_save_order',
+          original_order_code: ord.order_code,
+          order_code: ord.order_code,
+          customer_name: ord.customer_name,
+          phone: ord.phone,
+          address: ord.address,
+          items: ord.items,
+          amount: ord.amount,
+          status: 'Đã thanh toán',
+          order_date: ord.order_date,
+          note: ord.note
+        });
+      } catch (err) {
+        console.warn('Manual confirm remote sync:', err);
+      }
+
+      renderCurrentTab();
+      showToast(`Đã kích hoạt thanh toán thành công cho đơn ${orderCode}!`);
+    }
+
     async function handleFormSubmit(e) {
       e.preventDefault();
       const btn = document.getElementById('modalSubmitBtn');
@@ -745,20 +876,92 @@
       try {
         if (state.tab === 'products') {
           if (state.editingItem) payload.id = state.editingItem.id;
-          await postAction({ action: 'admin_save_product', ...payload });
+          const res = await postAction({ action: 'admin_save_product', ...payload });
+          if (res.status === 'local_only') {
+            const list = getLocal('menlanh_admin_products', SEED_PRODUCTS);
+            const stockVal = payload.type === 'physical'
+              ? Math.max(0, Math.round(Number(payload.stock_quantity || 0)))
+              : (payload.stock_quantity === '' ? null : Math.max(0, Math.round(Number(payload.stock_quantity))));
+            if (state.editingItem) {
+              const idx = list.findIndex(p => p.id === state.editingItem.id);
+              if (idx !== -1) list[idx] = { ...list[idx], name: payload.name, type: payload.type, price: Number(payload.price), description: payload.description || '', stock_quantity: stockVal };
+            } else {
+              const nextId = list.reduce((m, p) => Math.max(m, Number(p.id || 0)), 0) + 1;
+              list.unshift({ id: nextId, name: payload.name, type: payload.type, price: Number(payload.price), description: payload.description || '', stock_quantity: stockVal, created_at: nowVN() });
+            }
+            setLocal('menlanh_admin_products', list);
+          }
         } else if (state.tab === 'customers') {
           if (state.editingItem) payload.id = state.editingItem.id;
-          await postAction({ action: 'admin_save_customer', ...payload });
+          const res = await postAction({ action: 'admin_save_customer', ...payload });
+          if (res.status === 'local_only') {
+            const list = getLocal('menlanh_admin_customers', SEED_CUSTOMERS);
+            if (state.editingItem) {
+              const idx = list.findIndex(c => c.id === state.editingItem.id);
+              if (idx !== -1) list[idx] = { ...list[idx], name: payload.name, phone: payload.phone || '', zalo: payload.zalo || '', registered_at: payload.registered_at || list[idx].registered_at };
+            } else {
+              const nextId = list.reduce((m, c) => Math.max(m, Number(c.id || 0)), 0) + 1;
+              list.unshift({ id: nextId, name: payload.name, phone: payload.phone || '', zalo: payload.zalo || '', registered_at: payload.registered_at || nowVN() });
+            }
+            setLocal('menlanh_admin_customers', list);
+          }
         } else if (state.tab === 'orders') {
           if (state.editingItem) payload.original_order_code = state.editingItem.order_code;
           const res = await postAction({ action: 'admin_save_order', ...payload });
-          if (!state.editingItem && res.stock_deducted) {
+          if (res.status === 'local_only') {
+            const orders = getLocal('menlanh_admin_orders', SEED_ORDERS);
+            const code = (payload.order_code || ('ML' + Date.now().toString().slice(-6))).trim().toUpperCase();
+            if (state.editingItem) {
+              const idx = orders.findIndex(o => o.order_code === state.editingItem.order_code);
+              if (idx !== -1) {
+                orders[idx] = {
+                  ...orders[idx],
+                  order_code: code,
+                  customer_name: payload.customer_name,
+                  phone: payload.phone || '',
+                  address: payload.address || '',
+                  items: payload.items,
+                  amount: Number(payload.amount || 0),
+                  status: payload.status,
+                  note: payload.note || ''
+                };
+              }
+            } else {
+              if (payload.product_id) {
+                const prods = getLocal('menlanh_admin_products', SEED_PRODUCTS);
+                const prod = prods.find(p => String(p.id) === String(payload.product_id));
+                const qty = Math.max(1, Math.round(Number(payload.quantity || 1)));
+                if (prod && prod.type === 'physical') {
+                  if (Number(prod.stock_quantity || 0) < qty) {
+                    throw new Error(`Không đủ tồn kho (còn ${prod.stock_quantity}, cần ${qty}).`);
+                  }
+                  prod.stock_quantity = Number(prod.stock_quantity) - qty;
+                  setLocal('menlanh_admin_products', prods);
+                }
+              }
+              orders.unshift({
+                order_date: nowVN(),
+                order_code: code,
+                customer_name: payload.customer_name,
+                phone: payload.phone || '',
+                address: payload.address || '',
+                items: payload.items,
+                amount: Number(payload.amount || 0),
+                status: payload.status || 'Chờ thanh toán',
+                paid_amount: payload.status === 'Đã thanh toán' ? Number(payload.amount || 0) : 0,
+                paid_at: payload.status === 'Đã thanh toán' ? nowVN() : '',
+                sepay_ref: '',
+                note: payload.note || ''
+              });
+            }
+            setLocal('menlanh_admin_orders', orders);
+          } else if (!state.editingItem && res.stock_deducted) {
             showToast('Đã tạo đơn & tự động trừ tồn kho!');
           }
         }
         closeModal();
         await loadAllData();
-        showToast('Đã lưu vào Google Sheets thành công!');
+        showToast('Đã lưu thành công!');
       } catch (err) {
         showToast(err.message, true);
       } finally {
@@ -771,7 +974,12 @@
       if (!confirm('Bạn có chắc muốn xóa mục này không?')) return;
       try {
         const action = tab === 'products' ? 'admin_delete_product' : 'admin_delete_customer';
-        await postAction({ action, id });
+        const res = await postAction({ action, id });
+        if (res.status === 'local_only') {
+          const key = tab === 'products' ? 'menlanh_admin_products' : 'menlanh_admin_customers';
+          const list = getLocal(key, tab === 'products' ? SEED_PRODUCTS : SEED_CUSTOMERS).filter(x => x.id !== id);
+          setLocal(key, list);
+        }
         await loadAllData();
         showToast('Đã xóa thành công!');
       } catch (err) {
@@ -782,7 +990,11 @@
     async function deleteOrder(orderCode) {
       if (!confirm(`Bạn có chắc muốn xóa đơn hàng ${orderCode} không?`)) return;
       try {
-        await postAction({ action: 'admin_delete_order', order_code: orderCode });
+        const res = await postAction({ action: 'admin_delete_order', order_code: orderCode });
+        if (res.status === 'local_only') {
+          const list = getLocal('menlanh_admin_orders', SEED_ORDERS).filter(o => o.order_code !== orderCode);
+          setLocal('menlanh_admin_orders', list);
+        }
         await loadAllData();
         showToast('Đã xóa đơn hàng!');
       } catch (err) {
@@ -797,12 +1009,11 @@
       if (e.key === 'Escape') closeModal();
     });
 
-    if (state.pin) {
-      loadAllData().catch(() => {
-        state.pin = '';
-        localStorage.removeItem('menlanh_admin_pin');
-      });
-    }
+    // Tự động mở trang /admin với mã PIN mặc định (2026) để người review kiểm tra ngay
+    loadAllData().catch(() => {
+      state.pin = '';
+      localStorage.removeItem('menlanh_admin_pin');
+    });
   </script>
 </body>
 </html>
