@@ -1921,22 +1921,116 @@
     }
     .sepay-qr-box {
       text-align: center;
-      padding: 1rem 0.5rem 0.5rem;
+      padding: 0.75rem 0.25rem 4.5rem;
     }
     .sepay-qr-frame {
       display: inline-block;
       background: var(--white);
-      padding: 0.9rem;
+      padding: 0.75rem;
       border-radius: 18px;
       border: 2px solid rgba(90, 125, 86, 0.25);
       box-shadow: var(--shadow);
-      margin: 0.75rem 0 1rem;
+      margin: 0.65rem 0 0.65rem;
     }
     .sepay-qr-frame img {
-      width: 220px;
-      height: 220px;
+      width: 210px;
+      height: 210px;
       object-fit: contain;
       border-radius: 10px;
+    }
+    .sepay-quick-actions {
+      display: flex;
+      justify-content: center;
+      margin: 0.2rem 0 0.85rem;
+    }
+    .sepay-save-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.55rem 1.05rem;
+      border-radius: 50px;
+      border: 1.5px solid var(--forest);
+      background: var(--forest);
+      color: var(--white);
+      font-family: inherit;
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .sepay-deeplink-box {
+      text-align: left;
+      background: #F4F7F3;
+      border: 1px solid rgba(90, 125, 86, 0.22);
+      border-radius: 14px;
+      padding: 0.8rem 0.9rem;
+      margin: 0.65rem 0 0.95rem;
+    }
+    .sepay-deeplink-title {
+      font-size: 0.83rem;
+      font-weight: 700;
+      color: var(--forest);
+      margin-bottom: 0.15rem;
+    }
+    .sepay-deeplink-sub {
+      font-size: 0.75rem;
+      color: var(--brown-light);
+      margin-bottom: 0.6rem;
+    }
+    .sepay-bank-chips {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.4rem;
+      margin-bottom: 0.5rem;
+    }
+    .sepay-bank-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.46rem 0.3rem;
+      border-radius: 10px;
+      border: 1px solid rgba(70, 53, 40, 0.14);
+      background: var(--white);
+      color: var(--forest);
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-decoration: none;
+      text-align: center;
+    }
+    .sepay-bank-other {
+      display: flex;
+      gap: 0.4rem;
+      align-items: center;
+    }
+    .sepay-bank-select {
+      flex: 1;
+      padding: 0.48rem 0.65rem;
+      border-radius: 10px;
+      border: 1px solid rgba(70, 53, 40, 0.16);
+      background: var(--white);
+      color: var(--brown);
+      font-family: inherit;
+      font-size: 0.79rem;
+    }
+    .sepay-bank-open-btn {
+      padding: 0.48rem 0.8rem;
+      border-radius: 10px;
+      border: none;
+      background: var(--honey);
+      color: var(--white);
+      font-family: inherit;
+      font-size: 0.79rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .sepay-tip-note {
+      font-size: 0.74rem;
+      color: var(--brown-light);
+      margin-top: 0.4rem;
+    }
+    @media (max-width: 600px) {
+      .sepay-qr-frame img { width: 188px; height: 188px; }
+      .sepay-bank-chips { grid-template-columns: repeat(2, 1fr); }
     }
     .sepay-bank-card {
       background: var(--cream);
@@ -2597,6 +2691,23 @@
           <img id="sepayQrImg" src="" alt="Mã QR thanh toán SePay Men Lành">
         </div>
 
+        <div class="sepay-quick-actions">
+          <button type="button" class="sepay-save-btn" id="modalSaveQrBtn" onclick="saveModalQrImage()">⬇️ Lưu ảnh QR về máy</button>
+        </div>
+
+        <div class="sepay-deeplink-box">
+          <div class="sepay-deeplink-title">⚡ Mở nhanh app ngân hàng (1 chạm trên điện thoại)</div>
+          <div class="sepay-deeplink-sub">Tự điền sẵn STK, số tiền &amp; nội dung — bạn chỉ cần bấm xác nhận.</div>
+          <div class="sepay-bank-chips" id="modalBankChips"></div>
+          <div class="sepay-bank-other">
+            <select class="sepay-bank-select" id="modalBankSelect" aria-label="Chọn ngân hàng khác">
+              <option value="">Chọn ngân hàng khác...</option>
+            </select>
+            <button type="button" class="sepay-bank-open-btn" onclick="openModalSelectedBank()">Mở app →</button>
+          </div>
+          <div class="sepay-tip-note">Nếu mở từ Facebook/Zalo bị chặn mở app, bạn bấm <strong>Lưu ảnh QR</strong> ở trên rồi chọn ảnh trong app ngân hàng nhé.</div>
+        </div>
+
         <div id="sepayStatusPill" class="sepay-status-pill">
           <span class="sepay-spinner"></span>
           <span id="sepayStatusText">Đang chờ chuyển khoản... tự động xác nhận sau 5–10 giây</span>
@@ -2620,7 +2731,10 @@
           </div>
           <div class="sepay-bank-row">
             <span class="label">Tiền sữa (chưa gồm ship)</span>
-            <strong id="qrAmountText" style="color: var(--honey); font-size: 1rem;">70.000đ</strong>
+            <div>
+              <strong id="qrAmountText" style="color: var(--honey); font-size: 1rem;">70.000đ</strong>
+              <button type="button" class="copy-mini-btn" onclick="copyTextValue(String(currentOrderAmount), this)">Copy</button>
+            </div>
           </div>
           <div class="sepay-bank-row">
             <span class="label">Nội dung CK</span>
@@ -3197,6 +3311,118 @@ Men Lành có một bảng khảo sát ngắn 30 giây giúp bạn kiểm tra t�
     const orderState = { qty500: 0, qty1000: 1 };
     let paymentPollTimer = null;
     let currentOrderCode = "";
+    let currentOrderAmount = 70000;
+    let currentModalQrUrl = "";
+
+    const MODAL_POPULAR_BANKS = [
+      { id: 'vcb', name: 'Vietcombank' },
+      { id: 'tcb', name: 'Techcombank' },
+      { id: 'mb', name: 'MBBank' },
+      { id: 'acb', name: 'ACB' },
+      { id: 'bidv', name: 'BIDV' },
+      { id: 'icb', name: 'VietinBank' },
+      { id: 'vpb', name: 'VPBank' },
+      { id: 'ocb', name: 'OCB' }
+    ];
+    let modalAllBanks = [
+      ...MODAL_POPULAR_BANKS,
+      { id: 'tpb', name: 'TPBank' },
+      { id: 'vib', name: 'VIB' },
+      { id: 'stb', name: 'Sacombank' },
+      { id: 'shb', name: 'SHB' },
+      { id: 'hdb', name: 'HDBank' },
+      { id: 'msb', name: 'MSB' },
+      { id: 'seab', name: 'SeABank' },
+      { id: 'eib', name: 'Eximbank' },
+      { id: 'lpb', name: 'LPBank' },
+      { id: 'vba', name: 'Agribank' },
+      { id: 'cake', name: 'CAKE by VPBank' },
+      { id: 'timo', name: 'Timo' },
+      { id: 'momo', name: 'MoMo' }
+    ];
+
+    function buildModalDeeplink(appId) {
+      const p = new URLSearchParams({
+        app: appId,
+        ba: `${SEPAY_BANK_ACC}@ocb`,
+        am: String(currentOrderAmount || 0),
+        tn: currentOrderCode || '',
+        bn: 'NGUYEN TRANG THANH HUYEN',
+        url: window.location.href
+      });
+      return `https://dl.vietqr.io/pay?${p.toString()}`;
+    }
+
+    function renderModalBankDeeplinks() {
+      const chips = document.getElementById('modalBankChips');
+      const sel = document.getElementById('modalBankSelect');
+      if (chips) {
+        chips.innerHTML = MODAL_POPULAR_BANKS.map(b =>
+          `<a class="sepay-bank-chip" href="${buildModalDeeplink(b.id)}">${b.name}</a>`
+        ).join('');
+      }
+      if (sel) {
+        const popIds = new Set(MODAL_POPULAR_BANKS.map(b => b.id));
+        const others = modalAllBanks.filter(b => !popIds.has(b.id));
+        sel.innerHTML = '<option value="">Chọn ngân hàng khác...</option>' +
+          others.map(b => `<option value="${b.id}">${b.name}</option>`).join('');
+      }
+    }
+
+    function openModalSelectedBank() {
+      const sel = document.getElementById('modalBankSelect');
+      if (!sel || !sel.value) {
+        alert('Bạn chọn ngân hàng ở danh sách bên cạnh trước nhé!');
+        return;
+      }
+      window.location.href = buildModalDeeplink(sel.value);
+    }
+
+    async function saveModalQrImage() {
+      const btn = document.getElementById('modalSaveQrBtn');
+      if (!currentModalQrUrl) return;
+      const old = btn.textContent;
+      btn.textContent = '⏳ Đang chuẩn bị ảnh QR...';
+      btn.disabled = true;
+      const fileName = `QR-MenLanh-${currentOrderCode || 'order'}.png`;
+      try {
+        const res = await fetch(currentModalQrUrl);
+        const blob = await res.blob();
+        const file = new File([blob], fileName, { type: blob.type || 'image/png' });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({ files: [file], title: `Mã QR Men Lành ${currentOrderCode}` });
+          btn.textContent = '✓ Đã mở lưu ảnh QR';
+        } else {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = fileName;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          setTimeout(() => URL.revokeObjectURL(url), 4000);
+          btn.textContent = '✓ Đã tải ảnh QR về máy';
+        }
+      } catch {
+        window.open(currentModalQrUrl, '_blank', 'noopener');
+        btn.textContent = 'Nhấn giữ ảnh QR 1 giây để lưu';
+      } finally {
+        btn.disabled = false;
+        setTimeout(() => { btn.textContent = old; }, 2600);
+      }
+    }
+
+    (async function preloadModalBanks() {
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      try {
+        const r = await fetch(isIOS ? 'https://api.vietqr.io/v2/ios-app-deeplinks' : 'https://api.vietqr.io/v2/android-app-deeplinks');
+        const j = await r.json();
+        if (j && Array.isArray(j.apps) && j.apps.length) {
+          modalAllBanks = j.apps.filter(a => a.appId && a.appName).map(a => ({ id: a.appId, name: a.appName }));
+          if (currentOrderCode) renderModalBankDeeplinks();
+        }
+      } catch {}
+    })();
 
     function formatVND(amount) {
       return Number(amount || 0).toLocaleString('vi-VN') + 'đ';
@@ -3274,12 +3500,31 @@ Men Lành có một bảng khảo sát ngắn 30 giây giúp bạn kiểm tra t�
     }
 
     function copyTextValue(text, btn) {
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(text).then(() => {
-          const old = btn.textContent;
-          btn.textContent = 'Đã copy ✓';
-          setTimeout(() => { btn.textContent = old; }, 1600);
+      const done = () => {
+        const old = btn.textContent;
+        btn.textContent = 'Đã copy ✓';
+        setTimeout(() => { btn.textContent = old; }, 1600);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(() => {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          try { document.execCommand('copy'); done(); } catch {}
+          ta.remove();
         });
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); done(); } catch {}
+        ta.remove();
       }
     }
 
@@ -3291,6 +3536,29 @@ Men Lành có một bảng khảo sát ngắn 30 giây giúp bạn kiểm tra t�
     window.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') closeOrderModal();
     });
+
+    async function checkModalOrderNow(orderCode, expectedAmount) {
+      if (!orderCode) return;
+      try {
+        const res = await fetch(`${SEPAY_ORDER_SCRIPT_URL}?action=check_order&order_code=${encodeURIComponent(orderCode)}`);
+        const data = await res.json();
+
+        if (data && data.payment_status === 'Đã thanh toán') {
+          stopPaymentPolling();
+          document.getElementById('orderQrView').style.display = 'none';
+          document.getElementById('orderSuccessView').style.display = 'block';
+          const desc = document.getElementById('orderSuccessDesc');
+          if (desc) {
+            desc.innerHTML = `Men Lành đã nhận đủ <strong>${formatVND(data.paid_amount || expectedAmount)}</strong> tiền sữa cho đơn hàng <strong>${orderCode}</strong>.<br><br>🛵 <strong>Bước tiếp theo:</strong> Tụi mình sẽ nhắn Zalo (theo SĐT bạn vừa điền) để báo phí ship hỏa tốc theo địa chỉ và xác nhận khung giờ bạn tiện nhận. Khi shipper giao tới, bạn chỉ cần thanh toán phí ship cho shipper là xong nhé!`;
+          }
+        } else if (data && data.payment_status === 'Thiếu tiền') {
+          const st = document.getElementById('sepayStatusText');
+          if (st) st.textContent = `Đã nhận ${formatVND(data.paid_amount)} (chưa đủ ${formatVND(expectedAmount)}). Vui lòng nhắn Zalo 093 48 57 201 để tụi mình hỗ trợ nhé!`;
+        }
+      } catch (err) {
+        console.warn('SePay polling error:', err);
+      }
+    }
 
     function startPaymentPolling(orderCode, expectedAmount) {
       stopPaymentPolling();
@@ -3305,28 +3573,20 @@ Men Lành có một bảng khảo sát ngắn 30 giây giúp bạn kiểm tra t�
           if (st) st.textContent = 'Hết thời gian chờ tự động. Nếu đã chuyển khoản, nhắn Zalo giúp tụi mình nhé!';
           return;
         }
-
-        try {
-          const res = await fetch(`${SEPAY_ORDER_SCRIPT_URL}?action=check_order&order_code=${encodeURIComponent(orderCode)}`);
-          const data = await res.json();
-
-          if (data && data.payment_status === 'Đã thanh toán') {
-            stopPaymentPolling();
-            document.getElementById('orderQrView').style.display = 'none';
-            document.getElementById('orderSuccessView').style.display = 'block';
-            const desc = document.getElementById('orderSuccessDesc');
-            if (desc) {
-              desc.innerHTML = `Men Lành đã nhận đủ <strong>${formatVND(data.paid_amount || expectedAmount)}</strong> tiền sữa cho đơn hàng <strong>${orderCode}</strong>.<br><br>🛵 <strong>Bước tiếp theo:</strong> Tụi mình sẽ nhắn Zalo (theo SĐT bạn vừa điền) để báo phí ship hỏa tốc theo địa chỉ và xác nhận khung giờ bạn tiện nhận. Khi shipper giao tới, bạn chỉ cần thanh toán phí ship cho shipper là xong nhé!`;
-            }
-          } else if (data && data.payment_status === 'Thiếu tiền') {
-            const st = document.getElementById('sepayStatusText');
-            if (st) st.textContent = `Đã nhận ${formatVND(data.paid_amount)} (chưa đủ ${formatVND(expectedAmount)}). Vui lòng nhắn Zalo 093 48 57 201 để tụi mình hỗ trợ nhé!`;
-          }
-        } catch (err) {
-          console.warn('SePay polling error:', err);
-        }
+        await checkModalOrderNow(orderCode, expectedAmount);
       }, 4000);
     }
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && paymentPollTimer && currentOrderCode) {
+        checkModalOrderNow(currentOrderCode, currentOrderAmount);
+      }
+    });
+    window.addEventListener('focus', () => {
+      if (paymentPollTimer && currentOrderCode) {
+        checkModalOrderNow(currentOrderCode, currentOrderAmount);
+      }
+    });
 
     const orderForm = document.getElementById('orderForm');
     if (orderForm) {
@@ -3371,11 +3631,13 @@ Men Lành có một bảng khảo sát ngắn 30 giây giúp bạn kiểm tra t�
           console.warn('Create order error:', err);
         }
 
-        const qrUrl = `https://qr.sepay.vn/img?acc=${encodeURIComponent(SEPAY_BANK_ACC)}&bank=${encodeURIComponent(SEPAY_BANK_CODE)}&amount=${total}&des=${encodeURIComponent(currentOrderCode)}`;
-        document.getElementById('sepayQrImg').src = qrUrl;
+        currentOrderAmount = total;
+        currentModalQrUrl = `https://qr.sepay.vn/img?acc=${encodeURIComponent(SEPAY_BANK_ACC)}&bank=${encodeURIComponent(SEPAY_BANK_CODE)}&amount=${total}&des=${encodeURIComponent(currentOrderCode)}`;
+        document.getElementById('sepayQrImg').src = currentModalQrUrl;
         document.getElementById('qrAmountText').textContent = formatVND(total);
         document.getElementById('qrOrderCodeText').textContent = currentOrderCode;
         document.getElementById('sepayStatusText').textContent = 'Đang chờ chuyển khoản... tự động xác nhận sau 5–10 giây';
+        renderModalBankDeeplinks();
 
         document.getElementById('orderFormView').style.display = 'none';
         document.getElementById('orderQrView').style.display = 'block';

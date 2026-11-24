@@ -257,18 +257,120 @@
     .qr-frame {
       display: inline-block;
       background: var(--white);
-      padding: 0.9rem;
+      padding: 0.75rem;
       border-radius: 16px;
       border: 2px solid var(--cream-tint);
       box-shadow: 0 6px 24px rgba(34, 54, 35, 0.1);
-      margin: 1rem 0;
+      margin: 0.75rem 0 0.65rem;
     }
     .qr-frame img {
       display: block;
-      width: 250px;
+      width: 220px;
       max-width: 100%;
       height: auto;
       border-radius: 10px;
+    }
+    .qr-quick-actions {
+      display: flex;
+      justify-content: center;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+      margin: 0.25rem 0 0.85rem;
+    }
+    .btn-save-qr {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.55rem 1.05rem;
+      border-radius: 50px;
+      border: 1.5px solid var(--forest);
+      background: var(--forest);
+      color: var(--white);
+      font-family: inherit;
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn-save-qr:hover { opacity: 0.92; }
+    .bank-deeplink-box {
+      text-align: left;
+      background: #F4F7F3;
+      border: 1px solid rgba(90, 125, 86, 0.22);
+      border-radius: 14px;
+      padding: 0.85rem 0.95rem;
+      margin: 0.75rem 0 1rem;
+    }
+    .bank-deeplink-title {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--forest);
+      margin-bottom: 0.2rem;
+    }
+    .bank-deeplink-sub {
+      font-size: 0.76rem;
+      color: var(--brown-light);
+      margin-bottom: 0.65rem;
+    }
+    .bank-chips {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.45rem;
+      margin-bottom: 0.55rem;
+    }
+    .bank-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.48rem 0.35rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--white);
+      color: var(--forest);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-decoration: none;
+      text-align: center;
+      transition: all 0.18s;
+      cursor: pointer;
+    }
+    .bank-chip:hover {
+      border-color: var(--sage);
+      background: var(--cream-tint);
+      transform: translateY(-1px);
+    }
+    .bank-other-row {
+      display: flex;
+      gap: 0.45rem;
+      align-items: center;
+    }
+    .bank-other-select {
+      flex: 1;
+      padding: 0.5rem 0.7rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--white);
+      color: var(--brown);
+      font-family: inherit;
+      font-size: 0.8rem;
+    }
+    .bank-open-btn {
+      padding: 0.5rem 0.85rem;
+      border-radius: 10px;
+      border: none;
+      background: var(--honey);
+      color: var(--white);
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .bank-open-btn:hover { background: var(--honey-hover); }
+    .qr-tip-note {
+      font-size: 0.75rem;
+      color: var(--brown-light);
+      margin-top: 0.45rem;
     }
     .status-pill {
       display: inline-flex;
@@ -371,7 +473,9 @@
     }
     @media (max-width: 600px) {
       .form-row { grid-template-columns: 1fr; }
-      .card { padding: 1.4rem 1.15rem; }
+      .card { padding: 1.35rem 1.05rem 5.5rem; }
+      .qr-frame img { width: 192px; }
+      .bank-chips { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
@@ -482,6 +586,23 @@
           <img id="sepayQrImg" src="" alt="Mã QR thanh toán SePay Men Lành">
         </div>
 
+        <div class="qr-quick-actions">
+          <button type="button" class="btn-save-qr" id="saveQrBtn" onclick="saveQrImage()">⬇️ Lưu ảnh QR về máy</button>
+        </div>
+
+        <div class="bank-deeplink-box" id="bankDeeplinkBox">
+          <div class="bank-deeplink-title">⚡ Mở nhanh app ngân hàng (1 chạm trên điện thoại)</div>
+          <div class="bank-deeplink-sub">Tự điền sẵn STK, số tiền &amp; nội dung — bạn chỉ cần bấm xác nhận.</div>
+          <div class="bank-chips" id="bankChips"></div>
+          <div class="bank-other-row">
+            <select class="bank-other-select" id="bankOtherSelect" aria-label="Chọn ngân hàng khác">
+              <option value="">Chọn ngân hàng khác...</option>
+            </select>
+            <button type="button" class="bank-open-btn" onclick="openSelectedBank()">Mở app →</button>
+          </div>
+          <div class="qr-tip-note">Nếu mở từ Facebook/Zalo bị chặn mở app, bạn bấm <strong>Lưu ảnh QR</strong> ở trên rồi chọn ảnh trong app ngân hàng nhé.</div>
+        </div>
+
         <div>
           <div class="status-pill" id="statusPill">
             <span class="spinner"></span>
@@ -507,7 +628,10 @@
           </div>
           <div class="bank-row">
             <span class="label">Số tiền</span>
-            <strong id="qrAmountText" style="color:var(--honey);font-size:1.05rem;">2.000đ</strong>
+            <div>
+              <strong id="qrAmountText" style="color:var(--honey);font-size:1.05rem;">70.000đ</strong>
+              <button type="button" class="copy-btn" onclick="copyText(String(currentOrderAmount), this)">Copy</button>
+            </div>
           </div>
           <div class="bank-row">
             <span class="label">Nội dung chuyển khoản</span>
@@ -553,6 +677,134 @@
     const qtyState = { p500: 0, p1000: 1 };
     let pollTimer = null;
     let currentOrderCode = '';
+    let currentOrderAmount = 70000;
+    let currentQrUrl = '';
+
+    const POPULAR_BANKS = [
+      { id: 'vcb', name: 'Vietcombank' },
+      { id: 'tcb', name: 'Techcombank' },
+      { id: 'mb', name: 'MBBank' },
+      { id: 'acb', name: 'ACB' },
+      { id: 'bidv', name: 'BIDV' },
+      { id: 'icb', name: 'VietinBank' },
+      { id: 'vpb', name: 'VPBank' },
+      { id: 'ocb', name: 'OCB' }
+    ];
+
+    const FALLBACK_OTHER_BANKS = [
+      { id: 'tpb', name: 'TPBank' },
+      { id: 'vib', name: 'VIB' },
+      { id: 'stb', name: 'Sacombank' },
+      { id: 'shb', name: 'SHB' },
+      { id: 'hdb', name: 'HDBank' },
+      { id: 'msb', name: 'MSB' },
+      { id: 'seab', name: 'SeABank' },
+      { id: 'eib', name: 'Eximbank' },
+      { id: 'lpb', name: 'LPBank' },
+      { id: 'vba', name: 'Agribank' },
+      { id: 'scb', name: 'SCB' },
+      { id: 'cake', name: 'CAKE by VPBank' },
+      { id: 'timo', name: 'Timo' },
+      { id: 'momo', name: 'MoMo' },
+      { id: 'viettelmoney', name: 'Viettel Money' }
+    ];
+
+    let allBankApps = [...POPULAR_BANKS, ...FALLBACK_OTHER_BANKS];
+
+    function buildVietQrDeeplink(appId) {
+      const params = new URLSearchParams({
+        app: appId,
+        ba: `${SEPAY_BANK_ACC}@ocb`,
+        am: String(currentOrderAmount || 0),
+        tn: currentOrderCode || '',
+        bn: 'NGUYEN TRANG THANH HUYEN',
+        url: window.location.href
+      });
+      return `https://dl.vietqr.io/pay?${params.toString()}`;
+    }
+
+    function renderBankDeeplinks() {
+      const chipsEl = document.getElementById('bankChips');
+      const selectEl = document.getElementById('bankOtherSelect');
+      if (chipsEl) {
+        chipsEl.innerHTML = POPULAR_BANKS.map(b =>
+          `<a class="bank-chip" href="${buildVietQrDeeplink(b.id)}">${b.name}</a>`
+        ).join('');
+      }
+      if (selectEl) {
+        const popularIds = new Set(POPULAR_BANKS.map(b => b.id));
+        const others = allBankApps.filter(b => !popularIds.has(b.id));
+        selectEl.innerHTML = '<option value="">Chọn ngân hàng khác...</option>' +
+          others.map(b => `<option value="${b.id}">${b.name}</option>`).join('');
+      }
+    }
+
+    function openSelectedBank() {
+      const sel = document.getElementById('bankOtherSelect');
+      const appId = sel ? sel.value : '';
+      if (!appId) {
+        alert('Bạn chọn ngân hàng ở danh sách bên cạnh trước nhé!');
+        return;
+      }
+      window.location.href = buildVietQrDeeplink(appId);
+    }
+
+    async function loadVietQrBankList() {
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      const endpoint = isIOS
+        ? 'https://api.vietqr.io/v2/ios-app-deeplinks'
+        : 'https://api.vietqr.io/v2/android-app-deeplinks';
+      try {
+        const res = await fetch(endpoint);
+        const json = await res.json();
+        if (json && Array.isArray(json.apps) && json.apps.length) {
+          allBankApps = json.apps
+            .filter(a => a.appId && a.appName)
+            .map(a => ({ id: a.appId, name: a.appName }));
+          if (currentOrderCode) renderBankDeeplinks();
+        }
+      } catch {}
+    }
+
+    async function saveQrImage() {
+      const btn = document.getElementById('saveQrBtn');
+      if (!currentQrUrl) return;
+      const oldText = btn.textContent;
+      btn.textContent = '⏳ Đang chuẩn bị ảnh QR...';
+      btn.disabled = true;
+      const fileName = `QR-MenLanh-${currentOrderCode || 'order'}.png`;
+
+      try {
+        const res = await fetch(currentQrUrl);
+        const blob = await res.blob();
+        const file = new File([blob], fileName, { type: blob.type || 'image/png' });
+
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            files: [file],
+            title: `Mã QR Men Lành ${currentOrderCode}`,
+            text: `Quét mã QR thanh toán đơn ${currentOrderCode}`
+          });
+          btn.textContent = '✓ Đã mở lưu ảnh QR';
+        } else {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = fileName;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          setTimeout(() => URL.revokeObjectURL(url), 4000);
+          btn.textContent = '✓ Đã tải ảnh QR về máy';
+        }
+      } catch {
+        window.open(currentQrUrl, '_blank', 'noopener');
+        btn.textContent = 'Nhấn giữ ảnh QR 1 giây để lưu';
+      } finally {
+        btn.disabled = false;
+        setTimeout(() => { btn.textContent = oldText; }, 2600);
+      }
+    }
 
     function formatVND(n) {
       return Number(n || 0).toLocaleString('vi-VN') + 'đ';
@@ -632,13 +884,27 @@
     }
 
     function copyText(text, btn) {
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(text).then(() => {
-          const old = btn.textContent;
-          btn.textContent = 'Đã copy ✓';
-          setTimeout(() => { btn.textContent = old; }, 1500);
-        });
+      const done = () => {
+        const old = btn.textContent;
+        btn.textContent = 'Đã copy ✓';
+        setTimeout(() => { btn.textContent = old; }, 1500);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+      } else {
+        fallbackCopy(text, done);
       }
+    }
+
+    function fallbackCopy(text, onDone) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); onDone(); } catch {}
+      ta.remove();
     }
 
     function backToForm() {
@@ -708,6 +974,30 @@
       }
     }
 
+    async function checkOrderNow(orderCode, expectedAmount) {
+      if (!orderCode) return;
+      const localOrders = getStoredJson('menlanh_admin_orders', []);
+      const localMatch = localOrders.find(o => o.order_code === orderCode);
+      if (localMatch && localMatch.status === 'Đã thanh toán') {
+        showSuccessScreen(orderCode, localMatch.paid_amount || expectedAmount);
+        return;
+      }
+
+      try {
+        const res = await fetch(`${SEPAY_SCRIPT_URL}?action=check_order&order_code=${encodeURIComponent(orderCode)}`);
+        const data = await res.json();
+        if (data && data.payment_status === 'Đã thanh toán') {
+          markLocalOrderPaid(orderCode, data.paid_amount || expectedAmount);
+          showSuccessScreen(orderCode, data.paid_amount || expectedAmount);
+        } else if (data && data.payment_status === 'Thiếu tiền') {
+          document.getElementById('statusText').textContent =
+            `Đã nhận ${formatVND(data.paid_amount)} (chưa đủ ${formatVND(expectedAmount)}). Vui lòng liên hệ Zalo 093 48 57 201.`;
+        }
+      } catch (err) {
+        console.warn('SePay polling error:', err);
+      }
+    }
+
     function startPolling(orderCode, expectedAmount) {
       stopPolling();
       let tries = 0;
@@ -718,31 +1008,21 @@
           document.getElementById('statusText').textContent = 'Hết thời gian chờ tự động. Nếu đã chuyển khoản, nhắn Zalo 093 48 57 201 giúp tụi mình nhé!';
           return;
         }
-
-        // Kiểm tra nếu Admin đã kích hoạt thanh toán thủ công trong cùng trình duyệt
-        const localOrders = getStoredJson('menlanh_admin_orders', []);
-        const localMatch = localOrders.find(o => o.order_code === orderCode);
-        if (localMatch && localMatch.status === 'Đã thanh toán') {
-          showSuccessScreen(orderCode, localMatch.paid_amount || expectedAmount);
-          return;
-        }
-
-        // Kiểm tra webhook SePay trực tiếp từ Google Sheets
-        try {
-          const res = await fetch(`${SEPAY_SCRIPT_URL}?action=check_order&order_code=${encodeURIComponent(orderCode)}`);
-          const data = await res.json();
-          if (data && data.payment_status === 'Đã thanh toán') {
-            markLocalOrderPaid(orderCode, data.paid_amount || expectedAmount);
-            showSuccessScreen(orderCode, data.paid_amount || expectedAmount);
-          } else if (data && data.payment_status === 'Thiếu tiền') {
-            document.getElementById('statusText').textContent =
-              `Đã nhận ${formatVND(data.paid_amount)} (chưa đủ ${formatVND(expectedAmount)}). Vui lòng liên hệ Zalo 093 48 57 201.`;
-          }
-        } catch (err) {
-          console.warn('SePay polling error:', err);
-        }
+        await checkOrderNow(orderCode, expectedAmount);
       }, 4000);
     }
+
+    // Kiểm tra ngay lập tức khi khách chuyển từ app ngân hàng quay lại trình duyệt
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && pollTimer && currentOrderCode) {
+        checkOrderNow(currentOrderCode, currentOrderAmount);
+      }
+    });
+    window.addEventListener('focus', () => {
+      if (pollTimer && currentOrderCode) {
+        checkOrderNow(currentOrderCode, currentOrderAmount);
+      }
+    });
 
     document.getElementById('checkoutForm').addEventListener('submit', async function(e) {
       e.preventDefault();
@@ -832,20 +1112,24 @@
         note: payload.note
       }, email);
 
-      const qrUrl = `https://qr.sepay.vn/img?acc=${encodeURIComponent(SEPAY_BANK_ACC)}&bank=${encodeURIComponent(SEPAY_BANK_CODE)}&amount=${total}&des=${encodeURIComponent(currentOrderCode)}`;
-      document.getElementById('sepayQrImg').src = qrUrl;
+      currentOrderAmount = total;
+      currentQrUrl = `https://qr.sepay.vn/img?acc=${encodeURIComponent(SEPAY_BANK_ACC)}&bank=${encodeURIComponent(SEPAY_BANK_CODE)}&amount=${total}&des=${encodeURIComponent(currentOrderCode)}`;
+      document.getElementById('sepayQrImg').src = currentQrUrl;
       document.getElementById('qrAmountText').textContent = formatVND(total);
       document.getElementById('qrCodeText').textContent = currentOrderCode;
       document.getElementById('statusText').textContent = 'Trạng thái: pending — Đang chờ chuyển khoản (tự xác nhận sau 5–10 giây)';
+      renderBankDeeplinks();
 
       document.getElementById('orderFormView').style.display = 'none';
       document.getElementById('orderQrView').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
 
       startPolling(currentOrderCode, total);
     });
 
     syncStockLabels();
     updateSummary();
+    loadVietQrBankList();
   </script>
 </body>
 </html>
