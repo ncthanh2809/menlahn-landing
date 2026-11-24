@@ -362,7 +362,7 @@
     ];
 
     const state = {
-      pin: localStorage.getItem('menlanh_admin_pin') || DEFAULT_PIN,
+      pin: localStorage.getItem('menlanh_admin_pin') || '',
       tab: 'orders',
       products: [],
       customers: [],
@@ -467,6 +467,10 @@
       let remoteCustomers = [];
       let remoteOrders = [];
 
+      if (state.pin !== DEFAULT_PIN && !state.remoteAdminReady) {
+        // Kiểm tra PIN ở bước gọi remote hoặc đối chiếu PIN cục bộ
+      }
+
       try {
         const res = await fetch(`${SCRIPT_URL}?action=admin_list&pin=${encodeURIComponent(state.pin)}`);
         const json = await res.json();
@@ -478,10 +482,12 @@
           remoteOrders = json.orders || [];
         } else {
           state.remoteAdminReady = false;
+          if (state.pin !== DEFAULT_PIN) throw new Error('Sai mã PIN quản trị.');
         }
       } catch (err) {
         if (String(err.message || '').includes('PIN')) throw err;
         state.remoteAdminReady = false;
+        if (state.pin !== DEFAULT_PIN) throw new Error('Sai mã PIN quản trị.');
       }
 
       state.products = remoteProducts.length ? remoteProducts : localProducts;
@@ -1009,11 +1015,13 @@
       if (e.key === 'Escape') closeModal();
     });
 
-    // Tự động mở trang /admin với mã PIN mặc định (2026) để người review kiểm tra ngay
-    loadAllData().catch(() => {
-      state.pin = '';
-      localStorage.removeItem('menlanh_admin_pin');
-    });
+    // Yêu cầu nhập mã PIN (2026) nếu chưa đăng nhập trong trình duyệt
+    if (state.pin) {
+      loadAllData().catch(() => {
+        state.pin = '';
+        localStorage.removeItem('menlanh_admin_pin');
+      });
+    }
   </script>
 </body>
 </html>

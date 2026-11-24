@@ -418,32 +418,20 @@
               </div>
               <div class="qty-control">
                 <button type="button" class="qty-btn" onclick="changeQty('p1000', -1)">−</button>
-                <span class="qty-value" id="qty-p1000">0</span>
+                <span class="qty-value" id="qty-p1000">1</span>
                 <button type="button" class="qty-btn" onclick="changeQty('p1000', 1)">+</button>
               </div>
             </div>
 
-            <div class="item-row test-row">
-              <div class="item-info">
-                <strong>Gói Test Thanh Toán Tự Động SePay (Cẩm nang 7 ngày) <span class="stock-pill">Sản phẩm số</span></strong>
-                <span>2.000đ · Dành cho kiểm thử quét QR nhận tiền tự động (không trừ tồn kho)</span>
-              </div>
-              <div class="qty-control">
-                <button type="button" class="qty-btn" onclick="changeQty('pTest', -1)">−</button>
-                <span class="qty-value" id="qty-pTest">1</span>
-                <button type="button" class="qty-btn" onclick="changeQty('pTest', 1)">+</button>
-              </div>
-            </div>
-
-            <div class="error-msg" id="err-items">Vui lòng chọn ít nhất 1 sản phẩm.</div>
+            <div class="error-msg" id="err-items">Vui lòng chọn ít nhất 1 chai Kefir.</div>
 
             <div class="total-bar">
-              <span>Tổng thanh toán</span>
-              <strong id="totalDisplay">2.000đ</strong>
+              <span>Tiền sữa (chưa gồm phí ship)</span>
+              <strong id="totalDisplay">70.000đ</strong>
             </div>
 
             <div class="ship-note">
-              🛵 Giao lạnh hỏa tốc trong ngày tại TP. Hồ Chí Minh (chưa gồm phí ship đối với chai Kefir tươi). Với gói test 2.000đ, bạn có thể quét QR ngay để kiểm tra xác nhận tự động trong 5–10 giây.
+              🛵 Giao lạnh hỏa tốc trong ngày tại TP. Hồ Chí Minh. Nhận đơn xong tụi mình sẽ báo trước cước ship theo địa chỉ qua Zalo rồi mới đặt giao — bạn trả phí ship trực tiếp cho shipper khi nhận hàng nhé.
             </div>
           </div>
 
@@ -468,9 +456,9 @@
           </div>
 
           <div class="form-group">
-            <label class="field-label" for="custAddress">5. Địa chỉ giao hàng (TP.HCM) <span id="addrReqMark" style="color:var(--brown-light);font-weight:400;">(không bắt buộc với gói số)</span></label>
-            <input type="text" id="custAddress" placeholder="Số nhà, tên đường, phường, quận..." autocomplete="street-address">
-            <div class="error-msg" id="err-address">Vui lòng nhập địa chỉ giao hàng cho đơn Kefir tươi.</div>
+            <label class="field-label" for="custAddress">5. Địa chỉ giao hàng (TP.HCM) <span id="addrReqMark"><span class="req">*</span></span></label>
+            <input type="text" id="custAddress" placeholder="Số nhà, tên đường, phường, quận..." autocomplete="street-address" required>
+            <div class="error-msg" id="err-address">Vui lòng nhập địa chỉ giao hàng tại TP.HCM.</div>
           </div>
 
           <div class="form-group">
@@ -562,7 +550,7 @@
       { id: 3, key: 'pTest', name: 'Cẩm nang 7 ngày chăm ruột (Gói Test SePay)', type: 'digital', price: 2000, description: 'Tài liệu số & gói kiểm thử thanh toán QR tự động', stock_quantity: null, created_at: '23/11/2026 09:00:00' }
     ];
 
-    const qtyState = { p500: 0, p1000: 0, pTest: 1 };
+    const qtyState = { p500: 0, p1000: 1 };
     let pollTimer = null;
     let currentOrderCode = '';
 
@@ -600,19 +588,14 @@
     function updateSummary() {
       document.getElementById('qty-p500').textContent = qtyState.p500;
       document.getElementById('qty-p1000').textContent = qtyState.p1000;
-      document.getElementById('qty-pTest').textContent = qtyState.pTest;
-      const total = qtyState.p500 * 40000 + qtyState.p1000 * 70000 + qtyState.pTest * 2000;
+      const total = qtyState.p500 * 40000 + qtyState.p1000 * 70000;
       document.getElementById('totalDisplay').textContent = formatVND(total);
-
-      const hasPhysical = (qtyState.p500 + qtyState.p1000) > 0;
-      const mark = document.getElementById('addrReqMark');
-      mark.innerHTML = hasPhysical ? '<span class="req">*</span>' : '(không bắt buộc với gói số)';
     }
 
     function changeQty(key, delta) {
       qtyState[key] = Math.max(0, qtyState[key] + delta);
       updateSummary();
-      if (qtyState.p500 + qtyState.p1000 + qtyState.pTest > 0) {
+      if (qtyState.p500 + qtyState.p1000 > 0) {
         document.getElementById('err-items').classList.remove('show');
       }
     }
@@ -764,13 +747,13 @@
     document.getElementById('checkoutForm').addEventListener('submit', async function(e) {
       e.preventDefault();
 
-      const total = qtyState.p500 * 40000 + qtyState.p1000 * 70000 + qtyState.pTest * 2000;
+      const total = qtyState.p500 * 40000 + qtyState.p1000 * 70000;
       const name = document.getElementById('custName').value.trim();
       const email = document.getElementById('custEmail').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
       const address = document.getElementById('custAddress').value.trim();
       const note = document.getElementById('custNote').value.trim();
-      const hasPhysical = (qtyState.p500 + qtyState.p1000) > 0;
+      const hasPhysical = true;
 
       let valid = true;
       if (total <= 0) {
@@ -805,7 +788,6 @@
       const items = [];
       if (qtyState.p500 > 0) items.push(`${qtyState.p500}x Kefir 500ml`);
       if (qtyState.p1000 > 0) items.push(`${qtyState.p1000}x Kefir 1 Lít`);
-      if (qtyState.pTest > 0) items.push(`${qtyState.pTest}x Gói Test SePay (Digital)`);
 
       currentOrderCode = 'ML' + Date.now().toString().slice(-5) + Math.floor(Math.random() * 10);
       const createdAt = nowVN();
