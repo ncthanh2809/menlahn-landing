@@ -67,7 +67,8 @@ exports.handler = async (event) => {
     return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method Not Allowed' }) };
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
+  const rawApiKey = String(process.env.RESEND_API_KEY || '').trim();
+  const apiKey = (rawApiKey.match(/re_[A-Za-z0-9_]+/) || [rawApiKey])[0].replace(/[^\x20-\x7E]/g, '');
   if (!apiKey) {
     return {
       statusCode: 500,
