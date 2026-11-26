@@ -1434,8 +1434,76 @@
       cursor: pointer;
       box-shadow: 0 10px 28px rgba(44, 74, 46, 0.35);
       border: 1px solid rgba(255, 255, 255, 0.15);
+      font: inherit;
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       user-select: none;
+    }
+    .chatbot-launcher:focus-visible,
+    .chatbot-close-btn:focus-visible,
+    .chatbot-send-btn:focus-visible,
+    .chat-chip:focus-visible,
+    .btn-chat-action:focus-visible {
+      outline: 3px solid var(--honey);
+      outline-offset: 2px;
+    }
+    .visually-hidden:where(:not(:focus-within, :active)) {
+      position: absolute !important;
+      clip-path: inset(50%) !important;
+      overflow: hidden !important;
+      width: 1px !important;
+      height: 1px !important;
+      margin: -1px !important;
+      padding: 0 !important;
+      border: 0 !important;
+      white-space: nowrap !important;
+    }
+    .chat-qr-card {
+      margin-top: 0.75rem;
+      background: #FDF9EE;
+      border: 1.5px solid var(--honey);
+      border-radius: 12px;
+      padding: 0.85rem;
+      text-align: center;
+    }
+    .chat-qr-card h5 {
+      font-family: var(--font-serif);
+      color: var(--forest);
+      font-size: 0.96rem;
+      margin: 0 0 0.35rem;
+    }
+    .chat-qr-img {
+      width: 170px;
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      border: 1px solid rgba(70, 53, 40, 0.12);
+      background: #fff;
+      margin: 0.45rem auto;
+      display: block;
+    }
+    .chat-qr-meta {
+      font-size: 0.78rem;
+      color: var(--brown);
+      background: var(--white);
+      border-radius: 8px;
+      padding: 0.5rem 0.65rem;
+      text-align: left;
+      margin: 0.45rem 0;
+      border: 1px solid rgba(70, 53, 40, 0.1);
+    }
+    .chat-qr-status {
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--forest);
+      background: #EDF2EC;
+      border-radius: 999px;
+      padding: 0.32rem 0.65rem;
+      display: inline-block;
+      margin: 0.35rem 0 0.55rem;
+    }
+    .chat-qr-status.paid {
+      background: #DCFCE7;
+      color: #15803D;
     }
     .chatbot-launcher:hover {
       transform: translateY(-3px) scale(1.02);
@@ -1782,21 +1850,22 @@
       border: 1px solid rgba(90, 125, 86, 0.25);
       border-radius: 50px;
       padding: 0.6rem 0.95rem;
-      font-size: 0.86rem;
-      font-family: var(--font-sans);
+      font: inherit;
+      font-size: max(1rem, 1em);
       color: var(--brown);
       background: #FAF8F5;
-      outline: none;
       transition: border-color 0.2s, background 0.2s;
     }
-    .chatbot-input:focus {
+    .chatbot-input:focus-visible {
+      outline: 2px solid var(--sage);
+      outline-offset: 1px;
       border-color: var(--sage);
       background: var(--white);
-      box-shadow: 0 0 0 2px rgba(90, 125, 86, 0.12);
+      box-shadow: 0 0 0 3px rgba(90, 125, 86, 0.14);
     }
     .chatbot-send-btn {
-      width: 36px;
-      height: 36px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       background: var(--forest);
       color: var(--white);
@@ -1809,9 +1878,47 @@
       transition: all 0.2s;
       flex-shrink: 0;
     }
-    .chatbot-send-btn:hover {
+    .chatbot-send-btn:hover:not(:disabled) {
       background: #233c25;
       transform: scale(1.05);
+    }
+    .chatbot-send-btn:disabled {
+      opacity: 0.55;
+      cursor: wait;
+    }
+    .chat-qr-actions {
+      display: flex;
+      gap: 0.45rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 0.35rem;
+    }
+    .chat-qr-btn {
+      background: var(--white);
+      color: var(--forest);
+      border: 1px solid rgba(44, 74, 46, 0.28);
+      border-radius: 999px;
+      padding: 0.32rem 0.65rem;
+      font-size: 0.74rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font-sans);
+    }
+    .chat-qr-btn:hover {
+      background: var(--forest);
+      color: var(--white);
+    }
+
+    @media (pointer: coarse) {
+      .chatbot-send-btn,
+      .chatbot-close-btn {
+        min-width: 44px;
+        min-height: 44px;
+      }
+      .chat-chip,
+      .chat-qr-btn {
+        min-height: 38px;
+      }
     }
 
     @media (max-width: 600px) {
@@ -1825,8 +1932,8 @@
         bottom: 80px;
         right: 12px;
         width: calc(100vw - 24px);
-        height: 72vh;
-        max-height: 520px;
+        height: min(74dvh, 540px);
+        max-height: 540px;
       }
     }
     /* ========================================
@@ -2821,8 +2928,8 @@
        MINI CHATBOT WIDGET (MEN LÀNH)
   ============================================= -->
   <!-- Nút bấm nổi mở chatbot -->
-  <div class="chatbot-launcher" id="chatbotLauncher" onclick="toggleChatbot()" title="Chat tư vấn mẻ tươi Men Lành">
-    <div class="chatbot-launcher-icon">
+  <button type="button" class="chatbot-launcher" id="chatbotLauncher" onclick="toggleChatbot()" aria-expanded="false" aria-controls="chatbotWindow" title="Chat tư vấn mẻ tươi Men Lành">
+    <div class="chatbot-launcher-icon" aria-hidden="true">
       <span>🌿</span>
       <span class="chatbot-pulse-dot"></span>
     </div>
@@ -2830,30 +2937,30 @@
       <span class="title">Tư vấn mẻ tươi</span>
       <span class="status">Đang trực tuyến</span>
     </div>
-  </div>
+  </button>
 
   <!-- Cửa sổ Chatbot -->
-  <div class="chatbot-window" id="chatbotWindow" role="dialog" aria-label="Khung chat tư vấn Men Lành">
+  <div class="chatbot-window" id="chatbotWindow" role="dialog" aria-hidden="true" aria-label="Khung chat tư vấn Men Lành">
     <!-- Header -->
     <div class="chatbot-header">
       <div class="chatbot-header-info">
-        <div class="chatbot-avatar">🌿</div>
+        <div class="chatbot-avatar" aria-hidden="true">🌿</div>
         <div class="chatbot-header-text">
-          <h4>Men Lành</h4>
-          <p>Tư vấn mẻ tươi · Phản hồi ngay</p>
+          <h4>Trợ lý Men Lành</h4>
+          <p>Tư vấn &amp; đặt mẻ tươi · Phản hồi ngay</p>
         </div>
       </div>
       <button type="button" class="chatbot-close-btn" onclick="toggleChatbot()" aria-label="Đóng chat">✕</button>
     </div>
 
     <!-- Khung tin nhắn -->
-    <div class="chatbot-body" id="chatbotMessages">
+    <div class="chatbot-body" id="chatbotMessages" aria-live="polite">
       <!-- Tin nhắn chào mở đầu theo sales_script.md -->
       <div class="chatbot-message bot">
-        <div class="chatbot-msg-avatar">🌿</div>
+        <div class="chatbot-msg-avatar" aria-hidden="true">🌿</div>
         <div class="chatbot-msg-bubble">
           Dạ Men Lành chào bạn nhé! 🌿 Cảm ơn bạn đã ghé thăm góc nhỏ của tụi mình.<br><br>
-          Hôm nay tụi mình vừa ủ xong một mẻ Kefir tươi chuẩn độ chín, vị thanh êm lắm. Bạn đang tìm sữa chua Kefir để cải thiện cái bụng hay tìm cho cả gia đình dùng vậy ạ?
+          Hôm nay tụi mình vừa ủ xong một mẻ Kefir tươi chuẩn độ chín, vị thanh êm lắm. Bạn muốn hỏi cách uống cho bụng êm hay nhắn tụi mình lên đơn giao lạnh hỏa tốc hôm nay luôn ạ?
         </div>
       </div>
 
@@ -2862,7 +2969,7 @@
         <button type="button" class="chat-chip highlight" onclick="handleChipClick('mua_hang')">🛒 Đặt mẻ tươi hôm nay</button>
         <button type="button" class="chat-chip" onclick="handleChipClick('kefir_la_gi')">❓ Kefir khác gì sữa chua thường?</button>
         <button type="button" class="chat-chip" onclick="handleChipClick('vi_chua')">😋 Vị có bị chua gắt không?</button>
-        <button type="button" class="chat-chip" onclick="handleChipClick('gia_dung_tich')">💰 Giá & dung tích chai?</button>
+        <button type="button" class="chat-chip" onclick="handleChipClick('gia_dung_tich')">💰 Giá &amp; dung tích chai?</button>
         <button type="button" class="chat-chip" onclick="handleChipClick('da_day')">😮‍💨 Đau dạ dày có uống được không?</button>
         <button type="button" class="chat-chip" onclick="handleChipClick('lactose')">🥛 Không uống được sữa tươi?</button>
         <button type="button" class="chat-chip" onclick="handleChipClick('tre_em')">👶 Bé táo bón có dùng được không?</button>
@@ -2870,15 +2977,16 @@
       </div>
 
       <!-- Typing animation -->
-      <div class="chatbot-typing" id="chatbotTyping">
+      <div class="chatbot-typing" id="chatbotTyping" aria-label="Men Lành đang gõ phản hồi">
         <span></span><span></span><span></span>
       </div>
     </div>
 
     <!-- Ô gõ tin nhắn -->
     <form class="chatbot-footer" id="chatbotInputForm" onsubmit="handleChatSubmit(event)">
-      <input type="text" id="chatbotInput" class="chatbot-input" placeholder="Hỏi Men Lành điều bạn thắc mắc..." autocomplete="off">
-      <button type="submit" class="chatbot-send-btn" aria-label="Gửi tin nhắn">➤</button>
+      <label for="chatbotInput" class="visually-hidden">Nhập tin nhắn hỏi Men Lành</label>
+      <input type="text" id="chatbotInput" class="chatbot-input" placeholder="Hỏi Men Lành điều bạn thắc mắc..." autocomplete="off" enterkeyhint="send">
+      <button type="submit" id="chatbotSendBtn" class="chatbot-send-btn" aria-label="Gửi tin nhắn">➤</button>
     </form>
   </div>
 
@@ -3077,17 +3185,54 @@
     };
 
     // ============================================
-    // LOGIC CHATBOT TƯ VẤN MEN LÀNH (THEO SALES_SCRIPT.MD)
+    // LOGIC AI AGENT CHATBOT TƯ VẤN & ĐẶT HÀNG MEN LÀNH
     // ============================================
+    const chatbotLauncher = document.getElementById('chatbotLauncher');
     const chatbotWindow = document.getElementById('chatbotWindow');
     const chatbotMessages = document.getElementById('chatbotMessages');
     const chatbotInput = document.getElementById('chatbotInput');
     const chatbotTyping = document.getElementById('chatbotTyping');
+    const chatbotSendBtn = document.getElementById('chatbotSendBtn');
+
+    const CHAT_HISTORY_KEY = 'menlanh_chat_history_v1';
+    let chatHistory = [];
+    let isChatBusy = false;
+    const chatOrderPollTimers = [];
+
+    try {
+      const savedHistory = JSON.parse(sessionStorage.getItem(CHAT_HISTORY_KEY) || '[]');
+      if (Array.isArray(savedHistory)) {
+        chatHistory = savedHistory.slice(-10);
+      }
+    } catch {
+      chatHistory = [];
+    }
+
+    function saveChatHistory() {
+      try {
+        sessionStorage.setItem(CHAT_HISTORY_KEY, JSON.stringify(chatHistory.slice(-10)));
+      } catch {}
+    }
+
+    if (chatbotInput) {
+      chatbotInput.addEventListener('keydown', (e) => {
+        if (e.isComposing || e.keyCode === 229) return;
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          const form = document.getElementById('chatbotInputForm');
+          if (form) form.requestSubmit();
+        }
+      });
+    }
 
     function toggleChatbot() {
       if (!chatbotWindow) return;
-      chatbotWindow.classList.toggle('active');
-      if (chatbotWindow.classList.contains('active')) {
+      const isOpen = chatbotWindow.classList.toggle('active');
+      if (chatbotLauncher) {
+        chatbotLauncher.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      }
+      chatbotWindow.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+      if (isOpen) {
         setTimeout(() => {
           if (chatbotInput) chatbotInput.focus();
           scrollChatToBottom();
@@ -3095,10 +3240,18 @@
       }
     }
 
-    // Mở form khảo sát / danh sách chờ từ chatbot
     function openSurveyModalFromChat() {
-      if (chatbotWindow) chatbotWindow.classList.remove('active');
+      if (chatbotWindow && chatbotWindow.classList.contains('active')) {
+        toggleChatbot();
+      }
       openSurveyModal();
+    }
+
+    function openOrderModalFromChat(qty500, qty1000) {
+      if (chatbotWindow && chatbotWindow.classList.contains('active')) {
+        toggleChatbot();
+      }
+      openOrderModal('1000ml', qty500, qty1000);
     }
 
     function scrollChatToBottom() {
@@ -3107,78 +3260,38 @@
       }
     }
 
-    // Cơ sở tri thức chatbot chuẩn sales_script.md
-    const CHAT_RESPONSES = {
-      mua_hang: {
-        text: `Dạ tuyệt vời quá! Hôm nay Men Lành đang có mẻ tươi vừa ủ xong chuẩn độ chín, thơm ngậy nhẹ và vị rất thanh êm. 🌿<br><br>
-Tụi mình giao hỏa tốc trong ngày tại TP.HCM ngay khi chai vừa lấy từ ngăn mát để đảm bảo lợi khuẩn sống khỏe nhất đến tận tay bạn. Bạn bấm vào nút bên dưới để điền nhanh thông tin vào <strong>Danh sách đăng ký mẻ tươi</strong> nhé:`,
-        cta: {
-          title: "✨ Đăng ký nhận mẻ tươi Men Lành",
-          desc: "Điền nhanh 30 giây để tụi mình giữ mẻ ủ tươi mới và tư vấn liều lượng phù hợp nhất cho bạn:",
-          btnText: "📋 Mở form danh sách mẻ tươi →",
-          action: "openSurveyModalFromChat()",
-          zaloText: "💬 Hoặc nhắn Zalo đặt nhanh: 093 48 57 201 →"
-        }
-      },
-      kefir_la_gi: {
-        text: `Dạ, cùng mang tiếng là "sữa chua" nhưng Kefir khác biệt rất nhiều so với sữa chua công nghiệp bạn nha:<br><br>
-• <strong>Sữa chua siêu thị:</strong> Thường chỉ có 1–2 chủng men công nghiệp, qua xử lý nhiệt và thêm nhiều đường tinh luyện cùng chất làm dày (gelatin) để để được lâu.<br>
-• <strong>Kefir Men Lành:</strong> Lên men tự nhiên từ <strong>hạt nấm Kefir sống cổ truyền</strong> với hơn 30–50 chủng lợi khuẩn phong phú. Sữa sánh mịn tự nhiên, 100% không đường hóa học.<br><br>
-Nó giống như một ly men vi sinh tươi mỗi sáng, đưa lợi khuẩn sống đi thẳng vào đường ruột giúp bụng nhẹ nhõm, êm ru mà không cần kiêng khem detox cực đoan ạ! ♡`
-      },
-      vi_chua: {
-        text: `Dạ đây là điều mà ai chuẩn bị uống Kefir cũng lo nhất luôn! 😅<br><br>
-Nhiều nơi làm số lượng lớn để kho lạnh cả tuần nên men tiếp tục sinh chua gắt, uống rất xót dạ dày. Nhưng Men Lành chuyên <strong>ủ mẻ tươi thủ công mỗi ngày</strong> — tụi mình canh đúng thời điểm men "chín tới" để sữa thơm ngậy béo, sánh mịn và chỉ chua thanh dịu nhẹ thôi.<br><br>
-Cả các bé nhỏ và người lớn tuổi trong nhà đều uống rất ngon miệng ngay từ ngụm đầu tiên ạ!`
-      },
-      gia_dung_tich: {
-        text: `Dạ Men Lành có 2 dung tích ủ tươi mỗi ngày để bạn lựa chọn:<br><br>
-🍶 <strong>Chai 500ml — 40.000đ:</strong> Vừa vặn cho 1 người uống thử làm quen trong 2–3 ngày (~150ml/ngày).<br>
-🍼 <strong>Chai 1 Lít (1.000ml) — 70.000đ:</strong> <em>(Tiết kiệm nhất & bán chạy nhất)</em> — Đủ uống cả tuần hoặc cho cả gia đình 2–4 người cùng chăm sóc đường ruột.<br><br>
-Bạn muốn trải nghiệm thử chai 500ml trước hay lấy chai 1 Lít tiết kiệm luôn ạ?`,
-        cta: {
-          title: "🌱 Giữ mẻ tươi chiều nay",
-          desc: "Bạn có thể để lại thông tin để Men Lành chuẩn bị mẻ tươi ủ vừa tới gửi cho bạn:",
-          btnText: "📋 Đăng ký nhận mẻ tươi ngay →",
-          action: "openSurveyModalFromChat()",
-          zaloText: "💬 Hoặc tư vấn trực tiếp qua Zalo →"
-        }
-      },
-      da_day: {
-        text: `Dạ người bị trào ngược, đau dạ dày hay đại tràng lại càng rất nên uống Kefir bạn nhé! 🌿<br><br>
-Hàng tỷ lợi khuẩn sống trong Kefir giúp ức chế vi khuẩn có hại và làm dịu niêm mạc ruột. Mẻ tươi Men Lành được canh dừng ủ khi vị còn rất thanh dịu, hoàn toàn không gây cồn cào xót ruột.<br><br>
-<strong>Cách uống êm nhất:</strong> Bạn uống sau khi ăn no khoảng 30 phút, bắt đầu từ 50–70ml/ngày để bụng làm quen. Sau 4–5 ngày bạn sẽ cảm nhận bụng nhẹ tênh, giảm hẳn ợ hơi và nóng rát ạ!`
-      },
-      lactose: {
-        text: `Dạ bạn yên tâm 100% nha! Bụng sôi ùng ục hay tiêu chảy khi uống sữa bò là do thiếu men tiêu hóa đường Lactose.<br><br>
-Trong quá trình lên men tự nhiên 24 giờ, hạt nấm men Kefir đã <strong>phân giải đến 99% lượng lactose</strong> này rồi. Do đó, người bất dung nạp lactose uống Kefir Men Lành bụng vẫn êm re, không hề bị đau bụng đâu ạ!`
-      },
-      tre_em: {
-        text: `Dạ bé từ 1 tuổi trở lên là uống Kefir cực kỳ tốt luôn bạn ơi! 👶<br><br>
-Nhiều mẹ bỉm tâm sự bé lười ăn rau, táo bón quấy khóc mỗi lần đi tiêu. Mẹ trộn 50ml Kefir Men Lành với chuối chín hoặc dầm xoài xế chiều, bé mê tít ăn hết veo. Lợi khuẩn tự nhiên giúp phân mềm xốp và kích thích hệ tiêu hóa non nớt của bé.<br><br>
-Sau khoảng 4–5 ngày là bé đi ngoài trơn tru, không còn đau rát hay sợ đi vệ sinh nữa ạ!`
-      },
-      bao_quan: {
-        text: `Dạ chai bảo quản ngăn mát tủ lạnh (2°C – 6°C) được <strong>10 – 14 ngày</strong> bạn nha. Ngon nhất trong 5–7 ngày đầu khi vị chua còn thanh ngọt êm dịu nhất.<br><br>
-💡 <strong>Mẹo nhỏ:</strong> Nếu thấy có lớp nước vàng trong tách ở đáy chai thì đó là nước váng sữa (Whey Kefir) tự nhiên cực giàu protein, không phải bị hỏng đâu ạ. Bạn chỉ cần <strong>lắc đều chai</strong> trước khi rót là sữa lại sánh mịn như mới nha!`
-      },
-      khao_sat: {
-        text: `Dạ vâng bạn nè! Sức khỏe đường ruột là trên hết, bạn cứ thong thả tìm hiểu cho an tâm nha. ♡<br><br>
-Men Lành có một bảng khảo sát ngắn 30 giây giúp bạn kiểm tra tình trạng bụng (đầy hơi, khó tiêu, táo bón hay dạ dày nhạy cảm) hợp với mẻ tươi nào nhất. Bạn bấm vào nút bên dưới để làm thử nha:`,
-        cta: {
-          title: "🌱 Khảo sát 30 giây Men Lành",
-          desc: "Chọn nhanh nhu cầu để người ủ men tư vấn mẻ tươi và lộ trình êm bụng cho bạn:",
-          btnText: "📋 Mở bảng khảo sát nhu cầu →",
-          action: "openSurveyModalFromChat()",
-          zaloText: "💬 Nhắn Zalo với người ủ men →"
-        }
-      }
-    };
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function formatAgentMarkdown(rawText) {
+      const safe = escapeHtml(rawText);
+      return safe
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*([^*]+?)\*/g, '<em>$1</em>')
+        .replace(/\n/g, '<br>');
+    }
+
+    function setChatTyping(active) {
+      isChatBusy = active;
+      if (chatbotTyping) chatbotTyping.style.display = active ? 'flex' : 'none';
+      if (chatbotSendBtn) chatbotSendBtn.disabled = active;
+      scrollChatToBottom();
+    }
 
     function appendUserMessage(text) {
       const msgDiv = document.createElement('div');
       msgDiv.className = 'chatbot-message user';
-      msgDiv.innerHTML = `<div class="chatbot-msg-bubble">${escapeHtml(text)}</div>`;
+      const bubble = document.createElement('div');
+      bubble.className = 'chatbot-msg-bubble';
+      bubble.textContent = text;
+      msgDiv.appendChild(bubble);
+
       if (chatbotTyping && chatbotMessages.contains(chatbotTyping)) {
         chatbotMessages.insertBefore(msgDiv, chatbotTyping);
       } else {
@@ -3187,142 +3300,316 @@ Men Lành có một bảng khảo sát ngắn 30 giây giúp bạn kiểm tra t�
       scrollChatToBottom();
     }
 
-    function appendBotMessage(htmlContent, ctaObj) {
-      if (chatbotTyping) chatbotTyping.style.display = 'flex';
+    function createCopyButton(label, valueToCopy) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'chat-qr-btn';
+      btn.textContent = label;
+      btn.addEventListener('click', () => {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(String(valueToCopy)).then(() => {
+            btn.textContent = '✓ Đã chép';
+            setTimeout(() => { btn.textContent = label; }, 1600);
+          }).catch(() => {});
+        }
+      });
+      return btn;
+    }
+
+    function buildChatOrderCardElement(orderCard) {
+      const card = document.createElement('div');
+      card.className = 'chat-qr-card';
+
+      const title = document.createElement('h5');
+      title.textContent = `🧾 Đơn ${orderCard.order_code} · ${orderCard.amount_formatted}`;
+      card.appendChild(title);
+
+      const summary = document.createElement('div');
+      summary.className = 'chat-qr-meta';
+      summary.innerHTML =
+        `<div><strong>Sản phẩm:</strong> ${escapeHtml(orderCard.items)}</div>` +
+        `<div><strong>Người nhận:</strong> ${escapeHtml(orderCard.customer_name)} · ${escapeHtml(orderCard.phone)}</div>` +
+        `<div><strong>Giao tới:</strong> ${escapeHtml(orderCard.address)}</div>` +
+        `<div><strong>Ngân hàng:</strong> ${escapeHtml(orderCard.bank_name)} · STK: <strong>${escapeHtml(orderCard.account_number)}</strong></div>` +
+        `<div><strong>Nội dung CK:</strong> <strong>${escapeHtml(orderCard.order_code)}</strong></div>`;
+      card.appendChild(summary);
+
+      const qrImg = document.createElement('img');
+      qrImg.className = 'chat-qr-img';
+      qrImg.src = orderCard.qr_url;
+      qrImg.alt = `Mã QR SePay đơn hàng ${orderCard.order_code}`;
+      card.appendChild(qrImg);
+
+      const statusBadge = document.createElement('div');
+      statusBadge.className = 'chat-qr-status';
+      statusBadge.textContent = 'Đang chờ chuyển khoản... tự động xác nhận sau 5–10 giây';
+      card.appendChild(statusBadge);
+
+      const actions = document.createElement('div');
+      actions.className = 'chat-qr-actions';
+      actions.appendChild(createCopyButton(`📋 Chép mã ${orderCard.order_code}`, orderCard.order_code));
+      actions.appendChild(createCopyButton(`💰 Chép ${orderCard.amount_formatted}`, String(orderCard.amount)));
+      card.appendChild(actions);
+
+      startChatOrderPolling(orderCard, statusBadge);
+      return card;
+    }
+
+    function startChatOrderPolling(orderCard, statusEl) {
+      if (!orderCard || !orderCard.order_code || !orderCard.sepay_script_url) return;
+      let attempts = 0;
+      const timer = setInterval(async () => {
+        attempts++;
+        if (attempts > 150) {
+          clearInterval(timer);
+          statusEl.textContent = 'Hết thời gian chờ tự động. Nếu đã chuyển khoản, nhắn Zalo giúp tụi mình nha!';
+          return;
+        }
+        try {
+          const checkUrl = `${orderCard.sepay_script_url}?action=check_order&order_code=${encodeURIComponent(orderCard.order_code)}`;
+          const res = await fetch(checkUrl, { method: 'GET' });
+          if (!res.ok) return;
+          const data = await res.json();
+          if (data && data.payment_status === 'Đã thanh toán') {
+            clearInterval(timer);
+            statusEl.className = 'chat-qr-status paid';
+            statusEl.textContent = `✅ Đã nhận đủ ${(Number(data.paid_amount || orderCard.amount)).toLocaleString('vi-VN')}đ! Men Lành sẽ nhắn Zalo giao hỏa tốc ngay.`;
+          } else if (data && data.payment_status === 'Thiếu tiền') {
+            statusEl.textContent = `Đã nhận ${Number(data.paid_amount || 0).toLocaleString('vi-VN')}đ (chưa đủ ${orderCard.amount_formatted}). Nhắn Zalo 093 48 57 201 giúp tụi mình nhé!`;
+          }
+        } catch {}
+      }, 4000);
+      chatOrderPollTimers.push(timer);
+    }
+
+    function appendBotMessage(textOrHtml, ctaObj, orderCard, isPreformattedHtml) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'chatbot-message bot';
+
+      const avatar = document.createElement('div');
+      avatar.className = 'chatbot-msg-avatar';
+      avatar.setAttribute('aria-hidden', 'true');
+      avatar.textContent = '🌿';
+
+      const bubble = document.createElement('div');
+      bubble.className = 'chatbot-msg-bubble';
+
+      const bodyNode = document.createElement('div');
+      bodyNode.innerHTML = isPreformattedHtml ? textOrHtml : formatAgentMarkdown(textOrHtml);
+      bubble.appendChild(bodyNode);
+
+      if (orderCard && orderCard.order_code) {
+        bubble.appendChild(buildChatOrderCardElement(orderCard));
+      }
+
+      if (ctaObj) {
+        const ctaBox = document.createElement('div');
+        ctaBox.className = 'chatbot-cta-box';
+
+        const ctaTitle = document.createElement('h5');
+        ctaTitle.textContent = ctaObj.title || 'Men Lành';
+        ctaBox.appendChild(ctaTitle);
+
+        const ctaDesc = document.createElement('p');
+        ctaDesc.textContent = ctaObj.desc || '';
+        ctaBox.appendChild(ctaDesc);
+
+        const mainBtn = document.createElement('button');
+        mainBtn.type = 'button';
+        mainBtn.className = 'btn-chat-action';
+        mainBtn.textContent = ctaObj.btnText || 'Mở ngay →';
+        mainBtn.addEventListener('click', () => {
+          if (ctaObj.actionType === 'open_order') {
+            openOrderModalFromChat(ctaObj.qty500, ctaObj.qty1000);
+          } else {
+            openSurveyModalFromChat();
+          }
+        });
+        ctaBox.appendChild(mainBtn);
+
+        if (ctaObj.secondaryText) {
+          const secBtn = document.createElement('button');
+          secBtn.type = 'button';
+          secBtn.className = 'btn-chat-subaction';
+          secBtn.textContent = ctaObj.secondaryText;
+          secBtn.addEventListener('click', () => openSurveyModalFromChat());
+          ctaBox.appendChild(secBtn);
+        }
+
+        const zaloLink = document.createElement('a');
+        zaloLink.href = 'https://zalo.me/0934857201';
+        zaloLink.target = '_blank';
+        zaloLink.rel = 'noopener noreferrer';
+        zaloLink.className = 'btn-chat-subaction';
+        zaloLink.textContent = ctaObj.zaloText || '💬 Nhắn tin Zalo trực tiếp →';
+        ctaBox.appendChild(zaloLink);
+
+        bubble.appendChild(ctaBox);
+      }
+
+      msgDiv.appendChild(avatar);
+      msgDiv.appendChild(bubble);
+
+      if (chatbotTyping && chatbotMessages.contains(chatbotTyping)) {
+        chatbotMessages.insertBefore(msgDiv, chatbotTyping);
+      } else {
+        chatbotMessages.appendChild(msgDiv);
+      }
       scrollChatToBottom();
+    }
 
-      setTimeout(() => {
-        if (chatbotTyping) chatbotTyping.style.display = 'none';
-
-        const msgDiv = document.createElement('div');
-        msgDiv.className = 'chatbot-message bot';
-        
-        let ctaHtml = '';
-        if (ctaObj) {
-          ctaHtml = `
-            <div class="chatbot-cta-box">
-              <h5>${ctaObj.title}</h5>
-              <p>${ctaObj.desc}</p>
-              <button type="button" class="btn-chat-action" onclick="${ctaObj.action}">${ctaObj.btnText}</button>
-              <a href="https://zalo.me/0934857201" target="_blank" rel="noopener noreferrer" class="btn-chat-subaction">${ctaObj.zaloText || '💬 Nhắn tin Zalo trực tiếp →'}</a>
-            </div>
-          `;
+    // Dữ liệu trả lời nhanh cho các chip & fallback offline khi mở file HTML nội bộ
+    const CHAT_QUICK_REPLIES = {
+      mua_hang: {
+        userLabel: 'Tôi muốn đặt mẻ tươi hôm nay',
+        reply:
+          'Dạ tuyệt vời quá! Hôm nay Men Lành đang có mẻ Kefir tươi mới ủ xong chuẩn độ chín, vị thanh êm dịu lắm ạ. 🌿\n\n' +
+          '• **Chai 500ml:** 40.000đ\n• **Chai 1 Lít:** 70.000đ *(tiết kiệm nhất)*\n\n' +
+          'Bạn có thể bấm nút bên dưới để mở bảng đặt nhanh & quét QR SePay, hoặc **nhắn thẳng vào đây**: *Số lượng + Tên + SĐT + Địa chỉ TP.HCM* để tụi mình lên đơn ngay tại khung chat nha!',
+        cta: {
+          title: '🛒 Đặt mẻ tươi hôm nay (QR SePay)',
+          desc: 'Giao lạnh hỏa tốc trong ngày tại TP.HCM:',
+          btnText: 'Mở bảng đặt hàng & Quét QR →',
+          actionType: 'open_order',
+          qty500: 0,
+          qty1000: 1,
+          zaloText: '💬 Hoặc nhắn Zalo: 093 48 57 201 →'
         }
-
-        msgDiv.innerHTML = `
-          <div class="chatbot-msg-avatar">🌿</div>
-          <div class="chatbot-msg-bubble">
-            ${htmlContent}
-            ${ctaHtml}
-          </div>
-        `;
-
-        if (chatbotTyping && chatbotMessages.contains(chatbotTyping)) {
-          chatbotMessages.insertBefore(msgDiv, chatbotTyping);
-        } else {
-          chatbotMessages.appendChild(msgDiv);
+      },
+      kefir_la_gi: {
+        userLabel: 'Kefir khác gì sữa chua thường?',
+        reply:
+          'Dạ, cùng mang tiếng là "sữa chua" nhưng Kefir khác biệt rất nhiều so với sữa chua siêu thị bạn nha:\n\n' +
+          '• **Sữa chua siêu thị:** Thường chỉ có 1–2 chủng men công nghiệp, thêm đường tinh luyện và chất làm dày.\n' +
+          '• **Kefir Men Lành:** Lên men chậm 20–24 giờ từ **hạt nấm Kefir sống cổ truyền** với **30–50+ chủng lợi khuẩn & nấm men**, 100% không đường tinh luyện, giúp bụng nhẹ nhõm êm ru tự nhiên ạ! ♡'
+      },
+      vi_chua: {
+        userLabel: 'Vị Kefir có bị chua gắt không?',
+        reply:
+          'Dạ đây là điều nhiều bạn lo nhất luôn! 😅\n\n' +
+          'Men Lành ủ mẻ tươi thủ công mỗi ngày và canh dừng đúng lúc **chín tới**, nên vị chỉ chua thanh dịu và thơm ngậy nhẹ. Nếu thích ngọt dịu kiểu sinh tố, bạn khuấy thêm 1 thìa mật ong hoặc xay với chuối chín/xoài uống sau bữa sáng là cực kỳ dễ ghiền ạ!'
+      },
+      gia_dung_tich: {
+        userLabel: 'Giá & dung tích chai bao nhiêu?',
+        reply:
+          'Dạ Men Lành có 2 dung tích Kefir Nguyên Chất ủ tươi mỗi ngày ạ:\n\n' +
+          '• **Chai 500ml — 40.000đ:** Hợp uống thử làm quen 2–3 ngày (~150ml/ngày).\n' +
+          '• **Chai 1 Lít (1.000ml) — 70.000đ:** *(Tiết kiệm nhất & bán chạy nhất)* — Đủ dùng 5–7 ngày hoặc cho cả nhà.\n\n' +
+          'Bạn muốn lấy thử 500ml hay chai 1 Lít tiết kiệm luôn ạ?',
+        cta: {
+          title: '🌱 Chọn mẻ tươi chiều nay',
+          desc: 'Đặt nhanh & nhận mã QR SePay tự động xác nhận:',
+          btnText: '🛒 Đặt hàng ngay →',
+          actionType: 'open_order',
+          qty500: 0,
+          qty1000: 1
         }
-        scrollChatToBottom();
-      }, 350);
+      },
+      da_day: {
+        userLabel: 'Đau dạ dày / trào ngược có uống được không?',
+        reply:
+          'Dạ người bị trào ngược, đau dạ dày hay đại tràng rất hợp uống Kefir dịu độ chua như Men Lành bạn nhé! 🌿\n\n' +
+          '**Cách uống êm bụng:** 3 ngày đầu uống **50–100ml/ngày** sau bữa ăn sáng 15–30 phút (tránh lúc bụng đói cồn cào), từ ngày 4 tăng **100–150ml/ngày**. Bụng sẽ nhẹ tênh và giảm ợ hơi rõ rệt sau vài ngày ạ!'
+      },
+      lactose: {
+        userLabel: 'Tôi không uống được sữa tươi bò?',
+        reply:
+          'Dạ bạn yên tâm 100% nha! Bụng sôi ùng ục khi uống sữa tươi thường do thiếu men tiêu hóa đường Lactose.\n\n' +
+          'Trong 20–24 giờ ủ chậm, hạt nấm Kefir đã **phân giải tới 99% lượng đường lactose** rồi nên hầu hết khách bất dung nạp lactose uống Men Lành bụng vẫn êm ru ạ!'
+      },
+      tre_em: {
+        userLabel: 'Bé nhỏ táo bón có dùng được không?',
+        reply:
+          'Dạ **bé từ 1 tuổi trở lên** là uống Kefir cực kỳ tốt luôn bạn ơi! 👶🌿\n\n' +
+          'Mẹ trộn khoảng 50ml Kefir với chuối chín hoặc xoài dầm xế chiều là bé rất thích mà lợi khuẩn tự nhiên giúp phân mềm xốp, bé đi ngoài trơn tru hơn hẳn sau vài ngày ạ!'
+      },
+      khao_sat: {
+        userLabel: 'Tôi muốn làm khảo sát tư vấn',
+        reply:
+          'Dạ vâng bạn nè! Sức khỏe đường ruột là trên hết, bạn cứ thong thả tìm hiểu cho an tâm nha. ♡\n\n' +
+          'Men Lành có bảng khảo sát ngắn 30 giây để người ủ men tư vấn mẻ tươi hợp tình trạng bụng của bạn nhất:',
+        cta: {
+          title: '🌱 Khảo sát 30 giây Men Lành',
+          desc: 'Điền nhanh nhu cầu để tụi mình gợi ý liều lượng êm bụng cho bạn:',
+          btnText: '📋 Mở bảng khảo sát nhu cầu →',
+          actionType: 'open_survey',
+          zaloText: '💬 Nhắn Zalo với người ủ men →'
+        }
+      }
+    };
+
+    function buildClientOfflineFallback(q) {
+      const lower = q.toLowerCase();
+      if (/(mua|đặt|dat|order|ship|1 lít|1 lit|500ml|lấy|lay|chốt|chot)/.test(lower)) return CHAT_QUICK_REPLIES.mua_hang;
+      if (/(giá|gia|nhiêu|nhieu|bao nhiêu|dung tích|dung tich)/.test(lower)) return CHAT_QUICK_REPLIES.gia_dung_tich;
+      if (/(chua|khó uống|vị|ngon)/.test(lower)) return CHAT_QUICK_REPLIES.vi_chua;
+      if (/(dạ dày|da day|trào ngược|trao nguoc|bao tử|đại tràng|táo bón|bụng)/.test(lower)) return CHAT_QUICK_REPLIES.da_day;
+      if (/(lactose|sữa bò|sữa tươi|tiêu chảy|sôi bụng)/.test(lower)) return CHAT_QUICK_REPLIES.lactose;
+      if (/(bé|trẻ|con|bầu)/.test(lower)) return CHAT_QUICK_REPLIES.tre_em;
+      if (/(kefir|siêu thị|khác gì)/.test(lower)) return CHAT_QUICK_REPLIES.kefir_la_gi;
+      return {
+        reply: 'Dạ Men Lành đã ghi nhận câu hỏi của bạn rồi ạ! ♡ Bạn có thể bấm nút bên dưới để đặt mẻ tươi trực tiếp hoặc làm khảo sát 30 giây để tụi mình tư vấn kỹ hơn nhé:',
+        cta: CHAT_QUICK_REPLIES.khao_sat.cta
+      };
+    }
+
+    async function sendToChatAgent(userText) {
+      if (isChatBusy) return;
+      setChatTyping(true);
+
+      let result = null;
+      try {
+        const res = await fetch('/.netlify/functions/chat-agent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: userText,
+            history: chatHistory.slice(-10)
+          })
+        });
+        if (res.ok) {
+          result = await res.json();
+        }
+      } catch (err) {
+        console.warn('Chat agent network fallback:', err);
+      }
+
+      if (!result || !result.reply) {
+        result = buildClientOfflineFallback(userText);
+      }
+
+      setChatTyping(false);
+      appendBotMessage(result.reply, result.cta || null, result.orderCard || null, false);
+
+      chatHistory.push({ role: 'user', text: userText });
+      chatHistory.push({ role: 'model', text: result.reply });
+      saveChatHistory();
     }
 
     function handleChipClick(key) {
-      const resp = CHAT_RESPONSES[key];
-      if (!resp) return;
+      const quick = CHAT_QUICK_REPLIES[key];
+      if (!quick || isChatBusy) return;
 
-      const chipLabels = {
-        mua_hang: "Tôi muốn đặt mẻ tươi hôm nay",
-        kefir_la_gi: "Kefir khác gì sữa chua thường?",
-        vi_chua: "Vị Kefir có bị chua gắt không?",
-        gia_dung_tich: "Giá & dung tích chai bao nhiêu?",
-        da_day: "Đau dạ dày / trào ngược có uống được không?",
-        lactose: "Tôi không uống được sữa tươi bò?",
-        tre_em: "Bé nhỏ táo bón có dùng được không?",
-        khao_sat: "Tôi muốn làm khảo sát tư vấn"
-      };
-      appendUserMessage(chipLabels[key] || "Tư vấn giúp tôi");
-      appendBotMessage(resp.text, resp.cta);
+      appendUserMessage(quick.userLabel);
+      setChatTyping(true);
+      setTimeout(() => {
+        setChatTyping(false);
+        appendBotMessage(quick.reply, quick.cta || null, null, false);
+        chatHistory.push({ role: 'user', text: quick.userLabel });
+        chatHistory.push({ role: 'model', text: quick.reply });
+        saveChatHistory();
+      }, 280);
     }
 
     function handleChatSubmit(e) {
       e.preventDefault();
-      if (!chatbotInput) return;
+      if (!chatbotInput || isChatBusy) return;
       const q = chatbotInput.value.trim();
       if (!q) return;
 
       appendUserMessage(q);
       chatbotInput.value = '';
-
-      const lower = q.toLowerCase();
-
-      // Nhận diện ý định mua / đặt hàng -> Mở danh sách chờ
-      if (lower.includes('mua') || lower.includes('đặt') || lower.includes('order') || lower.includes('ship') || lower.includes('1 lít') || lower.includes('500ml') || lower.includes('danh sách') || lower.includes('chờ') || lower.includes('lấy')) {
-        appendBotMessage(CHAT_RESPONSES.mua_hang.text, CHAT_RESPONSES.mua_hang.cta);
-        return;
-      }
-
-      // Nhận diện giá / bao nhiêu
-      if (lower.includes('giá') || lower.includes('nhiêu tiền') || lower.includes('bao nhiêu') || lower.includes('dung tích')) {
-        appendBotMessage(CHAT_RESPONSES.gia_dung_tich.text, CHAT_RESPONSES.gia_dung_tich.cta);
-        return;
-      }
-
-      // Nhận diện vị chua
-      if (lower.includes('chua') || lower.includes('khó uống') || lower.includes('vị') || lower.includes('ngon')) {
-        appendBotMessage(CHAT_RESPONSES.vi_chua.text);
-        return;
-      }
-
-      // Nhận diện dạ dày, trào ngược
-      if (lower.includes('dạ dày') || lower.includes('trào ngược') || lower.includes('bao tử') || lower.includes('đại tràng') || lower.includes('xót ruột') || lower.includes('bụng yếu')) {
-        appendBotMessage(CHAT_RESPONSES.da_day.text);
-        return;
-      }
-
-      // Nhận diện lactose, sữa bò
-      if (lower.includes('lactose') || lower.includes('sữa bò') || lower.includes('sữa tươi') || lower.includes('tiêu chảy') || lower.includes('sôi bụng')) {
-        appendBotMessage(CHAT_RESPONSES.lactose.text);
-        return;
-      }
-
-      // Nhận diện trẻ em, bé nhỏ
-      if (lower.includes('bé') || lower.includes('trẻ em') || lower.includes('con nít') || lower.includes('cho con') || lower.includes('mẹ bầu')) {
-        appendBotMessage(CHAT_RESPONSES.tre_em.text);
-        return;
-      }
-
-      // Nhận diện kefir là gì, siêu thị
-      if (lower.includes('kefir là gì') || lower.includes('siêu thị') || lower.includes('khác gì')) {
-        appendBotMessage(CHAT_RESPONSES.kefir_la_gi.text);
-        return;
-      }
-
-      // Nhận diện bảo quản, hạn dùng, tách nước
-      if (lower.includes('bảo quản') || lower.includes('tủ lạnh') || lower.includes('hạn dùng') || lower.includes('bao lâu') || lower.includes('tách nước') || lower.includes('nước vàng')) {
-        appendBotMessage(CHAT_RESPONSES.bao_quan.text);
-        return;
-      }
-
-      // Nhận diện khảo sát, suy nghĩ thêm, hỏi người nhà
-      if (lower.includes('suy nghĩ') || lower.includes('hỏi') || lower.includes('chưa') || lower.includes('khảo sát') || lower.includes('tư vấn')) {
-        appendBotMessage(CHAT_RESPONSES.khao_sat.text, CHAT_RESPONSES.khao_sat.cta);
-        return;
-      }
-
-      // Phản hồi tự nhiên mặc định
-      const defaultText = `Dạ Men Lành đã ghi nhận câu hỏi của bạn rồi ạ! ♡<br><br>
-Để người ủ men tư vấn thật sát với nhu cầu và thể trạng bụng của bạn, bạn có thể bấm vào nút bên dưới để điền form danh sách tư vấn, hoặc nhắn tin trực tiếp qua Zalo với tụi mình nhé:`;
-      appendBotMessage(defaultText, {
-        title: "🌿 Nhận tư vấn trực tiếp từ Men Lành",
-        desc: "Chọn nhanh 30 giây để tụi mình xem xét thể trạng và gợi ý mẻ tươi phù hợp nhất cho bạn:",
-        btnText: "📋 Điền form nhận tư vấn & mẻ tươi →",
-        action: "openSurveyModalFromChat()",
-        zaloText: "💬 Nhắn Zalo: 093 48 57 201 →"
-      });
-    }
-
-    function escapeHtml(str) {
-      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      sendToChatAgent(q);
     }
 
     // ============================================
@@ -3402,10 +3689,17 @@ Men Lành có một bảng khảo sát ngắn 30 giây giúp bạn kiểm tra t�
       }
     }
 
-    function openOrderModal(defaultSize) {
+    function openOrderModal(defaultSize, customQty500, customQty1000) {
       stopPaymentPolling();
-      orderState.qty500 = defaultSize === '500ml' ? 1 : 0;
-      orderState.qty1000 = defaultSize === '500ml' ? 0 : 1;
+      if (typeof customQty500 === 'number' || typeof customQty1000 === 'number') {
+        const q500 = Math.max(0, Math.round(Number(customQty500 || 0)));
+        const q1000 = Math.max(0, Math.round(Number(customQty1000 || 0)));
+        orderState.qty500 = q500 + q1000 > 0 ? q500 : 0;
+        orderState.qty1000 = q500 + q1000 > 0 ? q1000 : 1;
+      } else {
+        orderState.qty500 = defaultSize === '500ml' ? 1 : 0;
+        orderState.qty1000 = defaultSize === '500ml' ? 0 : 1;
+      }
       updateOrderSummary();
 
       const modal = document.getElementById('orderModal');
